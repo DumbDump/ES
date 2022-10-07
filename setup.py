@@ -5,7 +5,8 @@ from oandapyV20 import API
 import oandapyV20.endpoints.pricing as pricing
 
 config = configparser.ConfigParser()
-config.read('./config/config.ini')
+config.read('./config.ini')
+
 accountID = config['oanda']['account_id']
 access_token = config['oanda']['api_key']
 api = API(access_token=access_token)

@@ -4,7 +4,7 @@ import oandapyV20
 import oandapyV20.endpoints.orders as orders
 
 config = configparser.ConfigParser()
-config.read('./config/config.ini')
+config.read('./config.ini')
 accountID = config['oanda']['account_id']
 access_token = config['oanda']['api_key']
 
@@ -28,10 +28,10 @@ data = {
     "positionFill": "DEFAULT"
   }
 }
-# r = orders.OrderCreate(accountID, data=data)
-# client.request(r)
-# create_order = pd.Series(r.response['orderCreateTransaction'])
-# print(create_order)
+#r = orders.OrderCreate(accountID, data=data)
+#client.request(r)
+#create_order = pd.Series(r.response['orderCreateTransaction'])
+#print(create_order)
 
 
 """
