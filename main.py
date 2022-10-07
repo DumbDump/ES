@@ -36,10 +36,33 @@ def webhook():
     print(webhook_message)
     if ('EURUSD' in str(webhook_message).upper()):
         if ('SELL' in str(webhook_message).upper()):
-            pass
+            data = {
+                "order": {
+                    "instrument": "EUR_USD",
+                    "units": "-100",
+                    "type": "Market",
+                    "positionFill": "DEFAULT"
+                }
+            }
+            r = orders.OrderCreate(accountID, data=data)
+            client.request(r)
+            create_order = pd.Series(r.response['orderCreateTransaction'])
+            print(create_order)
         else:
-            pass
+            data = {
+                "order": {
+                    "instrument": "EUR_USD",
+                    "units": "100",
+                    "type": "Market",
+                    "positionFill": "DEFAULT"
+                }
+            }
+            r = orders.OrderCreate(accountID, data=data)
+            client.request(r)
+            create_order = pd.Series(r.response['orderCreateTransaction'])
+            print(create_order)
     return webhook_message
+
 
 
 @app.route("/logs", methods=["GET"])
