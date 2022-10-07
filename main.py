@@ -39,7 +39,7 @@ def webhook():
             data = {
                 "order": {
                     "instrument": "EUR_USD",
-                    "units": "-100",
+                    "units": "-1000",
                     "type": "MARKET",
                     "positionFill": "DEFAULT"
                 }
@@ -47,12 +47,12 @@ def webhook():
             r = orders.OrderCreate(accountID, data=data)
             client.request(r)
             create_order = pd.Series(r.response['orderCreateTransaction'])
-            print(create_order)
+            #print(create_order)
         else:
             data = {
                 "order": {
                     "instrument": "EUR_USD",
-                    "units": "100",
+                    "units": "1000",
                     "type": "MARKET",
                     "positionFill": "DEFAULT"
                 }
@@ -60,7 +60,7 @@ def webhook():
             r = orders.OrderCreate(accountID, data=data)
             client.request(r)
             create_order = pd.Series(r.response['orderCreateTransaction'])
-            print(create_order)
+            #print(create_order)
     return webhook_message
 
 
