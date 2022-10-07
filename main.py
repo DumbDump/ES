@@ -40,7 +40,7 @@ def webhook():
                 "order": {
                     "instrument": "EUR_USD",
                     "units": "-100",
-                    "type": "Market",
+                    "type": "MARKET",
                     "positionFill": "DEFAULT"
                 }
             }
@@ -53,7 +53,7 @@ def webhook():
                 "order": {
                     "instrument": "EUR_USD",
                     "units": "100",
-                    "type": "Market",
+                    "type": "MARKET",
                     "positionFill": "DEFAULT"
                 }
             }
