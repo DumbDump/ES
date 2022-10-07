@@ -33,6 +33,9 @@ def webhook():
         webhook_message = json.loads(request.data)
     except:
         webhook_message = request.data
+        
+    print(webhook_message)
+    
     if ('EURUSD' in str(webhook_message).upper()):
         if ('SELL' in str(webhook_message).upper()):
             pass
