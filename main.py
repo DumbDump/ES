@@ -19,7 +19,61 @@ client = oandapyV20.API(access_token=access_token)
 
 r = positions.PositionList(accountID=accountID)
 
-# print(client.request(r))
+
+def CLOSE_POSITIONS()
+    r = positions.OpenPositions(accountID=accountID)
+    data_long = {
+        "longUnits": "ALL"
+    }
+    data_short = {
+        "shortUnits": "ALL"
+    }
+    # r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_long)
+    # r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_short)
+
+    if not int(client.request(r)['positions'][0]['long']['units']) == 0:
+        r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
+    elif not client.request(r)['positions'][0]['short']['units'] == 0:
+        r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
+    else:
+        r = 'no orders executed'
+
+    print(r.data)
+
+
+def FOREX_ORDER(webhook_message):
+    if 'EURUSD' in str(webhook_message).upper():
+        if 'BUY_TO_OPEN' in str(webhook_message).upper():
+            print ("BUY_TO_OPEN")
+            data = {
+                "order": {
+                    "instrument": "EUR_USD",
+                    "units": "1000",
+                    "type": "MARKET",
+                    "positionFill": "DEFAULT"
+                }
+            }
+            r = orders.OrderCreate(accountID, data=data)
+            client.request(r)
+        elif 'SELL_TO_OPEN' in str(webhook_message).upper():
+            print ("SELL_TO_OPEN")
+            data = {
+                "order": {
+                    "instrument": "EUR_USD",
+                    "units": "-1000",
+                    "type": "MARKET",
+                    "positionFill": "DEFAULT"
+                }
+            }
+            r = orders.OrderCreate(accountID, data=data)
+            client.request(r)
+        elif 'SELL_TO_CLOSE' in str(webhook_message).upper():
+            print ("SELL_TO_CLOSE")
+            CLOSE_POSITIONS()
+        elif 'BUY_TO_CLOSE' in str(webhook_message).upper():
+            print("BUY_TO_CLOSE")
+            CLOSE_POSITIONS()
+            # print(client.request(r))
 #
 # if not client.request(r)['positions'] == []: #if not empty
 #     print(client.request(r)['positions'])
@@ -34,32 +88,34 @@ def webhook():
     except:
         webhook_message = request.data
     print(webhook_message)
-    if ('EURUSD' in str(webhook_message).upper()):
-        if ('SELL' in str(webhook_message).upper()):
-            data = {
-                "order": {
-                    "instrument": "EUR_USD",
-                    "units": "-1000",
-                    "type": "MARKET",
-                    "positionFill": "DEFAULT"
-                }
-            }
-            r = orders.OrderCreate(accountID, data=data)
-            client.request(r)
-            create_order = pd.Series(r.response['orderCreateTransaction'])
-            #print(create_order)
-        else:
-            data = {
-                "order": {
-                    "instrument": "EUR_USD",
-                    "units": "1000",
-                    "type": "MARKET",
-                    "positionFill": "DEFAULT"
-                }
-            }
-            r = orders.OrderCreate(accountID, data=data)
-            client.request(r)
-            create_order = pd.Series(r.response['orderCreateTransaction'])
+    FOREX_ORDER(webhook_message)
+
+ #    if ('EURUSD' in str(webhook_message).upper()):
+ #        if ('SELL' in str(webhook_message).upper()):
+ #            data = {
+ #                "order": {
+ #                    "instrument": "EUR_USD",
+ #                    "units": "-1000",
+ #                    "type": "MARKET",
+ #                    "positionFill": "DEFAULT"
+ #                }
+ #            }
+ #            r = orders.OrderCreate(accountID, data=data)
+ #            client.request(r)
+ # #           create_order = pd.Series(r.response['orderCreateTransaction'])
+ #            #print(create_order)
+ #        else:
+ #            data = {
+ #                "order": {
+ #                    "instrument": "EUR_USD",
+ #                    "units": "1000",
+ #                    "type": "MARKET",
+ #                    "positionFill": "DEFAULT"
+ #                }
+ #            }
+ #            r = orders.OrderCreate(accountID, data=data)
+ #            client.request(r)
+ #           create_order = pd.Series(r.response['orderCreateTransaction'])
             #print(create_order)
     return webhook_message
 
