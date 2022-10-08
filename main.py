@@ -130,7 +130,7 @@ def webhook():
 def get_logs():
     return 'ok'
 
-# app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
+app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
