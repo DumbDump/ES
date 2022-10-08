@@ -83,7 +83,7 @@ def FOREX_ORDER(webhook_message):
 ##################################
     parsed = str(str(webhook_message).split("):")[1].split('.')[0])
     order_type = parsed.split('order')[1].split(' ')[0]
-    qty = int(parsed.split('@').replace(' ', '').split('f')[0])
+    qty = int(parsed.split('@')[1].replace(' ', '').split('f')[0])
     ticker = parsed.split(' ')[-1]
     print(order_type, qty, ticker)
 @app.route("/webhook", methods=["POST", "GET"])
@@ -130,7 +130,7 @@ def webhook():
 def get_logs():
     return 'ok'
 
-app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
+# app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
