@@ -42,38 +42,38 @@ def CLOSE_POSITIONS():
 
 
 def FOREX_ORDER(webhook_message):
-    if 'EURUSD' in str(webhook_message).upper():
-        if 'BUY_TO_OPEN' in str(webhook_message).upper():
-            print ("BUY_TO_OPEN")
-            data = {
-                "order": {
-                    "instrument": "EUR_USD",
-                    "units": "1000",
-                    "type": "MARKET",
-                    "positionFill": "DEFAULT"
-                }
-            }
-            r = orders.OrderCreate(accountID, data=data)
-            client.request(r)
-        elif 'SELL_TO_OPEN' in str(webhook_message).upper():
-            print ("SELL_TO_OPEN")
-            data = {
-                "order": {
-                    "instrument": "EUR_USD",
-                    "units": "-1000",
-                    "type": "MARKET",
-                    "positionFill": "DEFAULT"
-                }
-            }
-            r = orders.OrderCreate(accountID, data=data)
-            client.request(r)
-        elif 'SELL_TO_CLOSE' in str(webhook_message).upper():
-            print ("SELL_TO_CLOSE")
-            CLOSE_POSITIONS()
-        elif 'BUY_TO_CLOSE' in str(webhook_message).upper():
-            print("BUY_TO_CLOSE")
-            CLOSE_POSITIONS()
-            # print(client.request(r))
+    # if 'EURUSD' in str(webhook_message).upper():
+    #     if 'BUY_TO_OPEN' in str(webhook_message).upper():
+    #         print ("BUY_TO_OPEN")
+    #         data = {
+    #             "order": {
+    #                 "instrument": "EUR_USD",
+    #                 "units": "1000",
+    #                 "type": "MARKET",
+    #                 "positionFill": "DEFAULT"
+    #             }
+    #         }
+    #         r = orders.OrderCreate(accountID, data=data)
+    #         client.request(r)
+    #     elif 'SELL_TO_OPEN' in str(webhook_message).upper():
+    #         print ("SELL_TO_OPEN")
+    #         data = {
+    #             "order": {
+    #                 "instrument": "EUR_USD",
+    #                 "units": "-1000",
+    #                 "type": "MARKET",
+    #                 "positionFill": "DEFAULT"
+    #             }
+    #         }
+    #         r = orders.OrderCreate(accountID, data=data)
+    #         client.request(r)
+    #     elif 'SELL_TO_CLOSE' in str(webhook_message).upper():
+    #         print ("SELL_TO_CLOSE")
+    #         CLOSE_POSITIONS()
+    #     elif 'BUY_TO_CLOSE' in str(webhook_message).upper():
+    #         print("BUY_TO_CLOSE")
+    #         CLOSE_POSITIONS()
+    #         # print(client.request(r))
 #
 # if not client.request(r)['positions'] == []: #if not empty
 #     print(client.request(r)['positions'])
@@ -81,6 +81,11 @@ def FOREX_ORDER(webhook_message):
 ##################################
 # WebHook code
 ##################################
+    parsed = str(str(webhook_message).split("):")[1].split('.')[0])
+    order_type = parsed.split('order')[1].split(' ')[0]
+    qty = int(parsed.split('@').replace(' ', '').split('f')[0])
+    ticker = parsed.split(' ')[-1]
+    print(order_type, qty, ticker)
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
     try:
