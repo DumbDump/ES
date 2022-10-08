@@ -20,7 +20,7 @@ client = oandapyV20.API(access_token=access_token)
 r = positions.PositionList(accountID=accountID)
 
 
-def CLOSE_POSITIONS()
+def CLOSE_POSITIONS():
     r = positions.OpenPositions(accountID=accountID)
     data_long = {
         "longUnits": "ALL"
