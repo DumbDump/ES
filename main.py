@@ -106,16 +106,16 @@ def parse_webhook_message(webhook_message):
     print(ticker, order_type, qty, price, position_type, exchange)
     print(ticker, order_type, qty, price, position_type, exchange)
 
-    if 'ALPACA' on str(webhook_message).upper()):
+    if 'ALPACA' on str(webhook_message).upper():
         print('ALPACA')
         ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type)
-    elif 'ONADA' on str(webhook_message).upper()):
+    elif 'ONADA' on str(webhook_message).upper():
         print('ONADA')
         ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type)
-    elif 'TOS' on str(webhook_message).upper()):
+    elif 'TOS' on str(webhook_message).upper():
         print('TOS')
         TOS_SPX_ORDER(ticker, order_type, qty, price, position_type)
-    elif 'TRADOVATE' on str(webhook_message).upper()):
+    elif 'TRADOVATE' on str(webhook_message).upper():
         print('TRADOVATE') \
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type)
 
