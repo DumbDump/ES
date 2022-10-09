@@ -41,7 +41,7 @@ def CLOSE_POSITIONS():
     print(r.data)
 
 
-def FOREX_ORDER(webhook_message):
+#def FOREX_ORDER(webhook_message):
     # if 'EURUSD' in str(webhook_message).upper():
     #     if 'BUY_TO_OPEN' in str(webhook_message).upper():
     #         print ("BUY_TO_OPEN")
@@ -83,6 +83,8 @@ def FOREX_ORDER(webhook_message):
 ##################################
  #   ETHUSD, SELL_TO_OPEN, 1312.8700000000001, 1. - 1.{{ALPACA}}
 
+
+
 def parse_webhook_message(webhook_message):
     parsed = str(str(webhook_message))
     ticker = parsed.split(',')[0].replace(' ', '')
@@ -97,6 +99,7 @@ def parse_webhook_message(webhook_message):
     exchange = exchange.replace('\'', '')
     print(ticker, order_type, qty, price, position_type, exchange)
     print(ticker, order_type, qty, price, position_type, exchange)
+
 
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
