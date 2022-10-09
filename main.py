@@ -85,6 +85,7 @@ def FOREX_ORDER(webhook_message):
 
     parsed = str(str(webhook_message))
     ticker = parsed.split(',')[0].replace(' ', '')
+    ticker = ticker.replace('b\'', '')
     order_type = parsed.split(',')[1].replace(' ', '')
     price = parsed.split(',')[2].replace(' ', '')
     qty = parsed.split(',')[3].replace(' ', '')
@@ -92,6 +93,7 @@ def FOREX_ORDER(webhook_message):
     exchange = parsed.split(',')[5].replace(' ', '')
     exchange = exchange.replace('{', '')
     exchange = exchange.replace('}', '')
+    exchange = exchange.replace('\'', '')
     print(ticker, order_type, qty, price, position_type, exchange)
     print(ticker, order_type, qty, price, position_type, exchange)
 
