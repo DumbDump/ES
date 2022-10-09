@@ -81,12 +81,17 @@ def FOREX_ORDER(webhook_message):
 ##################################
 # WebHook code
 ##################################
-    parsed = str(str(webhook_message).split("):")[1].split('.')[0])
-    order_type = parsed.split('order')[1].split('@')[0].replace(' ', '')
-    qty = int(parsed.split('@')[1].replace(' ', '').split('f')[0])
-    ticker = parsed.split(' ')[-1]
-    exchange = parsed.split('{{')[1].split('}}')[0].replace(' ', '')
-    print(order_type, qty, ticker, exchange)
+ #   ETHUSD, SELL_TO_OPEN, 1312.8700000000001, 1. - 1.{{ALPACA}}
+    '
+    parsed = str(str(webhook_message)
+    ticker = parsed.split(' ')[0]
+    order_type = parsed.split(' ')[1]
+    price = parsed.split(' ')[2]
+    qty = parsed.split(' ')[3]
+    size = parsed.split(' ')[4]
+    exchange = parsed.split(' ')[5]
+    print(order_type, qty, ticker, price, exchange)\
+
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
     try:
