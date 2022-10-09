@@ -31,13 +31,13 @@ def ONADA_FOREX_CLOSE_POSITIONS():
     # r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_short)
 
     if not int(client.request(r)['positions'][0]['long']['units']) == 0:
-        r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
+        rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
     elif not client.request(r)['positions'][0]['short']['units'] == 0:
-        r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
+        rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
     else:
-        r = 'no orders executed'
+        rv = 'no orders executed'
 
-    print(r.data)
+    print(rv.data)
 
 
 def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
