@@ -71,9 +71,18 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
             print("BUY_TO_CLOSE")
             ONADA_FOREX_CLOSE_POSITIONS()
 
+def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type):
+    print('not implemented ALPACA order')
+
+TOS_SPX_ORDER(ticker, order_type, qty, price, position_type):
+    print('not implemented TOS order')
+
+TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type):
+    print('not implemented TOS order')
 
 if not client.request(r)['positions'] == []: #if not empty
     print(client.request(r)['positions'])
+
 
 ##################################
 # WebHook code
