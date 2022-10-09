@@ -36,11 +36,11 @@ def ONADA_FOREX_CLOSE_POSITIONS():
         rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
     else:
         rv = 'no orders executed'
-
     print(rv.data)
+    return rv.data
 
 
-def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
+def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     if 'BUY_TO_OPEN' in str(order_type):
         data = {
             "order": {
@@ -114,16 +114,16 @@ def parse_webhook_message(webhook_message):
 
     if 'ALPACA' in str(webhook_message).upper():
         print('ALPACA')
-        ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type)
+        ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type,exchange)
     elif 'ONADA' in str(webhook_message).upper():
         print('ONADA')
-        ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type)
+        ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type,exchange)
     elif 'TOS' in str(webhook_message).upper():
         print('TOS')
-        TOS_SPX_ORDER(ticker, order_type, qty, price, position_type)
+        TOS_SPX_ORDER(ticker, order_type, qty, price, position_type,exchange)
     elif 'TRADOVATE' in str(webhook_message).upper():
         print('TRADOVATE')
-        TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type)
+        TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type,exchange)
 
 
 @app.route("/webhook", methods=["POST", "GET"])
