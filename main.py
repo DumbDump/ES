@@ -98,7 +98,7 @@ def webhook():
         webhook_message = json.loads(request.data)
     except:
         webhook_message = request.data
-    print(webhook_message)``
+    print(webhook_message)
     FOREX_ORDER(webhook_message)
 
  #    if ('EURUSD' in str(webhook_message).upper()):
