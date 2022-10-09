@@ -53,7 +53,7 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
             }
             r = orders.OrderCreate(accountID, data=data)
             client.request(r)
-        elif 'SELL_TO_OPEN' in str(order_type:
+        elif 'SELL_TO_OPEN' in str(order_type):
             data = {
                 "order": {
                     "instrument": "ticker",
@@ -64,10 +64,10 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
             }
             r = orders.OrderCreate(accountID, data=data)
             client.request(r)
-        elif 'SELL_TO_CLOSE' in str(order_type:
+        elif 'SELL_TO_CLOSE' in str(order_type):
             print ("SELL_TO_CLOSE")
             ONADA_FOREX_CLOSE_POSITIONS()
-        elif 'BUY_TO_CLOSE' in str(order_type:
+        elif 'BUY_TO_CLOSE' in str(order_type):
             print("BUY_TO_CLOSE")
             ONADA_FOREX_CLOSE_POSITIONS()
 
