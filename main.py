@@ -83,7 +83,7 @@ def FOREX_ORDER(webhook_message):
 ##################################
  #   ETHUSD, SELL_TO_OPEN, 1312.8700000000001, 1. - 1.{{ALPACA}}
     '
-    parsed = str(str(webhook_message)
+    parsed = str(str(webhook_message))
     ticker = parsed.split(' ')[0]
     order_type = parsed.split(' ')[1]
     price = parsed.split(' ')[2]
