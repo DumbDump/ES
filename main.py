@@ -9,7 +9,6 @@ import os, json, requests
 import numpy as np
 import pandas as pd
 
-
 config = configparser.ConfigParser()
 config.read('./config.ini')
 accountID = config['oanda']['account_id']
@@ -42,53 +41,60 @@ def ONADA_FOREX_CLOSE_POSITIONS():
 
 
 def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
-        if 'BUY_TO_OPEN' in str(order_type):
-            data = {
-                "order": {
-                    "instrument": ticker,
-                    "units": int(qty),
-                    "type": "MARKET",
-                    "positionFill": "DEFAULT"
-                }
+    if 'BUY_TO_OPEN' in str(order_type):
+        data = {
+            "order": {
+                "instrument": ticker,
+                "units": int(qty),
+                "type": "MARKET",
+                "positionFill": "DEFAULT"
             }
-            r = orders.OrderCreate(accountID, data=data)
-            client.request(r)
-        elif 'SELL_TO_OPEN' in str(order_type):
-            data = {
-                "order": {
-                    "instrument": ticker,
-                    "units": -int(qty),
-                    "type": "MARKET",
-                    "positionFill": "DEFAULT"
-                }
+        }
+        r = orders.OrderCreate(accountID, data=data)
+        client.request(r)
+    elif 'SELL_TO_OPEN' in str(order_type):
+        data = {
+            "order": {
+                "instrument": ticker,
+                "units": -int(qty),
+                "type": "MARKET",
+                "positionFill": "DEFAULT"
             }
-            r = orders.OrderCreate(accountID, data=data)
-            client.request(r)
-        elif 'SELL_TO_CLOSE' in str(order_type):
-            print ("SELL_TO_CLOSE")
-            ONADA_FOREX_CLOSE_POSITIONS()
-        elif 'BUY_TO_CLOSE' in str(order_type):
-            print("BUY_TO_CLOSE")
-            ONADA_FOREX_CLOSE_POSITIONS()
+        }
+        r = orders.OrderCreate(accountID, data=data)
+        client.request(r)
+    elif 'SELL_TO_CLOSE' in str(order_type):
+        print("SELL_TO_CLOSE")
+        ONADA_FOREX_CLOSE_POSITIONS()
+    elif 'BUY_TO_CLOSE' in str(order_type):
+        print("BUY_TO_CLOSE")
+        ONADA_FOREX_CLOSE_POSITIONS()
+
 
 def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type):
     print('not implemented ALPACA order')
+    print(ticker, order_type, qty, price, position_type, exchange)
+
 
 def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type):
     print('not implemented TOS order')
+    print(ticker, order_type, qty, price, position_type, exchange)
+
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type):
     print('not implemented TOS order')
+    print(ticker, order_type, qty, price, position_type, exchange)
 
-if not client.request(r)['positions'] == []: #if not empty
+
+if not client.request(r)['positions'] == []:  # if not empty
     print(client.request(r)['positions'])
+    print(ticker, order_type, qty, price, position_type, exchange)
 
 
 ##################################
 # WebHook code
 ##################################
- #   ETHUSD, SELL_TO_OPEN, 1312.8700000000001, 1. - 1.{{ALPACA}}
-
+#   ETHUSD, SELL_TO_OPEN, 1312.8700000000001, 1. - 1.{{ALPACA}}
 
 
 def parse_webhook_message(webhook_message):
@@ -104,7 +110,7 @@ def parse_webhook_message(webhook_message):
     exchange = exchange.replace('}', '')
     exchange = exchange.replace('\'', '')
     print(ticker, order_type, qty, price, position_type, exchange)
-    print(ticker, order_type, qty, price, position_type, exchange)
+
 
     if 'ALPACA' in str(webhook_message).upper():
         print('ALPACA')
@@ -119,6 +125,7 @@ def parse_webhook_message(webhook_message):
         print('TRADOVATE')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type)
 
+
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
     try:
@@ -127,42 +134,42 @@ def webhook():
         webhook_message = request.data
     print(webhook_message)
     parse_webhook_message(webhook_message)
- #   FOREX_ORDER(webhook_message)
+    #   FOREX_ORDER(webhook_message)
 
- #    if ('EURUSD' in str(webhook_message).upper()):
- #        if ('SELL' in str(webhook_message).upper()):
- #            data = {
- #                "order": {
- #                    "instrument": "EUR_USD",
- #                    "units": "-1000",
- #                    "type": "MARKET",
- #                    "positionFill": "DEFAULT"
- #                }
- #            }
- #            r = orders.OrderCreate(accountID, data=data)
- #            client.request(r)
- # #           create_order = pd.Series(r.response['orderCreateTransaction'])
- #            #print(create_order)
- #        else:
- #            data = {
- #                "order": {
- #                    "instrument": "EUR_USD",
- #                    "units": "1000",
- #                    "type": "MARKET",
- #                    "positionFill": "DEFAULT"
- #                }
- #            }
- #            r = orders.OrderCreate(accountID, data=data)
- #            client.request(r)
- #           create_order = pd.Series(r.response['orderCreateTransaction'])
-            #print(create_order)
+    #    if ('EURUSD' in str(webhook_message).upper()):
+    #        if ('SELL' in str(webhook_message).upper()):
+    #            data = {
+    #                "order": {
+    #                    "instrument": "EUR_USD",
+    #                    "units": "-1000",
+    #                    "type": "MARKET",
+    #                    "positionFill": "DEFAULT"
+    #                }
+    #            }
+    #            r = orders.OrderCreate(accountID, data=data)
+    #            client.request(r)
+    # #           create_order = pd.Series(r.response['orderCreateTransaction'])
+    #            #print(create_order)
+    #        else:
+    #            data = {
+    #                "order": {
+    #                    "instrument": "EUR_USD",
+    #                    "units": "1000",
+    #                    "type": "MARKET",
+    #                    "positionFill": "DEFAULT"
+    #                }
+    #            }
+    #            r = orders.OrderCreate(accountID, data=data)
+    #            client.request(r)
+    #           create_order = pd.Series(r.response['orderCreateTransaction'])
+    # print(create_order)
     return webhook_message
-
 
 
 @app.route("/logs", methods=["GET"])
 def get_logs():
     return 'ok'
+
 
 app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
