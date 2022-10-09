@@ -20,7 +20,7 @@ client = oandapyV20.API(access_token=access_token)
 r = positions.PositionList(accountID=accountID)
 
 
-def CLOSE_POSITIONS():
+def ONADA_FOREX_CLOSE_POSITIONS():
     r = positions.OpenPositions(accountID=accountID)
     data_long = {
         "longUnits": "ALL"
@@ -41,42 +41,39 @@ def CLOSE_POSITIONS():
     print(r.data)
 
 
-#def FOREX_ORDER(webhook_message):
-    # if 'EURUSD' in str(webhook_message).upper():
-    #     if 'BUY_TO_OPEN' in str(webhook_message).upper():
-    #         print ("BUY_TO_OPEN")
-    #         data = {
-    #             "order": {
-    #                 "instrument": "EUR_USD",
-    #                 "units": "1000",
-    #                 "type": "MARKET",
-    #                 "positionFill": "DEFAULT"
-    #             }
-    #         }
-    #         r = orders.OrderCreate(accountID, data=data)
-    #         client.request(r)
-    #     elif 'SELL_TO_OPEN' in str(webhook_message).upper():
-    #         print ("SELL_TO_OPEN")
-    #         data = {
-    #             "order": {
-    #                 "instrument": "EUR_USD",
-    #                 "units": "-1000",
-    #                 "type": "MARKET",
-    #                 "positionFill": "DEFAULT"
-    #             }
-    #         }
-    #         r = orders.OrderCreate(accountID, data=data)
-    #         client.request(r)
-    #     elif 'SELL_TO_CLOSE' in str(webhook_message).upper():
-    #         print ("SELL_TO_CLOSE")
-    #         CLOSE_POSITIONS()
-    #     elif 'BUY_TO_CLOSE' in str(webhook_message).upper():
-    #         print("BUY_TO_CLOSE")
-    #         CLOSE_POSITIONS()
-    #         # print(client.request(r))
-#
-# if not client.request(r)['positions'] == []: #if not empty
-#     print(client.request(r)['positions'])
+def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
+        if 'BUY_TO_OPEN' in str(order_type):
+            data = {
+                "order": {
+                    "instrument": "ticker",
+                    "units": "qty",
+                    "type": "MARKET",
+                    "positionFill": "DEFAULT"
+                }
+            }
+            r = orders.OrderCreate(accountID, data=data)
+            client.request(r)
+        elif 'SELL_TO_OPEN' in str(order_type:
+            data = {
+                "order": {
+                    "instrument": "ticker",
+                    "units": "-qty",
+                    "type": "MARKET",
+                    "positionFill": "DEFAULT"
+                }
+            }
+            r = orders.OrderCreate(accountID, data=data)
+            client.request(r)
+        elif 'SELL_TO_CLOSE' in str(order_type:
+            print ("SELL_TO_CLOSE")
+            ONADA_FOREX_CLOSE_POSITIONS()
+        elif 'BUY_TO_CLOSE' in str(order_type:
+            print("BUY_TO_CLOSE")
+            ONADA_FOREX_CLOSE_POSITIONS()
+
+
+if not client.request(r)['positions'] == []: #if not empty
+    print(client.request(r)['positions'])
 
 ##################################
 # WebHook code
@@ -100,6 +97,18 @@ def parse_webhook_message(webhook_message):
     print(ticker, order_type, qty, price, position_type, exchange)
     print(ticker, order_type, qty, price, position_type, exchange)
 
+    if 'ALPACA' on str(webhook_message).upper()):
+        print('ALPACA')
+        ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type)
+    elif 'ONADA' on str(webhook_message).upper()):
+        print('ONADA')
+        ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type)
+    elif 'TOS' on str(webhook_message).upper()):
+        print('TOS')
+        TOS_SPX_ORDER(ticker, order_type, qty, price, position_type)
+    elif 'TRADOVATE' on str(webhook_message).upper()):
+        print('TRADOVATE') \
+        TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type)
 
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
