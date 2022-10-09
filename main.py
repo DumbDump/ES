@@ -45,8 +45,8 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
         if 'BUY_TO_OPEN' in str(order_type):
             data = {
                 "order": {
-                    "instrument": "ticker",
-                    "units": "qty",
+                    "instrument": ticker,
+                    "units": int(qty),
                     "type": "MARKET",
                     "positionFill": "DEFAULT"
                 }
@@ -56,8 +56,8 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
         elif 'SELL_TO_OPEN' in str(order_type):
             data = {
                 "order": {
-                    "instrument": "ticker",
-                    "units": "-qty",
+                    "instrument": ticker,
+                    "units": -int(qty),
                     "type": "MARKET",
                     "positionFill": "DEFAULT"
                 }
@@ -106,17 +106,17 @@ def parse_webhook_message(webhook_message):
     print(ticker, order_type, qty, price, position_type, exchange)
     print(ticker, order_type, qty, price, position_type, exchange)
 
-    if 'ALPACA' on str(webhook_message).upper():
+    if 'ALPACA' in str(webhook_message).upper():
         print('ALPACA')
         ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type)
-    elif 'ONADA' on str(webhook_message).upper():
+    elif 'ONADA' in str(webhook_message).upper():
         print('ONADA')
         ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type)
-    elif 'TOS' on str(webhook_message).upper():
+    elif 'TOS' in str(webhook_message).upper():
         print('TOS')
         TOS_SPX_ORDER(ticker, order_type, qty, price, position_type)
-    elif 'TRADOVATE' on str(webhook_message).upper():
-        print('TRADOVATE') \
+    elif 'TRADOVATE' in str(webhook_message).upper():
+        print('TRADOVATE')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type)
 
 @app.route("/webhook", methods=["POST", "GET"])
