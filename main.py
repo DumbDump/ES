@@ -90,7 +90,9 @@ def FOREX_ORDER(webhook_message):
     qty = parsed.split(',')[3].replace(' ', '')
     size = parsed.split(',')[4].replace(' ', '')
     exchange = parsed.split(',')[5].replace(' ', '')
-    print(order_type, qty, ticker, price, exchange)
+    exchange = parsed.split(',')[5].replace('{', '')
+    exchange = parsed.split(',')[5].replace('}', '')
+    print(ticker, order_type, qty, price, exchange)
 
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
