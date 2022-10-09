@@ -83,6 +83,7 @@ def FOREX_ORDER(webhook_message):
 ##################################
  #   ETHUSD, SELL_TO_OPEN, 1312.8700000000001, 1. - 1.{{ALPACA}}
 
+def parse_webhook_message(webhook_message):
     parsed = str(str(webhook_message))
     ticker = parsed.split(',')[0].replace(' ', '')
     ticker = ticker.replace('b\'', '')
@@ -104,7 +105,8 @@ def webhook():
     except:
         webhook_message = request.data
     print(webhook_message)
-    FOREX_ORDER(webhook_message)
+    parse_webhook_message(webhook_message)
+ #   FOREX_ORDER(webhook_message)
 
  #    if ('EURUSD' in str(webhook_message).upper()):
  #        if ('SELL' in str(webhook_message).upper()):
