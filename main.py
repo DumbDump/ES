@@ -71,24 +71,24 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type):
         ONADA_FOREX_CLOSE_POSITIONS()
 
 
-def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type):
+def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print('not implemented ALPACA order')
     print(ticker, order_type, qty, price, position_type, exchange)
 
 
-def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type):
+def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print('not implemented TOS order')
     print(ticker, order_type, qty, price, position_type, exchange)
 
 
-def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type):
+def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print('not implemented TOS order')
     print(ticker, order_type, qty, price, position_type, exchange)
 
 
-if not client.request(r)['positions'] == []:  # if not empty
-    print(client.request(r)['positions'])
-    print(ticker, order_type, qty, price, position_type, exchange)
+    # if not client.request(r)['positions'] == []:  # if not empty
+    #     print(client.request(r)['positions'])
+    #     print(ticker, order_type, qty, price, position_type, exchange)
 
 
 ##################################
