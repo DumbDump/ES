@@ -14,8 +14,7 @@ access_token = config['oanda']['api_key']
 api = API(access_token=access_token)
 client = oandapyV20.API(access_token=access_token)
 
-# Get rates information
-params = {"instruments": "EUR_USD,USD_JPY"}
+
 
 # r = pricing.PricingInfo(accountID=accountID, params=params)
 # rv = api.request(r)
@@ -37,17 +36,23 @@ params = {"instruments": "EUR_USD,USD_JPY"}
 # print(create_order)
 
 r = positions.OpenPositions(accountID=accountID)
+client.request(r)
+print(client.request(r))
+
 data_long = {
-        "longUnits": "ALL"
+        "longUnits": 1000
 }
 data_short = {
-        "shortUnits": "ALL"
+        "shortUnits": 1000
 }
 #r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_long)
 #r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_short)
 
-if not int(client.request(r)['positions'][0]['long']['units']) == 0: r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
-elif not client.request(r)['positions'][0]['short']['units'] == 0: r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
-else: r = 'no orders executed'
 
-print(r.data)
+if  int(client.request(r)['positions'][0]['long']['units']) != 0:
+        r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
+elif  client.request(r)['positions'][0]['short']['units'] != 0:
+        r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
+else:
+        r = 'no orders executed'
+

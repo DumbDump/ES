@@ -3,11 +3,14 @@ import configparser
 import oandapyV20
 import oandapyV20.endpoints.orders as orders
 import oandapyV20.endpoints.positions as positions
-
+from datetime import date
 from flask import Flask, request, jsonify, render_template, Response
 import os, json, requests
 import numpy as np
 import pandas as pd
+from td.client import TDClient
+from tda import auth, client
+import os, json, datetime
 
 config = configparser.ConfigParser()
 config.read('./config.ini')
@@ -16,7 +19,29 @@ access_token = config['oanda']['api_key']
 app = Flask(__name__)
 client = oandapyV20.API(access_token=access_token)
 
+#### TOS
+# Create a new session, credentials path is required.
+TDSession = TDClient(
+    client_id='FQOUAWD87DXUILUXYQI1XIVY3J8OGUPX',
+    redirect_uri='https://localhost',
+    credentials_path='config.json'
+)
+
+# Login to the session
+TDSession.login()
+
+#####
+
+
+format = ''
+
+
 r = positions.PositionList(accountID=accountID)
+
+def re(integ):
+    if len(list(integ)) == 1: return '0'+str(integ)
+    else: return str(integ)
+
 
 
 def ONADA_FOREX_CLOSE_POSITIONS():
@@ -24,6 +49,7 @@ def ONADA_FOREX_CLOSE_POSITIONS():
     data_long = {
         "longUnits": "ALL"
     }
+
     data_short = {
         "shortUnits": "ALL"
     }
@@ -41,6 +67,7 @@ def ONADA_FOREX_CLOSE_POSITIONS():
 
 
 def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
+    print(str(ticker))
     if 'BUY_TO_OPEN' in str(order_type):
         data = {
             "order": {
@@ -77,9 +104,30 @@ def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 
 def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
-    print('not implemented TOS order')
+    global format
+
     print(ticker, order_type, qty, price, position_type, exchange)
 
+    if order_type == "BUY_TO_OPEN":
+        format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().year) + 'C' + str(
+            round(float(price)))
+        print(format)
+        quote = TDSession.get_quotes(instruments=[format])
+        print(format, 'CALL', quote[format]['askPrice'])
+    elif order_type == "SELL_TO_OPEN":
+        format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().year) + 'P' + str(
+        round(float(price)))
+        print(format)
+        quote = TDSession.get_quotes(instruments=[format])
+        print(format, 'PUT', quote[format]['askPrice'])
+    elif order_type == "SELL_TO_CLOSE":
+        print("SELLSELL_TO_CLOSE")
+        quote = TDSession.get_quotes(instruments=[format])
+        print(format, 'PUT', quote[format]['askPrice'])
+    elif order_type == "BUY_TO_CLOSE":
+        print("BUYBUY_TO_CLOSE")
+        quote = TDSession.get_quotes(instruments=[format])
+        print(format, 'PUT', quote[format]['askPrice'])
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print('not implemented TOS order')
@@ -120,7 +168,8 @@ def parse_webhook_message(webhook_message):
         ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange)
     elif 'TOS' in str(webhook_message).upper():
         print('TOS')
-        TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange)
+        data = TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange)
+        print(data)
     elif 'TRADOVATE' in str(webhook_message).upper():
         print('TRADOVATE')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
