@@ -37,7 +37,7 @@ client = oandapyV20.API(access_token=access_token)
 
 r = positions.OpenPositions(accountID=accountID)
 client.request(r)
-print(client.request(r))
+print(client.request(r)['positions'])
 
 data_long = {
         "longUnits": 1000
@@ -45,14 +45,15 @@ data_long = {
 data_short = {
         "shortUnits": 1000
 }
+
 #r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_long)
 #r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_short)
 
-
-if  int(client.request(r)['positions'][0]['long']['units']) != 0:
-        r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
-elif  client.request(r)['positions'][0]['short']['units'] != 0:
-        r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
-else:
-        r = 'no orders executed'
+if  client.request(r)['positions']:
+        if  int(client.request(r)['positions'][0]['long']['units']) != 0:
+                r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
+        elif  client.request(r)['positions'][0]['short']['units'] != 0:
+                r = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
+        else:
+                r = 'no orders executed'
 
