@@ -71,8 +71,8 @@ def ONADA_FOREX_CLOSE_POSITIONS():
             rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
         else:
             rv = 'no orders executed'
-    print(rv.data)
-    return rv.data
+        print(rv.data)
+        return rv.data
 
 
 def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
