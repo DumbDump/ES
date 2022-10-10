@@ -1,17 +1,17 @@
 import pandas as pd
 import configparser
 import oandapyV20
-import tda-api
 import oandapyV20.endpoints.orders as orders
 import oandapyV20.endpoints.positions as positions
 from datetime import date
 from flask import Flask, request, jsonify, render_template, Response
+from tda import auth, client
+from td.client import TDClient
+import os, json, datetime
 import os, json, requests
 import numpy as np
 import pandas as pd
-from td.client import TDClient
-from tda import auth, client
-import os, json, datetime
+
 
 config = configparser.ConfigParser()
 config.read('./config.ini')
@@ -222,7 +222,7 @@ def get_logs():
     return 'ok'
 
 
-app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
+#app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
