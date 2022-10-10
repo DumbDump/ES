@@ -116,21 +116,21 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             round(float(price)))
         print(format)
         quote = TDSession.get_quotes(instruments=[format])
-        print(format, 'CALL', quote[format]['askPrice'])
+        print(format, 'CALL', quote)
     elif order_type == "SELL_TO_OPEN":
         format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().year) + 'P' + str(
         round(float(price)))
         print(format)
         quote = TDSession.get_quotes(instruments=[format])
-        print(format, 'PUT', quote[format]['askPrice'])
+        print(format, 'PUT', quote)
     elif order_type == "SELL_TO_CLOSE":
         print("SELLSELL_TO_CLOSE")
         quote = TDSession.get_quotes(instruments=[format])
-        print(format, 'PUT', quote[format]['askPrice'])
+        print(format, 'PUT', quote)
     elif order_type == "BUY_TO_CLOSE":
         print("BUYBUY_TO_CLOSE")
         quote = TDSession.get_quotes(instruments=[format])
-        print(format, 'PUT', quote[format]['askPrice'])
+        print(format, 'PUT', quote)
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print('not implemented TOS order')
