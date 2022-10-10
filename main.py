@@ -21,6 +21,7 @@ app = Flask(__name__)
 client = oandapyV20.API(access_token=access_token)
 
 #### TOS
+
 # Create a new session, credentials path is required.
 TDSession = TDClient(
     client_id='FQOUAWD87DXUILUXYQI1XIVY3J8OGUPX',
