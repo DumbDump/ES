@@ -7,7 +7,7 @@ from datetime import date
 from flask import Flask, request, jsonify, render_template, Response
 from tda import auth, client
 from td.client import TDClient
-import os, json, datetime
+import os, json, datetime, math
 import os, json, requests
 import numpy as np
 import pandas as pd
