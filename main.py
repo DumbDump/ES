@@ -1,6 +1,7 @@
 import pandas as pd
 import configparser
 import oandapyV20
+import td
 import oandapyV20.endpoints.orders as orders
 import oandapyV20.endpoints.positions as positions
 from datetime import date
@@ -46,6 +47,7 @@ def re(integ):
 
 def ONADA_FOREX_CLOSE_POSITIONS():
     r = positions.OpenPositions(accountID=accountID)
+    client.request(r)
     data_long = {
         "longUnits": "ALL"
     }
