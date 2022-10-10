@@ -155,7 +155,7 @@ def parse_webhook_message(webhook_message):
     ticker = parsed.split(',')[0].replace(' ', '')
     ticker = ticker.replace('b\'', '')
     order_type = parsed.split(',')[1].replace(' ', '')
-    price = round_up(parsed.split(',')[2].replace(' ', ''),-1)
+    price = parsed.split(',')[2].replace(' ', '')
     qty = parsed.split(',')[3].replace(' ', '')
     position_type = parsed.split(',')[4].replace(' ', '')
     exchange = parsed.split(',')[5].replace(' ', '')
@@ -173,7 +173,7 @@ def parse_webhook_message(webhook_message):
         ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange)
     elif 'TOS' in str(webhook_message).upper():
         print('TOS')
-        data = TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange)
+        data = TOS_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         print(data)
     elif 'TRADOVATE' in str(webhook_message).upper():
         print('TRADOVATE')
