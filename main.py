@@ -44,7 +44,9 @@ def re(integ):
     if len(list(integ)) == 1: return '0'+str(integ)
     else: return str(integ)
 
-
+def round_up(n, decimals=0):
+    multiplier = 10 ** decimals
+    return math.ceil(n * multiplier) / multiplier
 
 def ONADA_FOREX_CLOSE_POSITIONS():
     r = positions.OpenPositions(accountID=accountID)
@@ -112,13 +114,13 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(ticker, order_type, qty, price, position_type, exchange)
 
     if order_type == "BUY_TO_OPEN":
-        format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().year) + 'C' + str(
+        format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
             round(float(price)))
         print(format)
         quote = TDSession.get_quotes(instruments=[format])
         print(format, 'CALL', quote)
     elif order_type == "SELL_TO_OPEN":
-        format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().year) + 'P' + str(
+        format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
         round(float(price)))
         print(format)
         quote = TDSession.get_quotes(instruments=[format])
@@ -153,7 +155,7 @@ def parse_webhook_message(webhook_message):
     ticker = parsed.split(',')[0].replace(' ', '')
     ticker = ticker.replace('b\'', '')
     order_type = parsed.split(',')[1].replace(' ', '')
-    price = parsed.split(',')[2].replace(' ', '')
+    price = round_up(parsed.split(',')[2].replace(' ', ''),-1)
     qty = parsed.split(',')[3].replace(' ', '')
     position_type = parsed.split(',')[4].replace(' ', '')
     exchange = parsed.split(',')[5].replace(' ', '')
