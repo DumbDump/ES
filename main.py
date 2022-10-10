@@ -65,9 +65,9 @@ def ONADA_FOREX_CLOSE_POSITIONS():
     # r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_short)
 
     if client.request(r)['positions']:
-        if int(client.request(r)['positions'][0]['long']['units']) != 0:
+        if int(client.request(r)['positions'][0]['long']['units']):
             rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
-        elif  client.request(r)['positions'][0]['short']['units'] != 0:
+        elif  client.request(r)['positions'][0]['short']['units']:
             rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
         else:
             rv = 'no orders executed'
