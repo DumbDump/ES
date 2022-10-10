@@ -109,7 +109,7 @@ def parse_webhook_message(webhook_message):
     exchange = exchange.replace('{', '')
     exchange = exchange.replace('}', '')
     exchange = exchange.replace('\'', '')
-    print(ticker, order_type, qty, price, position_type, exchange)
+    #print(ticker, order_type, qty, price, position_type, exchange)
 
 
     if 'ALPACA' in str(webhook_message).upper():
@@ -132,7 +132,7 @@ def webhook():
         webhook_message = json.loads(request.data)
     except:
         webhook_message = request.data
-    print(webhook_message)
+    #print(webhook_message)
     parse_webhook_message(webhook_message)
     #   FOREX_ORDER(webhook_message)
 
