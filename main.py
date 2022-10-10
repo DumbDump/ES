@@ -45,7 +45,7 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
         data = {
             "order": {
                 "instrument": str(ticker),
-                "units": int(qty),
+                "units": 1000,
                 "type": "MARKET",
                 "positionFill": "DEFAULT"
             }
@@ -56,7 +56,7 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
         data = {
             "order": {
                 "instrument": str(ticker),
-                "units": -int(qty),
+                "units": -1000,
                 "type": "MARKET",
                 "positionFill": "DEFAULT"
             }
