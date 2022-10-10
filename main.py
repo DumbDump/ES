@@ -51,6 +51,8 @@ def round_up(n, decimals=0):
 def ONADA_FOREX_CLOSE_POSITIONS():
     r = positions.OpenPositions(accountID=accountID)
     client.request(r)
+    print(client.request(r))
+    print(client.request(r)['positions'][0]['long']['units'])
     data_long = {
         "longUnits": "ALL"
     }
@@ -61,9 +63,9 @@ def ONADA_FOREX_CLOSE_POSITIONS():
     # r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_long)
     # r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_short)
 
-    if not int(client.request(r)['positions'][0]['long']['units']) == 0:
+    if int(client.request(r)['positions'][0]['long']['units']) != 0:
         rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
-    elif not client.request(r)['positions'][0]['short']['units'] == 0:
+    elif  client.request(r)['positions'][0]['short']['units'] != 0:
         rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
     else:
         rv = 'no orders executed'
