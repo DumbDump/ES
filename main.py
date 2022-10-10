@@ -80,7 +80,7 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     if 'BUY_TO_OPEN' in str(order_type):
         data = {
             "order": {
-                "instrument": EUR_USD,
+                "instrument": "EUR_USD",
                 "units": 1000,
                 "type": "MARKET",
                 "positionFill": "DEFAULT"
@@ -91,7 +91,7 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif 'SELL_TO_OPEN' in str(order_type):
         data = {
             "order": {
-                "instrument": EUR_USD,
+                "instrument": "EUR_USD",
                 "units": -1000,
                 "type": "MARKET",
                 "positionFill": "DEFAULT"
