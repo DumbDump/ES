@@ -31,3 +31,5 @@ urllib3==1.26.12
 v20==3.0.25.0
 Werkzeug==2.2.2
 zipp==3.8.1
+td-ameritrade-python-api==0.3.5
+tda-api==1.6.0

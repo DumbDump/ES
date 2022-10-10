@@ -1,7 +1,7 @@
 import pandas as pd
 import configparser
 import oandapyV20
-import td
+import tda-api
 import oandapyV20.endpoints.orders as orders
 import oandapyV20.endpoints.positions as positions
 from datetime import date
