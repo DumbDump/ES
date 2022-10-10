@@ -52,7 +52,8 @@ def ONADA_FOREX_CLOSE_POSITIONS():
     r = positions.OpenPositions(accountID=accountID)
     client.request(r)
     print(client.request(r))
-    print(client.request(r)['positions'][0]['long']['units'])
+    if client.request(r)['positions']:
+        print(client.request(r)['positions'][0]['long']['units'])
     data_long = {
         "longUnits": "ALL"
     }
