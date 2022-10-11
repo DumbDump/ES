@@ -27,7 +27,7 @@ data = {
         "instrument": "EUR_USD",
         "units": "-100",
         "type": "LIMIT",
-        "price": "0.94",
+        "price": round(0.9423488822222,4),
      }
  }
 r = orders.OrderCreate(accountID, data=data)
