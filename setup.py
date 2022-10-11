@@ -57,3 +57,24 @@ if  client.request(r)['positions']:
         else:
                 r = 'no orders executed'
 
+r = positions.OpenPositions(accountID=accountID)
+client.request(r)
+print(client.request(r))
+if client.request(r)['positions']:
+        print(client.request(r)['positions'][0]['long']['units'])
+data_long = {
+   "longUnits": "ALL"
+}
+
+data_short = {
+  "shortUnits": "ALL"
+}
+if client.request(r)['positions']:
+        if client.request(r)['positions'][0]['long']['units']:
+                rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
+        elif client.request(r)['positions'][0]['short']['units']:
+                rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
+        else:
+                rv = 'no orders executed'
+        client.request(rv)
+        print(rv.data)
