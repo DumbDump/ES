@@ -122,13 +122,13 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
     if order_type == "BUY_TO_OPEN":
         format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
-            round(float(price)))
+            round(int(price)))
         print(format)
         quote = TDSession.get_quotes(instruments=[format])
         print(format, 'CALL', quote)
     elif order_type == "SELL_TO_OPEN":
         format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
-        round(float(price)))
+        round(int(price)))
         print(format)
         quote = TDSession.get_quotes(instruments=[format])
         print(format, 'PUT', quote)

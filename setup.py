@@ -2,6 +2,7 @@ import pandas as pd
 import configparser
 import oandapyV20
 from oandapyV20 import API
+import tradovate
 import oandapyV20.endpoints.pricing as pricing
 import oandapyV20.endpoints.orders as orders
 import oandapyV20.endpoints.positions as positions
