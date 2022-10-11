@@ -73,7 +73,7 @@ def ONADA_FOREX_CLOSE_POSITIONS():
             rv = 'no orders executed'
         client.request(rv)
         print(rv.data)
-    return rv.data
+
 
 
 def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
