@@ -59,7 +59,7 @@ if  client.request(r)['positions']:
 
 r = positions.OpenPositions(accountID=accountID)
 client.request(r)
-print(client.request(r))
+#print(client.request(r)['positions'][0]['short']['units'])
 if client.request(r)['positions']:
         print(client.request(r)['positions'][0]['long']['units'])
 data_long = {
@@ -70,9 +70,10 @@ data_short = {
   "shortUnits": "ALL"
 }
 if client.request(r)['positions']:
-        if client.request(r)['positions'][0]['long']['units']:
+        if int(client.request(r)['positions'][0]['long']['units']) != 0:
+                print (" I am here")
                 rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
-        elif client.request(r)['positions'][0]['short']['units']:
+        elif int(client.request(r)['positions'][0]['short']['units']) != 0:
                 rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
         else:
                 rv = 'no orders executed'
