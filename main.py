@@ -141,9 +141,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     global format
 
     print(ticker, order_type, qty, price, position_type, exchange)
-    headers = {
-        "Authorization": 'Bearer oMMKDzg0uCchtR4T5GYL4eRmgm_YD3CKI0TTbcttLbP2jhMl34mWxryD0RhO45_z5y3OJQRJLA2URvvwK4iH6VP10FmdYXnc6xClDA61uSqZ6vTVP0-GPKV2m2EvnHZw_U7eIAFgFL-sdjiFEEqgFO5VrVYiiyGqPfICuwmL6YnhkqzUDuGY5MmF6sRKWe9Gcnb9U6lEPjXe'
-     }
+
     if order_type == "BUY_TO_OPEN":
         format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
             round(price))
@@ -168,6 +166,22 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print('TRADOVATE order')
     print(ticker, order_type, qty, price, position_type, exchange)
+    # get token
+    headers = {
+        "name": "vvnsreddy@gmail.com",
+        "password": "Intel123$",
+        "appId": "Sample App",
+        "appVersion": "1.0",
+        "cid": '1133',
+        "sec": '66e4c947-0fe2-46b2-b76a-3ed88601ccd8'
+    }
+
+    response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
+    ACCESS_TOKEN = response.json()['accessToken']
+
+    headers = {
+        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    }
     if order_type == "BUY_TO_OPEN":
         body = {
             "accountSpec": "DEMO485096",
