@@ -139,7 +139,8 @@ def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     global format
-
+    # Login to the session
+    TDSession.login()
     print(ticker, order_type, qty, price, position_type, exchange)
 
     if order_type == "BUY_TO_OPEN":
