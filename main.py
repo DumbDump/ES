@@ -247,7 +247,7 @@ def parse_webhook_message(webhook_message):
     ticker = parsed.split(',')[0].replace(' ', '')
     ticker = ticker.replace('b\'', '')
     order_type = parsed.split(',')[1].replace(' ', '')
-    price = float(parsed.split(',')[2].replace(' ', ''))+2200
+    price = float(parsed.split(',')[2].replace(' ', ''))
     qty = parsed.split(',')[3].replace(' ', '')
     position_type = parsed.split(',')[4].replace(' ', '')
     exchange = parsed.split(',')[5].replace(' ', '')
