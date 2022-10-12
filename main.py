@@ -34,6 +34,15 @@ TDSession.login()
 
 #####
 
+################
+#Tradovate API
+headers = {
+    "Authorization": 'Bearer oMMKDzg0uCchtR4T5GYL4eRmgm_YD3CKI0TTbcttLbP2jhMl34mWxryD0RhO45_z5y3OJQRJLA2URvvwK4iH6VP10FmdYXnc6xClDA61uSqZ6vTVP0-GPKV2m2EvnHZw_U7eIAFgFL-sdjiFEEqgFO5VrVYiiyGqPfICuwmL6YnhkqzUDuGY5MmF6sRKWe9Gcnb9U6lEPjXe'
+
+}
+
+
+################
 
 format = ''
 
@@ -142,7 +151,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print(format, 'PUT', quote)
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
-    print('not implemented TOS order')
+    print('TRADOVATE order')
     print(ticker, order_type, qty, price, position_type, exchange)
 
 
