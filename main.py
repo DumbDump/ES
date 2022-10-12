@@ -182,18 +182,18 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
-    # if order_type == "BUY_TO_OPEN":
-    #     body = {
-    #         "accountSpec": "DEMO485096",
-    #         "accountId": '1083577',
-    #         "action": "Buy",
-    #         "symbol": "MNQZ2",
-    #         "orderQty": '1',
-    #         "orderType": "Market",
-    #         "isAutomated": "true"
-    #     }
-    #     response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-    #     print(response.json())
+    if order_type == "BUY_TO_OPEN":
+        body = {
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Buy",
+            "symbol": "MNQZ2",
+            "orderQty": '1',
+            "orderType": "Market",
+            "isAutomated": "true"
+        }
+        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
+        print(response.json())
     # elif order_type == "SELL_TO_OPEN":
     #     body = {
     #         "accountSpec": "DEMO485096",
