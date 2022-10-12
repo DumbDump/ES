@@ -166,7 +166,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print('TRADOVATE order')
-    print(ticker, order_type, qty, price, position_type, exchange)
+    print(ticker, order_type, qty, round(price), position_type, exchange)
     # get token
     headers = {
         "name": "vvnsreddy@gmail.com",
@@ -190,7 +190,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "action": "Buy",
             "symbol": "MNQZ2",
             "orderQty": '1',
-            "orderType": "LIMIT",
+            "orderType": "Limit",
             "price": round(price),
             "isAutomated": "true"
         }
@@ -203,7 +203,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "action": "Sell",
             "symbol": "MNQZ2",
             "orderQty": '1',
-            "orderType": "LIMIT",
+            "orderType": "Limit",
             "price": round(price),
             "isAutomated": "true"
         }
