@@ -36,6 +36,11 @@ TDSession.login()
 
 ################
 #Tradovate API
+
+API = 	"demo.tradovateapi.com/v1"
+ACCOUNT_ID = "vvnsreddy@gmail.com"
+ACCOUNTS_PATH = f"/auth/accessTokenRequest"
+
 headers = {
     "Authorization": 'Bearer oMMKDzg0uCchtR4T5GYL4eRmgm_YD3CKI0TTbcttLbP2jhMl34mWxryD0RhO45_z5y3OJQRJLA2URvvwK4iH6VP10FmdYXnc6xClDA61uSqZ6vTVP0-GPKV2m2EvnHZw_U7eIAFgFL-sdjiFEEqgFO5VrVYiiyGqPfICuwmL6YnhkqzUDuGY5MmF6sRKWe9Gcnb9U6lEPjXe'
 
