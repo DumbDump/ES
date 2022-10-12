@@ -216,7 +216,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "action": "Sell",
             "symbol": "MNQZ2",
             "orderQty": '1',
-            "orderType": "Market",
+            "orderType": "Limit",
+            "price": round(price),
             "isAutomated": "true"
         }
         response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
@@ -228,7 +229,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "action": "Buy",
             "symbol": "MNQZ2",
             "orderQty": '1',
-            "orderType": "Market",
+            "orderType": "Limit",
+            "price": round(price),
             "isAutomated": "true"
         }
         response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
