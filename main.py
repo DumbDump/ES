@@ -196,7 +196,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "action": "Buy",
             "symbol": "MNQZ2",
             "orderQty": '1',
-            "orderType": "Market",
+            "orderType": "MARKET",
             "price": price,
             "isAutomated": "true"
         }
@@ -210,7 +210,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "action": "Sell",
             "symbol": "MNQZ2",
             "orderQty": '1',
-            "orderType": "Market",
+            "orderType": "MARKET",
             "price": price,
             "isAutomated": "true"
         }
@@ -223,7 +223,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "action": "Sell",
             "symbol": "MNQZ2",
             "orderQty": '1',
-            "orderType": "Market",
+            "orderType": "MARKET",
             "price": price,
             "isAutomated": "true"
         }
@@ -236,7 +236,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "action": "Buy",
             "symbol": "MNQZ2",
             "orderQty": '1',
-            "orderType": "Market",
+            "orderType": "MARKET",
             "price": price,
             "isAutomated": "true"
         }
