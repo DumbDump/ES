@@ -34,6 +34,6 @@ TDSession.login()
 
 #####
 
-quote = TDSession.get_quotes(instruments="AAPL")
+quote = TDSession.get_quotes(instruments=)
 print(format, 'CALL', quote)
 
