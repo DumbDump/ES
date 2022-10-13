@@ -185,7 +185,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
     ACCESS_TOKEN = response.json()['accessToken']
-    print(ACCESS_TOKEN)
+    #print(ACCESS_TOKEN)
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
