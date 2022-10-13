@@ -139,6 +139,12 @@ def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     global format
+    # Create a new session, credentials path is required.
+    TDSession = TDClient(
+        client_id='FQOUAWD87DXUILUXYQI1XIVY3J8OGUPX',
+        redirect_uri='https://localhost',
+        credentials_path='config.json'
+    )
     # Login to the session
     TDSession.login()
     print(ticker, order_type, qty, price, position_type, exchange)
