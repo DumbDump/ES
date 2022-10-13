@@ -34,6 +34,7 @@ TDSession.login()
 
 #####
 
-quote = TDSession.get_quotes(instruments=)
-print(format, 'CALL', quote)
+quote = TDSession.get_quotes(instruments=["SPXW_101322C3670"])
+print(quote)
+print("Ask Price:", quote['SPXW_101322C3670']['askPrice'])
 
