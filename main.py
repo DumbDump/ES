@@ -155,24 +155,24 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
         #print(format)
         quote = TDSession.get_quotes(instruments=[format])
         print(quote)
-        print("BUY_TO_OPEN", "CALL", format,"Ask Price:", quote[format]['askPrice'], "Bid Price:", quote[format]['bidPrice'])
+        print("BUY_TO_OPEN", "CALL", format,"Ask Price:", quote[format]['askPrice'])
     elif order_type == "SELL_TO_OPEN":
         format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
         round(price))
         #print(format)
         quote = TDSession.get_quotes(instruments=[format])
         print(quote)
-        print("SELL_TO_OPEN", "PUT", format,"Ask Price:", quote[format]['askPrice'], "Bid Price:", quote[format]['bidPrice'])
+        print("SELL_TO_OPEN", "PUT", format,"Bid Price:", quote[format]['bidPrice'])
     elif order_type == "SELL_TO_CLOSE":
         #print("SELLSELL_TO_CLOSE")
         quote = TDSession.get_quotes(instruments=[format])
         print(quote)
-        print("SELL_TO_CLOSE", "CALL", format,"Ask Price:", quote[format]['askPrice'], "Bid Price:", quote[format]['bidPrice'])
+        print("SELL_TO_CLOSE", "CALL", format,"Bid Price:", quote[format]['bidPrice'])
     elif order_type == "BUY_TO_CLOSE":
         #print("BUY_TO_CLOSE")
         quote = TDSession.get_quotes(instruments=[format])
         print(quote)
-        print("BUY_TO_CLOSE", "PUT", format,"Ask Price:", quote[format]['askPrice'], "Bid Price:", quote[format]['bidPrice'])
+        print("BUY_TO_CLOSE", "PUT", format, "Ask Price:", quote[format]['askPrice'])
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     #print('TRADOVATE order')
