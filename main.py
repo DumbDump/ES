@@ -147,7 +147,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     )
     # Login to the session
     TDSession.login()
-    print(ticker, order_type, qty, price, position_type, exchange)
+    #print(ticker, order_type, qty, price, position_type, exchange)
 
     if order_type == "BUY_TO_OPEN":
         format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
@@ -272,9 +272,9 @@ def parse_webhook_message(webhook_message):
         print('ONADA')
         ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange)
     elif 'TOS' in str(webhook_message).upper():
-        print('TOS')
+        #print('TOS')
         data = TOS_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
-        print(data)
+        #print(data)
     elif 'TRADOVATE' in str(webhook_message).upper():
         print('TRADOVATE')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
