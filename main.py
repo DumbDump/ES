@@ -171,7 +171,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print(print("BUY_TO_CLOSE", "PUT", format,"Ask Price:", quote[format]['askPrice']), "Bid Price:", quote[format]['bidPrice'])
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
-    print('TRADOVATE order')
+    #print('TRADOVATE order')
     print(ticker, order_type, qty, round(price), position_type, exchange)
     # get token
     headers = {
@@ -238,6 +238,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
         response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
         #print(response.json())
+        print()
+
 
     # if not client.request(r)['positions'] == []:  # if not empty
     #     print(client.request(r)['positions'])
@@ -262,21 +264,21 @@ def parse_webhook_message(webhook_message):
     exchange = exchange.replace('{', '')
     exchange = exchange.replace('}', '')
     exchange = exchange.replace('\'', '')
-    print(ticker, order_type, qty, price, position_type, exchange)
+    #print(ticker, order_type, qty, price, position_type, exchange)
 
 
     if 'ALPACA' in str(webhook_message).upper():
-        print('ALPACA')
+        print('###########  ALAPCA ################')
         ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange)
     elif 'ONADA' in str(webhook_message).upper():
-        print('ONADA')
+        print('###########  ONADA ################')
         ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange)
     elif 'TOS' in str(webhook_message).upper():
-        #print('TOS')
+        print('###########  TOS ################')
         data = TOS_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         #print(data)
     elif 'TRADOVATE' in str(webhook_message).upper():
-        print('TRADOVATE')
+        print('###########  TRADOVATE ################')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 
