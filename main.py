@@ -73,7 +73,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Buy",
-            "symbol": "MESZ2",
+            "symbol": "ESZ2",
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -86,7 +86,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Sell",
-            "symbol": "MESZ2",
+            "symbol": "ESZ2",
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -98,7 +98,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Sell",
-            "symbol": "MESZ2",
+            "symbol": "ESZ2",
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -110,7 +110,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Buy",
-            "symbol": "MESZ2",
+            "symbol": "ESZ2",
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -154,7 +154,7 @@ def get_logs():
     return 'ok'
 
 
-#app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
+app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
