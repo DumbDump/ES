@@ -73,7 +73,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Buy",
-            "symbol": "ESZ2",
+            "symbol": "MESZ2",
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -86,7 +86,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Sell",
-            "symbol": "ESZ2",
+            "symbol": "MESZ2",
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -98,7 +98,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Sell",
-            "symbol": "ESZ2",
+            "symbol": "MESZ2",
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -110,7 +110,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Buy",
-            "symbol": "ESZ2",
+            "symbol": "MESZ2",
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
