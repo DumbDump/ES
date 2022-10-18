@@ -206,7 +206,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        #print(response.json())
+        print(response.json())
 
     elif order_type == "SELL_TO_OPEN":
         body = {
@@ -219,7 +219,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        #print(response.json())
+        print(response.json())
     elif order_type == "SELL_TO_CLOSE":
         body = {
             "accountSpec": "DEMO485096",
@@ -231,7 +231,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        #print(response.json())
+        print(response.json())
     elif order_type == "BUY_TO_CLOSE":
         body = {
             "accountSpec": "DEMO485096",
@@ -243,8 +243,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        #print(response.json())
-        print()
+        print(response.json())
+
 
 
     # if not client.request(r)['positions'] == []:  # if not empty

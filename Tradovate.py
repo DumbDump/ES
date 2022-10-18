@@ -143,8 +143,8 @@ headers = {
 }
 
 # find any existing positions
-response = requests.post("https://" + API + '/position/list', headers=headers)
-print(response.json())
+#response = requests.post("https://" + API + '/position/list', headers=headers)
+#print(response.json())
 
 
     # while True:
@@ -167,5 +167,16 @@ body = {
     "name": "MES",
 }
 print("find position")
-response = requests.post("https://" + API + '/position/find', headers=headers, data="body")
-print(response)
+response = requests.post("https://" + API + '/position/list', headers=headers)
+print(response.json())
+print(response.json()[0]['contractId'])
+print(response.json()[0]['netPos'])
+
+MES_ID = response.json()[0]['contractId']
+
+body = {
+    "id": int(4833760533)
+}
+print("find position")
+response = requests.post("https://" + API + '/position/item', headers=headers, data=body)
+print(response.json())
