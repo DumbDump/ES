@@ -1,39 +1,171 @@
+import pandas as pd
+import configparser
+import oandapyV20
+import oandapyV20.endpoints.orders as orders
+import oandapyV20.endpoints.positions as positions
+from datetime import date
+from flask import Flask, request, jsonify, render_template, Response
+from tda import auth, client
+from td.client import TDClient
+import os, json, datetime, math
+import os, json, requests
+import numpy as np
+import pandas as pd
+import datetime as dt
 import time
-import openapi_client
-from pprint import pprint
-from openapi_client.api import accounting_api
-from openapi_client.model.account import Account
-from openapi_client.model.cash_balance import CashBalance
-from openapi_client.model.cash_balance_log import CashBalanceLog
-from openapi_client.model.cash_balance_snapshot import CashBalanceSnapshot
-from openapi_client.model.get_cash_balance_snapshot import GetCashBalanceSnapshot
-from openapi_client.model.margin_snapshot import MarginSnapshot
-from openapi_client.model.trading_permission import TradingPermission
-# Defining the host is optional and defaults to https://demo-api-d.tradovate.com/v1
-# See configuration.py for a list of all supported configuration parameters.
-configuration = openapi_client.Configuration(
-    host = "https://demo-api-d.tradovate.com/v1"
-)
-
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure Bearer authorization: bearer_access_token
-configuration = openapi_client.Configuration(
-    access_token = 'bd888715-7c0e-47fe-9687-f6051cbb37a8'
-)
 
 
-# Enter a context with an instance of the API client
-with openapi_client.ApiClient(configuration) as api_client:
-    # Create an instance of the API class
-    api_instance = accounting_api.AccountingApi(api_client)
-    masterid = 1 # int | id of User entity
 
-    try:
-        api_response = api_instance.account_dependents(masterid)
-        pprint(api_response)
-    except openapi_client.ApiException as e:
-        print("Exception when calling AccountingApi->account_dependents: %s\n" % e)
+################
+#Tradovate API
+
+API = 	"demo.tradovateapi.com/v1"
+ACCOUNT_ID = "vvnsreddy@gmail.com"
+ACCOUNTS_PATH = f"/auth/accessTokenRequest"
+
+# get token
+headers = {
+         "name": "vvnsreddy@gmail.com",
+         "password": "Intel123$",
+         "appId": "Sample App",
+         "appVersion": "1.0",
+         "cid": '1133',
+         "sec": '66e4c947-0fe2-46b2-b76a-3ed88601ccd8'
+}
+
+
+
+
+
+################
+
+format = ''
+
+
+
+def re(integ):
+    if len(list(integ)) == 1: return '0'+str(integ)
+    else: return str(integ)
+
+def round_up(n, decimals=0):
+    multiplier = 10 ** decimals
+    return math.ceil(n * multiplier) / multiplier
+
+def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
+    #print('TRADOVATE order')
+    print(ticker, order_type, qty, round(price), position_type, exchange)
+    # get token
+    headers = {
+        "name": "vvnsreddy@gmail.com",
+        "password": "Intel123$",
+        "appId": "Sample App",
+        "appVersion": "1.0",
+        "cid": '1133',
+        "sec": '66e4c947-0fe2-46b2-b76a-3ed88601ccd8'
+    }
+
+    response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
+    ACCESS_TOKEN = response.json()['accessToken']
+    #print(ACCESS_TOKEN)
+    headers = {
+        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    }
+    if order_type == "BUY_TO_OPEN":
+        body = {
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Buy",
+            "symbol": "ESZ2",
+            "orderQty": '1',
+            "orderType": "Market",
+            "isAutomated": "true"
+        }
+        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
+        #print(response.json())
+
+    elif order_type == "SELL_TO_OPEN":
+        body = {
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Sell",
+            "symbol": "ESZ2",
+            "orderQty": '1',
+            "orderType": "Market",
+            "isAutomated": "true"
+        }
+        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
+        #print(response.json())
+    elif order_type == "SELL_TO_CLOSE":
+        body = {
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Sell",
+            "symbol": "ESZ2",
+            "orderQty": '1',
+            "orderType": "Market",
+            "isAutomated": "true"
+        }
+        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
+        #print(response.json())
+    elif order_type == "BUY_TO_CLOSE":
+        body = {
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Buy",
+            "symbol": "ESZ2",
+            "orderQty": '1',
+            "orderType": "Market",
+            "isAutomated": "true"
+        }
+        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
+        #print(response.json())
+        print()
+
+
+
+
+
+headers = {
+    "name": "vvnsreddy@gmail.com",
+    "password": "Intel123$",
+    "appId": "Sample App",
+    "appVersion": "1.0",
+    "cid": '1133',
+    "sec": '66e4c947-0fe2-46b2-b76a-3ed88601ccd8'
+}
+
+response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
+ACCESS_TOKEN = response.json()['accessToken']
+EXP_TIMEOF_TOKEN = response.json()['expirationTime']
+print(response.json())
+headers = {
+    "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+}
+
+# find any existing positions
+response = requests.post("https://" + API + '/position/list', headers=headers)
+print(response.json())
+
+
+    # while True:
+    #     headers = {
+    #         "name": "vvnsreddy@gmail.com",
+    #         "password": "Intel123$",
+    #         "appId": "Sample App",
+    #         "appVersion": "1.0",
+    #         "cid": '1133',
+    #         "sec": '66e4c947-0fe2-46b2-b76a-3ed88601ccd8'
+    #     }
+    #     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
+    #     ACCESS_TOKEN = response.json()['accessToken']
+    #     headers = {
+    #         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    #     }
+    #     time.sleep(60*600) # this is in seconds, so 60 seconds x 30 mins
+
+body = {
+    "name": "MES",
+}
+print("find position")
+response = requests.post("https://" + API + '/position/find', headers=headers, data="body")
+print(response)
