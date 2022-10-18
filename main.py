@@ -260,8 +260,9 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
 def parse_webhook_message(webhook_message):
     parsed = str(str(webhook_message))
-    ticker = parsed.split(',')[0].replace(' ', '')
-    ticker = ticker.replace('b\'', '')
+    aa = subst(aa, 'A', -2)
+    ticker_temp = parsed.split(',')[0].replace(' ', '')
+    ticker = ticker_temp.replace('2022','2')
     order_type = parsed.split(',')[1].replace(' ', '')
     price = float(parsed.split(',')[2].replace(' ', ''))
     qty = parsed.split(',')[3].replace(' ', '')

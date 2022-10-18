@@ -180,3 +180,15 @@ body = {
 print("find position")
 response = requests.post("https://" + API + '/position/item', headers=headers, data=body)
 print(response.json())
+
+body = {
+    "accountSpec": "DEMO485096",
+    "accountId": '1083577',
+    "action": "Buy",
+    "symbol": "MESZ2",
+    "orderQty": '1',
+    "orderType": "Market",
+    "isAutomated": "true"
+}
+response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+print(response.json())
