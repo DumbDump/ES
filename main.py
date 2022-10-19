@@ -236,7 +236,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "orderType": "Market",
             "isAutomated": "true"
         }
-        if (not netpositions):
+        print("SELL_TO_CLOSE:", netpositions)
+        if not netpositions:
             response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
             print(response.json())
 
@@ -255,6 +256,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "orderType": "Market",
             "isAutomated": "true"
         }
+        print("BUY_TO_CLOSE:",netpositions)
         if not netpositions:
             response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
             print(response.json())
@@ -285,7 +287,7 @@ def parse_webhook_message(webhook_message):
     exchange = exchange.replace('}', '')
     exchange = exchange.replace('\'', '')
     print(ticker, order_type, qty, price, position_type, exchange)
-    print(type(ticker), order_type, qty, price, position_type, exchange)
+    #print(type(ticker), order_type, qty, price, position_type, exchange)
 
 
     if 'ALPACA' in str(webhook_message).upper():
