@@ -275,7 +275,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 def parse_webhook_message(webhook_message):
     parsed = str(str(webhook_message))
     ticker_temp = parsed.split(',')[0].replace(' ', '')
-    ticker = str(ticker_temp.replace('2022','2'))
+    ticker = str(ticker_temp.replace('2022','2')).replace("b'", '').replace("'", '')
     order_type = parsed.split(',')[1].replace(' ', '')
     price = float(parsed.split(',')[2].replace(' ', ''))
     qty = parsed.split(',')[3].replace(' ', '')
@@ -285,6 +285,7 @@ def parse_webhook_message(webhook_message):
     exchange = exchange.replace('}', '')
     exchange = exchange.replace('\'', '')
     print(ticker, order_type, qty, price, position_type, exchange)
+
 
 
     if 'ALPACA' in str(webhook_message).upper():
