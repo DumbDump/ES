@@ -197,167 +197,51 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
     if order_type == "BUY_TO_OPEN":
-        # check any existing positions
         body = {
-            "name": ticker
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Buy",
+            "symbol": ticker,
+            "orderQty": '1',
+            "orderType": "Market",
+            "isAutomated": "true"
         }
-        response = requests.post("https://" + API + '/position/list', headers=headers)
-        netpositions = response.json()[0]['netPos']
-        # if netpositions == 0 buy
-        # if netpositions > 0 dont do anything
-        # if netpositions < 0 close all and buy
-        if  netpositions == 0:
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Buy",
-                "symbol": ticker,
-                "orderQty": '1',
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-            print(response.json())
-        elif netpositions > 0:
-            print("All ready long position exit and skipping")
-        elif netpositions < 0:
-            # close existing all positions
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Buy",
-                "symbol": ticker,
-                "orderQty": netpositions,
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-            # buy 1 new positions
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Buy",
-                "symbol": ticker,
-                "orderQty": '1',
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
+        print(response.json())
     elif order_type == "SELL_TO_OPEN":
-        # check any open positions
-        # 0 - sell one
-        # > 0 - close and sell
-        # < 0 - dont do anything
         body = {
-            "name": ticker
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Sell",
+            "symbol": ticker,
+            "orderQty": '1',
+            "orderType": "Market",
+            "isAutomated": "true"
         }
-        response = requests.post("https://" + API + '/position/list', headers=headers)
-        netpositions = response.json()[0]['netPos']
-        if netpositions == 0:
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Sell",
-                "symbol": ticker,
-                "orderQty": '1',
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        elif netpositions > 0:
-            # close all existing positions
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Sell",
-                "symbol": ticker,
-                "orderQty": netpositions,
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-            # sell to open 1
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Sell",
-                "symbol": ticker,
-                "orderQty": '1',
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        elif netpositions < 0:
-            print ("SELL_TO_OPEN nothing to do and all ready short position exists")
+        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
     elif order_type == "SELL_TO_CLOSE":
-        # == 0 - dont do anything
-        # > 0  close all
-        # < 0 close all
         body = {
-            "name": ticker
-        }
-        response = requests.post("https://" + API + '/position/list', headers=headers)
-        netpositions = response.json()[0]['netPos']
-        if netpositions == 0:
-            print("SELL_TO_CLOSE nothing to do and no positions in the account")
-        elif netpositions < 0:
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Buy",
-                "symbol": ticker,
-                "orderQty": netpositions,
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-            print(response)
-        elif netpositions > 0:
-            body = {
                 "accountSpec": "DEMO485096",
                 "accountId": '1083577',
                 "action": "Sell",
                 "symbol": ticker,
-                "orderQty": netpositions,
+                "orderQty": 1,
                 "orderType": "Market",
                 "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-            print(response)
+        }
+        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        print(response)
     elif order_type == "BUY_TO_CLOSE":
-        # == 0 dont do anything
-        # < 0 close all
-        # >0 close all
-        body = {
-            "name": ticker
-        }
-        response = requests.post("https://" + API + '/position/list', headers=headers)
-        netpositions = response.json()[0]['netPos']
-        if netpositions == 0:
-            print("SELL_TO_CLOSE nothing to do and no positions in the account")
-        elif netpositions < 0:
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Buy",
-                "symbol": ticker,
-                "orderQty": netpositions,
-                "orderType": "Market",
-                "isAutomated": "true"
+         body = {
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Buy",
+            "symbol": ticker,
+            "orderQty": 1,
+            "orderType": "Market",
+            "isAutomated": "true"
             }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        elif netpositions > 0:
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Sell",
-                "symbol": ticker,
-                "orderQty": netpositions,
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-
+         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 
 
 ##################################

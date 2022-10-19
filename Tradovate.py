@@ -163,24 +163,23 @@ headers = {
     #     }
     #     time.sleep(60*600) # this is in seconds, so 60 seconds x 30 mins
 
-body = {
-    "name": "ES2",
+response = requests.post("https://" + API + '/position/list', headers=headers)
+
+print(response.json())
+
+body =  {
+    "name": ["MESZ2"],
 }
 print("find position")
-response = requests.post("https://" + API + '/position/list', headers=headers)
-netpositions = response.json()[0]['netPos']
-print(netpositions)
+response = requests.post("https://" + API + '/position/find', headers=headers, data=body)
 
-ticker = "MESZ2"
-
-body = {
-    "accountSpec": "DEMO485096",
-    "accountId": '1083577',
-    "action": "Buy",
-    "symbol": ticker,
-    "orderQty": '1',
-    "orderType": "Market",
-    "isAutomated": "true"
-}
-response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-print(response.json())
+#contractID=response.json()['id']
+#print(contractID)
+print(response)
+# body = {
+#     "id": int(2665264)
+# }
+# response = requests.post("https://" + API + '/position/item', headers=headers, data=body)
+# #netpositions = response.json()[0]['netPos']
+# #print(netpositions)
+# print(response.json())
