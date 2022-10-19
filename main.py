@@ -201,7 +201,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Buy",
-            "symbol": 'ticker',
+            "symbol": ticker,
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -214,7 +214,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Sell",
-            "symbol": 'ticker',
+            "symbol": ticker,
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -223,7 +223,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print(response.json())
     elif order_type == "SELL_TO_CLOSE":
         body = {
-            "name": 'ticker'
+            "name": ticker
         }
         response = requests.post("https://" + API + '/position/list', headers=headers)
         netpositions = response.json()[0]['netPos']
@@ -231,7 +231,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Sell",
-            "symbol": 'ticker',
+            "symbol": ticker,
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"
@@ -242,7 +242,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
     elif order_type == "BUY_TO_CLOSE":
         body = {
-            "name" : 'ticker'
+            "name" : ticker
         }
         response = requests.post("https://" + API + '/position/list', headers=headers)
         netpositions = response.json()[0]['netPos']
@@ -250,7 +250,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "accountSpec": "DEMO485096",
             "accountId": '1083577',
             "action": "Buy",
-            "symbol": 'ticker',
+            "symbol": ticker,
             "orderQty": '1',
             "orderType": "Market",
             "isAutomated": "true"

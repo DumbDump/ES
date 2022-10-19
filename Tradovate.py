@@ -171,15 +171,16 @@ response = requests.post("https://" + API + '/position/list', headers=headers)
 netpositions = response.json()[0]['netPos']
 print(netpositions)
 
-# print(response.json()[0]['contractId'])
-# print(response.json()[0]['netPos'])
-#
-# MES_ID = response.json()[0]['contractId']
-#
-# body = {
-#     "id": int(4833760533)
-# }
-# print("find position")
-# response = requests.post("https://" + API + '/position/item', headers=headers, data=body)
-# print(response.json())
+ticker = "MESZ2"
 
+body = {
+    "accountSpec": "DEMO485096",
+    "accountId": '1083577',
+    "action": "Buy",
+    "symbol": ticker,
+    "orderQty": '1',
+    "orderType": "Market",
+    "isAutomated": "true"
+}
+response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+print(response.json())
