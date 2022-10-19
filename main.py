@@ -179,6 +179,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     #print('TRADOVATE order')
     print(ticker, order_type, qty, round(price), position_type, exchange)
+    print(ticker, ticker)
     # get token
     headers = {
         "name": "vvnsreddy@gmail.com",
