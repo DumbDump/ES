@@ -301,6 +301,8 @@ def parse_webhook_message(webhook_message):
         data = TOS_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         #print(data)
     elif 'TRADOVATE_ES' in str(webhook_message).upper():
+        print()
+        print()
         print('###########  TRADOVATE ################')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
