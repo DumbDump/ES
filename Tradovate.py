@@ -181,14 +181,19 @@ print(response.json())
 
 if(response.json()[0]['contractId'] == ID):
     netpos = response.json()[0]['netPos']
+    executedPrice = response.json()[0]['netPrice']
 elif (response.json()[1]['contractId'] == ID):
     netpos = response.json()[1]['netPos']
+    executedPrice = response.json()[0]['netPrice']
 elif (response.json()[2]['contractId'] == ID):
     netpos = response.json()[2]['netPos']
+    executedPrice = response.json()[0]['netPrice']
 elif (response.json()[3]['contractId'] == ID):
     netpos = response.json()[3]['netPos']
+    executedPrice = response.json()[0]['netPrice']
 
 print("netpos =",netpos)
+print("Brought Price =", executedPrice)
 
 #print(response.json()[0]['contractId'])
 #print(response.json()[1]['contractId'])
@@ -201,9 +206,9 @@ body = {
     "contractId": '2665264',
     "admin": "false"
 }
-print("find position details")
-response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
-print(response.json())
+#print("find position details")
+#response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+#print(response.json())
 
 # body = {
 #     "id": int(2665264)
@@ -212,3 +217,24 @@ print(response.json())
 # #netpositions = response.json()[0]['netPos']
 # #print(netpositions)
 # print(response.json())
+
+body = {
+    "accountSpec": "DEMO485096",
+    "accountId": '1083577',
+    "action": "Buy",
+    "symbol": "ESZ2",
+    "orderQty": '1',
+    "orderType": "Market",
+    "isAutomated": "true"
+}
+response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+ID = response.json()
+#print(ID)
+#print(response.json())
+#    "id": '4900472332'
+body = {
+    "id": ID
+}
+
+#response = requests.post("https://" + API + '/executionreport/item', headers=headers, data=body)
+#print(response.json())
