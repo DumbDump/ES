@@ -163,23 +163,47 @@ headers = {
     #     }
     #     time.sleep(60*600) # this is in seconds, so 60 seconds x 30 mins
 
-response = requests.post("https://" + API + '/position/list', headers=headers)
 
+
+body = {
+    "name": "MESZ2"
+}
+print("find position ID")
+response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
+
+
+ID=response.json()['id']
+print(ID)
 print(response.json())
 
-body =  {
-    "name": ["MESZ2"],
-}
-print("find position")
-response = requests.post("https://" + API + '/position/find', headers=headers, data=body)
+response = requests.post("https://" + API + '/position/list', headers=headers)
+print(response.json())
 
-#contractID=response.json()['id']
-#print(contractID)
-print(response)
+if(response.json()[0]['contractId'] == ID):
+    netpos = response.json()[0]['netPos']
+elif (response.json()[1]['contractId'] == ID):
+    netpos = response.json()[1]['netPos']
+elif (response.json()[2]['contractId'] == ID):
+    netpos = response.json()[2]['netPos']
+elif (response.json()[3]['contractId'] == ID):
+    netpos = response.json()[3]['netPos']
+
+print("netpos =",netpos)
+
+#print(response.json()[0]['contractId'])
+#print(response.json()[1]['contractId'])
+
+body = {
+    "id": '4885903810'
+}
+print("find position details")
+#response = requests.post("https://" + API + '/position/item', headers=headers, data=body)
+#print(response.json())
+
 # body = {
 #     "id": int(2665264)
 # }
-# response = requests.post("https://" + API + '/position/item', headers=headers, data=body)
+# response = requests.post("https://" + API + '/position/item', headers=headers, data=body,params=body)
 # #netpositions = response.json()[0]['netPos']
 # #print(netpositions)
 # print(response.json())

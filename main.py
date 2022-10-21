@@ -242,7 +242,94 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
             }
          response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    elif order_type == "RINKO_LONG":
+        body = {
+            "name": ticker
+        }
+       # find contract ID
+        response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
+        ID = response.json()['id']
+        # extract all positions
+        response = requests.post("https://" + API + '/position/list', headers=headers)
+        print(response.json())
 
+        if (response.json()[0]['contractId'] == ID):
+            netpos = response.json()[0]['netPos']
+        elif (response.json()[1]['contractId'] == ID):
+            netpos = response.json()[1]['netPos']
+        elif (response.json()[2]['contractId'] == ID):
+            netpos = response.json()[2]['netPos']
+        elif (response.json()[3]['contractId'] == ID):
+            netpos = response.json()[3]['netPos']
+
+        if(netpos == 0):
+            body = {
+              "accountSpec": "DEMO485096",
+              "accountId": '1083577',
+              "action": "Buy",
+              "symbol": ticker,
+              "orderQty": 1,
+              "orderType": "Market",
+              "isAutomated": "true"
+            }
+            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        elif(netpos < 0):
+            body = {
+              "accountSpec": "DEMO485096",
+              "accountId": '1083577',
+              "action": "Buy",
+              "symbol": ticker,
+              "orderQty": 2+netpos,
+              "orderType": "Market",
+              "isAutomated": "true"
+            }
+            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        elif(netpos > 0):
+            print("Positon exist in the account = ",netpos)
+    elif order_type == "RINKO_SHORT":
+        body = {
+            "name": ticker
+        }
+       # find contract ID
+        response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
+        ID = response.json()['id']
+        # extract all positions
+        response = requests.post("https://" + API + '/position/list', headers=headers)
+        print(response.json())
+
+        if (response.json()[0]['contractId'] == ID):
+            netpos = response.json()[0]['netPos']
+        elif (response.json()[1]['contractId'] == ID):
+            netpos = response.json()[1]['netPos']
+        elif (response.json()[2]['contractId'] == ID):
+            netpos = response.json()[2]['netPos']
+        elif (response.json()[3]['contractId'] == ID):
+            netpos = response.json()[3]['netPos']
+
+        if(netpos == 0):
+            body = {
+              "accountSpec": "DEMO485096",
+              "accountId": '1083577',
+              "action": "Sell",
+              "symbol": ticker,
+              "orderQty": 1,
+              "orderType": "Market",
+              "isAutomated": "true"
+            }
+            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        elif(netpos > 0):
+            body = {
+              "accountSpec": "DEMO485096",
+              "accountId": '1083577',
+              "action": "Sell",
+              "symbol": ticker,
+              "orderQty": 2+netpos,
+              "orderType": "Market",
+              "isAutomated": "true"
+            }
+            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        elif(netpos < 0):
+            print("Positon exist in the account = ",netpos)
 
 ##################################
 # WebHook code
