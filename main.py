@@ -242,7 +242,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
             }
          response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    elif order_type == "RINKO_LONG":
+    elif order_type == "RENKO_LONG":
+        print("RENKO SHORT")
         body = {
             "name": ticker
         }
@@ -261,7 +262,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             netpos = response.json()[2]['netPos']
         elif (response.json()[3]['contractId'] == ID):
             netpos = response.json()[3]['netPos']
-
+        print("NETPOS found = ",netpos)
         if(netpos == 0):
             body = {
               "accountSpec": "DEMO485096",
@@ -286,7 +287,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         elif(netpos > 0):
             print("Positon exist in the account = ",netpos)
-    elif order_type == "RINKO_SHORT":
+    elif order_type == "RENKO_SHORT":
+        print(RENKO SHORT)
         body = {
             "name": ticker
         }
@@ -305,7 +307,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             netpos = response.json()[2]['netPos']
         elif (response.json()[3]['contractId'] == ID):
             netpos = response.json()[3]['netPos']
-
+        print("NETPOS found = ", netpos)
         if(netpos == 0):
             body = {
               "accountSpec": "DEMO485096",
