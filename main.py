@@ -264,16 +264,12 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         if (response.json()[0]['contractId'] == ID):
             netpos = response.json()[0]['netPos']
-            executedPrice = response.json()[0]['netPrice']
         elif (response.json()[1]['contractId'] == ID):
             netpos = response.json()[1]['netPos']
-            executedPrice = response.json()[0]['netPrice']
         elif (response.json()[2]['contractId'] == ID):
             netpos = response.json()[2]['netPos']
-            executedPrice = response.json()[0]['netPrice']
         elif (response.json()[3]['contractId'] == ID):
             netpos = response.json()[3]['netPos']
-            executedPrice = response.json()[0]['netPrice']
         print("NETPOS found = ",netpos)
         if netpos == 0:
             body = {
