@@ -252,7 +252,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         ID = response.json()['id']
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
-        print(response.json())
+        #print(response.json())
 
         if (response.json()[0]['contractId'] == ID):
             netpos = response.json()[0]['netPos']
@@ -275,12 +275,24 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             }
             response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         elif(netpos < 0):
+            # first cllose short positions
             body = {
               "accountSpec": "DEMO485096",
               "accountId": '1083577',
               "action": "Buy",
               "symbol": ticker,
-              "orderQty": 2+netpos,
+              "orderQty": netpos,
+              "orderType": "Market",
+              "isAutomated": "true"
+            }
+            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+            # Second Buy  Long positions
+            body = {
+              "accountSpec": "DEMO485096",
+              "accountId": '1083577',
+              "action": "Buy",
+              "symbol": ticker,
+              "orderQty": 1,
               "orderType": "Market",
               "isAutomated": "true"
             }
@@ -297,7 +309,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         ID = response.json()['id']
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
-        print(response.json())
+        #print(response.json())
 
         if (response.json()[0]['contractId'] == ID):
             netpos = response.json()[0]['netPos']
@@ -320,16 +332,28 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             }
             response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         elif(netpos > 0):
+            # first sell existing
             body = {
               "accountSpec": "DEMO485096",
               "accountId": '1083577',
               "action": "Sell",
               "symbol": ticker,
-              "orderQty": 2+netpos,
+              "orderQty": netpos,
               "orderType": "Market",
               "isAutomated": "true"
             }
             response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        # Second sell new posi
+        body = {
+            "accountSpec": "DEMO485096",
+            "accountId": '1083577',
+            "action": "Sell",
+            "symbol": ticker,
+            "orderQty": 1,
+            "orderType": "Market",
+            "isAutomated": "true"
+        }
+        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         elif(netpos < 0):
             print("Positon exist in the account = ",netpos)
 
