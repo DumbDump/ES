@@ -280,7 +280,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
               "accountId": '1083577',
               "action": "Buy",
               "symbol": ticker,
-              "orderQty": 1+netpos,
+              "orderQty": 2+netpos,
               "orderType": "Market",
               "isAutomated": "true"
             }
@@ -325,7 +325,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
               "accountId": '1083577',
               "action": "Sell",
               "symbol": ticker,
-              "orderQty": 1+netpos,
+              "orderQty": 2+netpos,
               "orderType": "Market",
               "isAutomated": "true"
             }
