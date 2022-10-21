@@ -275,17 +275,13 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             }
             response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         elif netpos < 0:
-            # first cllose short positions
+            # first liquidate all positions
             body = {
-              "accountSpec": "DEMO485096",
               "accountId": '1083577',
-              "action": "Buy",
-              "symbol": ticker,
-              "orderQty": 1,
-              "orderType": "Market",
-              "isAutomated": "true"
+              "contractId": ID,
+              "admin": "false",
             }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+            response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
             # Second Buy  Long positions
             body = {
               "accountSpec": "DEMO485096",
@@ -333,16 +329,13 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         elif netpos > 0:
             # first sell existing
+            # first liquidate all positions
             body = {
-              "accountSpec": "DEMO485096",
               "accountId": '1083577',
-              "action": "Sell",
-              "symbol": ticker,
-              "orderQty": 1,
-              "orderType": "Market",
-              "isAutomated": "true"
+              "contractId": ID,
+              "admin": "false",
             }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+            response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
             # Second sell new posi
             body = {
                 "accountSpec": "DEMO485096",

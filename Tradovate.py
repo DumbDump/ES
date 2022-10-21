@@ -166,7 +166,7 @@ headers = {
 
 
 body = {
-    "name": "MESZ2"
+    "name": "ESZ2"
 }
 print("find position ID")
 response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
@@ -196,9 +196,14 @@ print("netpos =",netpos)
 body = {
     "id": '4885903810'
 }
+body = {
+    "accountId": '1083577',
+    "contractId": '2665264',
+    "admin": "false"
+}
 print("find position details")
-#response = requests.post("https://" + API + '/position/item', headers=headers, data=body)
-#print(response.json())
+response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+print(response.json())
 
 # body = {
 #     "id": int(2665264)
