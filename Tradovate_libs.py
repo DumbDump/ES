@@ -1,3 +1,16 @@
+import configparser
+import oandapyV20
+import oandapyV20.endpoints.orders as orders
+import oandapyV20.endpoints.positions as positions
+from datetime import date
+from flask import Flask, request, jsonify, render_template, Response
+from tda import auth, client
+from td.client import TDClient
+import os, json, datetime, math
+import os, json, requests
+
+
+
 def liquidate_positions(account_number, ticker):
     body = {
         "name": ticker
