@@ -13,6 +13,9 @@ import os, json, datetime, math
 import os, json, requests
 import numpy as np
 import pandas as pd
+from Tradovate_libs import *
+# Tradovate
+account_number = 1083577
 
 
 config = configparser.ConfigParser()
@@ -205,280 +208,23 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         limit_price = 5
 
     if order_type == "BUY_TO_OPEN":
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": '1083577',
-            "action": "Buy",
-            "symbol": ticker,
-            "orderQty": '1',
-            "orderType": "Market",
-            "isAutomated": "true"
-        }
-        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        print(response.json())
+        open_long(account_name, account_number, ticker, 1)
     elif order_type == "SELL_TO_OPEN":
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": '1083577',
-            "action": "Sell",
-            "symbol": ticker,
-            "orderQty": '1',
-            "orderType": "Market",
-            "isAutomated": "true"
-        }
-        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
+        open_short(account_name, account_number, ticker, 1)
     elif order_type == "SELL_TO_CLOSE":
-        body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Sell",
-                "symbol": ticker,
-                "orderQty": 1,
-                "orderType": "Market",
-                "isAutomated": "true"
-        }
-        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        print(response)
+        close_long(account_name, account_number, ticker, 1)
     elif order_type == "BUY_TO_CLOSE":
-         body = {
-            "accountSpec": "DEMO485096",
-            "accountId": '1083577',
-            "action": "Buy",
-            "symbol": ticker,
-            "orderQty": 1,
-            "orderType": "Market",
-            "isAutomated": "true"
-            }
-         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        close_short(account_name, account_number, ticker, 1)
     elif order_type == "RENKO_LONG":
         print("RENKO LONG")
-        body = {
-            "name": ticker
-        }
-       # find contract ID
-        response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-        ID = response.json()['id']
-        # extract all positions
-        response = requests.post("https://" + API + '/position/list', headers=headers)
-        #print(response.json())
-
-        if (response.json()[0]['contractId'] == ID):
-            netpos = response.json()[0]['netPos']
-        elif (response.json()[1]['contractId'] == ID):
-            netpos = response.json()[1]['netPos']
-        elif (response.json()[2]['contractId'] == ID):
-            netpos = response.json()[2]['netPos']
-        elif (response.json()[3]['contractId'] == ID):
-            netpos = response.json()[3]['netPos']
-        print("NETPOS found = ",netpos)
-        if netpos == 0:
-            body = {
-              "accountSpec": "DEMO485096",
-              "accountId": '1083577',
-              "action": "Buy",
-              "symbol": ticker,
-              "orderQty": 1,
-              "orderType": "Market",
-              "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-            # place limit order to sell
-            #1. find exuected price
-            #2. Place limit order
-            body = {
-                "name": ticker
-            }
-            # find contract ID
-            response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-            ID = response.json()['id']
-            # extract all positions
-            response = requests.post("https://" + API + '/position/list', headers=headers)
-            if (response.json()[0]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[1]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[2]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[3]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            body = {
-              "accountSpec": "DEMO485096",
-              "accountId": '1083577',
-              "action": "Sell",
-              "symbol": ticker,
-              "orderQty": 1,
-              "orderType": "Limit",
-              "price" : executedPrice+limit_price,
-              "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-
-        elif netpos < 0:
-            # first liquidate all positions
-            body = {
-              "accountId": '1083577',
-              "contractId": ID,
-              "admin": "false",
-            }
-            response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
-            # Second Buy  Long positions
-            body = {
-              "accountSpec": "DEMO485096",
-              "accountId": '1083577',
-              "action": "Buy",
-              "symbol": ticker,
-              "orderQty": 1,
-              "orderType": "Market",
-              "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-            # place limit order
-
-            # 1. find exuected price
-            # 2. Place limit order
-            body = {
-                "name": ticker
-            }
-            # find contract ID
-            response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-            ID = response.json()['id']
-            # extract all positions
-            response = requests.post("https://" + API + '/position/list', headers=headers)
-            if (response.json()[0]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[1]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[2]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[3]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-                body = {
-                    "accountSpec": "DEMO485096",
-                    "accountId": '1083577',
-                    "action": "Sell",
-                    "symbol": ticker,
-                    "orderQty": 1,
-                    "orderType": "Limit",
-                    "price": executedPrice + limit_price,
-                    "isAutomated": "true"
-                }
-                response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        elif netpos > 0:
-            print("Positon exist in the account = ",netpos)
+        liquidate_positions(account_number, ticker)
+        open_long(account_name, account_number, ticker, 1)
+        # long_limit_close_order(account_name, account_number, ticker, 1, 40)
     elif order_type == "RENKO_SHORT":
         print("RENKO SHORT")
-        body = {
-            "name": ticker
-        }
-       # find contract ID
-        response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-        ID = response.json()['id']
-        # extract all positions
-        response = requests.post("https://" + API + '/position/list', headers=headers)
-        #print(response.json())
-
-        if (response.json()[0]['contractId'] == ID):
-            netpos = response.json()[0]['netPos']
-        elif (response.json()[1]['contractId'] == ID):
-            netpos = response.json()[1]['netPos']
-        elif (response.json()[2]['contractId'] == ID):
-            netpos = response.json()[2]['netPos']
-        elif (response.json()[3]['contractId'] == ID):
-            netpos = response.json()[3]['netPos']
-        print("NETPOS found = ", netpos)
-        if netpos == 0:
-            body = {
-              "accountSpec": "DEMO485096",
-              "accountId": '1083577',
-              "action": "Sell",
-              "symbol": ticker,
-              "orderQty": 1,
-              "orderType": "Market",
-              "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-            # place limit order to buy back
-            # 1. find exuected price
-            # 2. Place limit order
-            body = {
-                "name": ticker
-            }
-            # find contract ID
-            response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-            ID = response.json()['id']
-            # extract all positions
-            response = requests.post("https://" + API + '/position/list', headers=headers)
-            if (response.json()[0]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[1]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[2]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[3]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Buy",
-                "symbol": ticker,
-                "orderQty": 1,
-                "orderType": "Limit",
-                "price": executedPrice - limit_price,
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        elif netpos > 0:
-            # first sell existing
-            # first liquidate all positions
-            body = {
-              "accountId": '1083577',
-              "contractId": ID,
-              "admin": "false",
-            }
-            response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
-            # Second sell new posi
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Sell",
-                "symbol": ticker,
-                "orderQty": 1,
-                "orderType": "Market",
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-            # place limit order to buy back
-            # 1. find exuected price
-            # 2. Place limit order
-            body = {
-                "name": ticker
-            }
-            # find contract ID
-            response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-            ID = response.json()['id']
-            # extract all positions
-            response = requests.post("https://" + API + '/position/list', headers=headers)
-            if (response.json()[0]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[1]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[2]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            elif (response.json()[3]['contractId'] == ID):
-                executedPrice = response.json()[0]['netPrice']
-            body = {
-                "accountSpec": "DEMO485096",
-                "accountId": '1083577',
-                "action": "Buy",
-                "symbol": ticker,
-                "orderQty": 1,
-                "orderType": "Limit",
-                "price": executedPrice - limit_price,
-                "isAutomated": "true"
-            }
-            response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        elif netpos < 0:
-            print("Positon exist in the account = ",netpos)
+        liquidate_positions(account_number, ticker)
+        open_short(account_name, account_number, ticker, 1)
+        # short_limit_close_order(account_name, account_number, ticker, 1, 40)
 
 ##################################
 # WebHook code

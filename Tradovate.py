@@ -13,6 +13,7 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 import time
+from datetime import datetime
 
 
 
@@ -177,23 +178,10 @@ print(ID)
 print(response.json())
 
 response = requests.post("https://" + API + '/position/list', headers=headers)
-print(response.json())
 
-if(response.json()[0]['contractId'] == ID):
-    netpos = response.json()[0]['netPos']
-    executedPrice = response.json()[0]['netPrice']
-elif (response.json()[1]['contractId'] == ID):
-    netpos = response.json()[1]['netPos']
-    executedPrice = response.json()[0]['netPrice']
-elif (response.json()[2]['contractId'] == ID):
-    netpos = response.json()[2]['netPos']
-    executedPrice = response.json()[0]['netPrice']
-elif (response.json()[3]['contractId'] == ID):
-    netpos = response.json()[3]['netPos']
-    executedPrice = response.json()[0]['netPrice']
 
-print("netpos =",netpos)
-print("Brought Price =", executedPrice)
+#print("netpos =",netpos)
+#print("Brought Price =", executedPrice)
 
 #print(response.json()[0]['contractId'])
 #print(response.json()[1]['contractId'])
@@ -227,8 +215,8 @@ body = {
     "orderType": "Market",
     "isAutomated": "true"
 }
-response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-ID = response.json()
+#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+#ID = response.json()
 #print(ID)
 #print(response.json())
 #    "id": '4900472332'
@@ -238,3 +226,15 @@ body = {
 
 #response = requests.post("https://" + API + '/executionreport/item', headers=headers, data=body)
 #print(response.json())
+
+now = datetime.now()
+
+current_time = now.strftime("%H:%M:%S")
+print("Current Time =", current_time)
+
+#if(current_time < 13:16:00) :
+#    print("Hello")
+
+netpos = 1
+if (netpos):
+    print("Net position")
