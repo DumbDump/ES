@@ -8,7 +8,7 @@ from tda import auth, client
 from td.client import TDClient
 import os, json, datetime, math
 import os, json, requests
-
+API = 	"demo.tradovateapi.com/v1"
 
 
 def liquidate_positions(account_number, ticker):
