@@ -201,11 +201,11 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     }
 
     if ticker == "MESZ2":
-        limit_price = 4
+        profit_target = 4
     elif ticker == "MNQZ2":
-        limit_price = 10
+        profit_target = 10
     elif ticker == "ESZ2":
-        limit_price = 5
+        profit_target = 5
 
     if order_type == "BUY_TO_OPEN":
         open_long(account_name, account_number, ticker, 1)
@@ -219,12 +219,12 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print("RENKO LONG")
         liquidate_positions(account_number, ticker)
         open_long(account_name, account_number, ticker, 1)
-        # long_limit_close_order(account_name, account_number, ticker, 1, 40)
+        # long_limit_close_order(account_name, account_number, ticker, 1, profit_target)
     elif order_type == "RENKO_SHORT":
         print("RENKO SHORT")
         liquidate_positions(account_number, ticker)
         open_short(account_name, account_number, ticker, 1)
-        # short_limit_close_order(account_name, account_number, ticker, 1, 40)
+        # short_limit_close_order(account_name, account_number, ticker, 1, profit_target)
 
 ##################################
 # WebHook code
