@@ -361,14 +361,103 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         close_short(account_name, account_number, ticker, 1)
     elif order_type == "RENKO_LONG":
         print("RENKO LONG")
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        open_long(ACCESS_TOKEN, account_name, account_number, ticker, 1)
-        # long_limit_close_order(account_name, account_number, ticker, 1, profit_target)
+
+        # Liquidate position
+        # form header
+
+        print("LIQUID:", account_number, ticker)
+        body = {
+            "name": ticker
+        }
+        # find contract ID
+        response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
+        ID = response.json()['id']
+        print(response.json())
+        print("LIQUID:", ID)
+
+        # extract all positions
+        response = requests.post("https://" + API + '/position/list', headers=headers)
+        print(response.json())
+        if (response.json()[0]['contractId'] == ID):
+            netpos = response.json()[0]['netPos']
+        elif (response.json()[1]['contractId'] == ID):
+            netpos = response.json()[1]['netPos']
+        elif (response.json()[2]['contractId'] == ID):
+            netpos = response.json()[2]['netPos']
+        elif (response.json()[3]['contractId'] == ID):
+            netpos = response.json()[3]['netPos']
+
+        body = {
+            "accountId": account_number,
+            "contractId": ID,
+            "admin": "false",
+        }
+        if (netpos):
+            response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+
+        print("Liqdation done", netpos)
+        # Open Long
+        body = {
+            "accountSpec": account_name,
+            "accountId": account_number,
+            "action": "Buy",
+            "symbol": ticker,
+            "orderQty": Qty,
+            "orderType": "Market",
+            "isAutomated": "true"
+        }
+        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        print("Open Long", response.json())
     elif order_type == "RENKO_SHORT":
         print("RENKO SHORT")
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        open_short(ACCESS_TOKEN, account_name, account_number, ticker, 1)
-        # short_limit_close_order(account_name, account_number, ticker, 1, profit_target)
+
+        # Liquidate position
+        # form header
+
+        print("LIQUID:", account_number, ticker)
+        body = {
+            "name": ticker
+        }
+        # find contract ID
+        response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
+        ID = response.json()['id']
+        print(response.json())
+        print("LIQUID:", ID)
+
+        # extract all positions
+        response = requests.post("https://" + API + '/position/list', headers=headers)
+        print(response.json())
+        if (response.json()[0]['contractId'] == ID):
+            netpos = response.json()[0]['netPos']
+        elif (response.json()[1]['contractId'] == ID):
+            netpos = response.json()[1]['netPos']
+        elif (response.json()[2]['contractId'] == ID):
+            netpos = response.json()[2]['netPos']
+        elif (response.json()[3]['contractId'] == ID):
+            netpos = response.json()[3]['netPos']
+
+        body = {
+            "accountId": account_number,
+            "contractId": ID,
+            "admin": "false",
+        }
+        if (netpos):
+            response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+
+        print("Liqdation done", netpos)
+        # Open Long
+        body = {
+            "accountSpec": account_name,
+            "accountId": account_number,
+            "action": "Sell",
+            "symbol": ticker,
+            "orderQty": Qty,
+            "orderType": "Market",
+            "isAutomated": "true"
+        }
+        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        print("Open Short", response.json())
+
 
 ##################################
 # WebHook code
