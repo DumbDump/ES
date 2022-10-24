@@ -329,7 +329,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(ticker, ticker)
     # get token
     headers = {
-        "name": "vvnsreddy@gmail.com",
+        "name": "vvnsreddy",
         "password": "Intel123$",
         "appId": "Sample App",
         "appVersion": "1.0",

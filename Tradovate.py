@@ -127,7 +127,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
 
 headers = {
-    "name": "vvnsreddy@gmail.com",
+    "name": "vvnsreddy",
     "password": "Intel123$",
     "appId": "Sample App",
     "appVersion": "1.0",
@@ -136,6 +136,7 @@ headers = {
 }
 
 response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
+print(response.json())
 ACCESS_TOKEN = response.json()['accessToken']
 EXP_TIMEOF_TOKEN = response.json()['expirationTime']
 print(response.json())
