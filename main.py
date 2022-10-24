@@ -309,7 +309,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     price = 10 * (quote['SPY']['lastPrice'])
 
     if order_type == "RENKO_LONG":
-        print("SPX RENKO LONG")
+        #print("SPX RENKO LONG")
         if short_flag == 1:
             quote = TDSession.get_quotes(instruments=[put_option])
             print("Sell put Option", format, "Bid Price:", quote[format]['bidPrice'])
@@ -324,7 +324,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             call_option = format
             long_flag   = 1
     elif order_type == "RENKO_SHORT":
-        print("SPX RENKO SHORT")
+        #print("SPX RENKO SHORT")
         if long_flag == 1:
             quote = TDSession.get_quotes(instruments=[call_option])
             print("Sell call Option", format, "Bid Price:", quote[format]['bidPrice'])
@@ -341,9 +341,9 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
-    print('TRADOVATE order')
+    #print('TRADOVATE order')
     print(ticker, order_type, qty, round(price), position_type, exchange)
-    print(ticker, ticker)
+    #print(ticker, ticker)
     # get token
     headers = {
         "name": "vvnsreddy",
@@ -377,7 +377,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif order_type == "BUY_TO_CLOSE":
         close_short(account_name, account_number, ticker, 1)
     elif order_type == "RENKO_LONG":
-        print("RENKO LONG")
+        #print("RENKO LONG")
         body = {
             "name": ticker
         }
@@ -424,7 +424,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        #print("Open Long", response.json())
+        print("Open Long", response.json())
     elif order_type == "RENKO_SHORT":
         print("RENKO SHORT", ticker)
         body = {
@@ -473,7 +473,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        #print("Open Short", response.json())
+        print("Open Short", response.json())
 
 
 ##################################
@@ -504,7 +504,7 @@ def parse_webhook_message(webhook_message):
     elif 'TOS' in str(webhook_message).upper():
         print('###########  TOS ################')
         data = TOS_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
-        print(data,order_type)
+        #print(data,order_type)
     elif 'TRADOVATE' in str(webhook_message).upper():
         print()
         print()
