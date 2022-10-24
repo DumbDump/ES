@@ -306,6 +306,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     #print(ticker, order_type, qty, price, position_type, exchange)
 
     if order_type == "RENKO_LONG":
+        print("SPX RENKO LONG")
         if short_flag == 1:
             quote = TDSession.get_quotes(instruments=[put_option])
             print("Sell put Option", format, "Bid Price:", quote[format]['bidPrice'])
@@ -320,6 +321,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             call_option = format
             long_flag   = 1
     elif order_type == "RENKO_SHORT":
+        print("SPX RENKO SHORT")
         if long_flag == 1:
             quote = TDSession.get_quotes(instruments=[call_option])
             print("Sell call Option", format, "Bid Price:", quote[format]['bidPrice'])
