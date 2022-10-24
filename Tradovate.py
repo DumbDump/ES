@@ -235,7 +235,7 @@ print("Current Time =", current_time)
 #if(current_time < 13:16:00) :
 #    print("Hello")
 
-ticker = "MNQZ2"
+ticker = "MESZ2"
 
 
 body = {
@@ -249,15 +249,17 @@ print(response.json())
 response = requests.post("https://" + API + '/position/list', headers=headers)
 print(response.json())
 
-
-
+print("LEN",len(response.json()))
+len = len(response.json())
 print("LIQUID:", ID)
 
-if (response.json()[0]['contractId'] == ID):
+if (len >= 1 and response.json()[0]['contractId'] == ID):
     netpos = response.json()[0]['netPos']
-elif (response.json()[1]['contractId'] == ID):
+elif (len >= 2 and response.json()[1]['contractId'] == ID):
     netpos = response.json()[1]['netPos']
-elif (response.json()[2]['contractId'] == ID):
+elif (len >= 3 and response.json()[2]['contractId'] == ID):
     netpos = response.json()[2]['netPos']
-elif (response.json()[3]['contractId'] == ID):
+elif (len >= 4 and response.json()[3]['contractId'] == ID):
     netpos = response.json()[3]['netPos']
+else:
+    print("ERROR")

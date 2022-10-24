@@ -373,15 +373,18 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
         print(response.json())
+        len = len(response.json())
 
-        if (response.json()[0]['contractId'] == ID):
+        if (len >= 1 and response.json()[0]['contractId'] == ID):
             netpos = response.json()[0]['netPos']
-        elif (response.json()[1]['contractId'] == ID):
+        elif (len >= 2 and response.json()[1]['contractId'] == ID):
             netpos = response.json()[1]['netPos']
-        elif (response.json()[2]['contractId'] == ID):
+        elif (len >= 3 and response.json()[2]['contractId'] == ID):
             netpos = response.json()[2]['netPos']
-        elif (response.json()[3]['contractId'] == ID):
+        elif (len >= 4 and response.json()[3]['contractId'] == ID):
             netpos = response.json()[3]['netPos']
+        else:
+            print("POSTION not found to do liquidation")
 
         body = {
             "accountId": 1083577,
@@ -418,15 +421,18 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
         print(response.json())
+        len = len(response.json())
 
-        if (response.json()[0]['contractId'] == ID):
+        if (len >= 1 and response.json()[0]['contractId'] == ID):
             netpos = response.json()[0]['netPos']
-        elif (response.json()[1]['contractId'] == ID):
+        elif (len >= 2 and response.json()[1]['contractId'] == ID):
             netpos = response.json()[1]['netPos']
-        elif (response.json()[2]['contractId'] == ID):
+        elif (len >= 3 and response.json()[2]['contractId'] == ID):
             netpos = response.json()[2]['netPos']
-        elif (response.json()[3]['contractId'] == ID):
+        elif (len >= 4 and response.json()[3]['contractId'] == ID):
             netpos = response.json()[3]['netPos']
+        else:
+            print("POSTION not found to do liquidation")
 
         body = {
             "accountId": 1083577,
