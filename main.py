@@ -297,7 +297,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print("BUY_TO_CLOSE", "PUT", format, "Ask Price:", quote[format]['askPrice'])
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
-    #print('TRADOVATE order')
+    print('TRADOVATE order')
     print(ticker, order_type, qty, round(price), position_type, exchange)
     print(ticker, ticker)
     # get token
@@ -372,7 +372,7 @@ def parse_webhook_message(webhook_message):
         print('###########  TOS ################')
         data = TOS_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         #print(data)
-    elif 'TRADOVATE_ES' in str(webhook_message).upper():
+    elif 'TRADOVATE' in str(webhook_message).upper():
         print()
         print()
         print('###########  TRADOVATE ################')
