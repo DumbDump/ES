@@ -385,6 +385,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             netpos = response.json()[3]['netPos']
         else:
             print("POSTION not found to do liquidation")
+            netpos = 0
 
         body = {
             "accountId": 1083577,
@@ -433,6 +434,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             netpos = response.json()[3]['netPos']
         else:
             print("POSTION not found to do liquidation")
+            netpos = 0
 
         body = {
             "accountId": 1083577,
