@@ -235,4 +235,14 @@ print("Current Time =", current_time)
 #if(current_time < 13:16:00) :
 #    print("Hello")
 
+ticker = "MNQZ2"
 
+
+body = {
+    "name": ticker
+}
+# find contract ID
+response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
+ID = response.json()['id']
+print(response.json())
+print("LIQUID:", ID)
