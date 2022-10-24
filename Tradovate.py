@@ -250,16 +250,16 @@ response = requests.post("https://" + API + '/position/list', headers=headers)
 print(response.json())
 
 print("LEN",len(response.json()))
-len = len(response.json())
+length = len(response.json())
 print("LIQUID:", ID)
 
-if (len >= 1 and response.json()[0]['contractId'] == ID):
+if (length >= 1 and response.json()[0]['contractId'] == ID):
     netpos = response.json()[0]['netPos']
-elif (len >= 2 and response.json()[1]['contractId'] == ID):
+elif (length >= 2 and response.json()[1]['contractId'] == ID):
     netpos = response.json()[1]['netPos']
-elif (len >= 3 and response.json()[2]['contractId'] == ID):
+elif (length >= 3 and response.json()[2]['contractId'] == ID):
     netpos = response.json()[2]['netPos']
-elif (len >= 4 and response.json()[3]['contractId'] == ID):
+elif (length >= 4 and response.json()[3]['contractId'] == ID):
     netpos = response.json()[3]['netPos']
 else:
     print("ERROR")
