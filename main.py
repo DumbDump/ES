@@ -25,7 +25,10 @@ app = Flask(__name__)
 client = oandapyV20.API(access_token=access_token)
 
 #### TOS
-
+long_flag = 0
+short_flag = 0
+call_option = ""
+put_option = ""
 # Create a new session, credentials path is required.
 TDSession = TDClient(
     client_id='FQOUAWD87DXUILUXYQI1XIVY3J8OGUPX',
@@ -288,6 +291,10 @@ def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     global format
+    global long_flag
+    global short_flag
+    global call_option
+    global put_option
     # Create a new session, credentials path is required.
     TDSession = TDClient(
         client_id='FQOUAWD87DXUILUXYQI1XIVY3J8OGUPX',
@@ -299,29 +306,34 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     #print(ticker, order_type, qty, price, position_type, exchange)
 
     if order_type == "RENKO_LONG":
-        format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
-            round(price))
-        #print(format)
-        quote = TDSession.get_quotes(instruments=[format])
-        #print(quote)
-        print("BUY_TO_OPEN", "CALL", format,"Ask Price:", quote[format]['askPrice'])
+        if short_flag == 1:
+            quote = TDSession.get_quotes(instruments=[put_option])
+            print("Sell put Option", format, "Bid Price:", quote[format]['bidPrice'])
+            short_flag = 0
+        else:
+            format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
+                round(price))
+            #print(format)
+            quote = TDSession.get_quotes(instruments=[format])
+            #print(quote)
+            print("Buy Call option", "CALL", format,"Ask Price:", quote[format]['askPrice'])
+            call_option = format
+            long_flag   = 1
     elif order_type == "RENKO_SHORT":
-        format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
-        round(price))
-        #print(format)
-        quote = TDSession.get_quotes(instruments=[format])
-        #print(quote)
-        print("SELL_TO_OPEN", "PUT", format,"Bid Price:", quote[format]['bidPrice'])
-    elif order_type == "SELL_TO_CLOSE":
-        #print("SELLSELL_TO_CLOSE")
-        quote = TDSession.get_quotes(instruments=[format])
-        #print(quote)
-        print("SELL_TO_CLOSE", "CALL", format,"Bid Price:", quote[format]['bidPrice'])
-    elif order_type == "BUY_TO_CLOSE":
-        #print("BUY_TO_CLOSE")
-        quote = TDSession.get_quotes(instruments=[format])
-        #print(quote)
-        print("BUY_TO_CLOSE", "PUT", format, "Ask Price:", quote[format]['askPrice'])
+        if long_flag == 1:
+            quote = TDSession.get_quotes(instruments=[call_option])
+            print("Sell call Option", format, "Bid Price:", quote[format]['bidPrice'])
+            long_flag = 0
+        else:
+            format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
+            round(price))
+            #print(format)
+            quote = TDSession.get_quotes(instruments=[format])
+            #print(quote)
+            print("Buy put option", "PUT", format,"Bid Price:", quote[format]['bidPrice'])
+            put_option = format
+            short_flag = 1
+
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print('TRADOVATE order')
