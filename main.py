@@ -14,7 +14,7 @@ import os, json, requests
 import numpy as np
 import pandas as pd
 from Tradovate_libs import *
-
+from Tradovate_libs import liquidate_positions, open_long, open_short, close_long, close_short
 
 
 config = configparser.ConfigParser()
@@ -219,12 +219,12 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif order_type == "RENKO_LONG":
         print("RENKO LONG")
         liquidate_positions(account_number, ticker)
-        open_long('account_name', 'account_number', ticker, 1)
+        open_long(account_name, account_number, ticker, 1)
         # long_limit_close_order(account_name, account_number, ticker, 1, profit_target)
     elif order_type == "RENKO_SHORT":
         print("RENKO SHORT")
         liquidate_positions(account_number, ticker)
-        open_short('account_name', 'account_number', ticker, 1)
+        open_short(account_name, account_number, ticker, 1)
         # short_limit_close_order(account_name, account_number, ticker, 1, profit_target)
 
 ##################################
