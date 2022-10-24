@@ -60,7 +60,14 @@ headers = {
 ##### TRADOVATE SUB ROUTINES
 
 
-def liquidate_positions(account_number, ticker):
+def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
+    # form header
+    headers = {
+        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    }
+
+
+
     print("LIQUID:",account_number, ticker )
     body = {
         "name": 'ticker'
@@ -94,8 +101,12 @@ def liquidate_positions(account_number, ticker):
     print("Liqdation done", netpos)
 
 
-def open_long(account_name, account_number, ticker, Qty):
+def open_long(ACCESS_TOKEN, account_name, account_number, ticker, Qty):
     print("open_long_data:", account_name, account_number, ticker, Qty)
+    # form header
+    headers = {
+        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    }
     body = {
         "accountSpec": account_name,
         "accountId": account_number,
@@ -108,8 +119,12 @@ def open_long(account_name, account_number, ticker, Qty):
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     print("Open Long",response.json())
 
-def close_long(account_name, account_number, ticker, Qty):
+def close_long(ACCESS_TOKEN, account_name, account_number, ticker, Qty):
     print("open_long_data:", account_name, account_number, ticker, Qty)
+    # form header
+    headers = {
+        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    }
     body = {
         "accountSpec": account_name,
         "accountId": account_number,
@@ -122,8 +137,12 @@ def close_long(account_name, account_number, ticker, Qty):
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     print("Close Long", response.json())
 
-def open_short(account_name, account_number, ticker, Qty):
+def open_short(ACCESS_TOKEN, account_name, account_number, ticker, Qty):
     print("open_long_data:", account_name, account_number, ticker, Qty)
+    # form header
+    headers = {
+        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    }
     body = {
         "accountSpec": account_name,
         "accountId": account_number,
@@ -136,8 +155,12 @@ def open_short(account_name, account_number, ticker, Qty):
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     print("Open Short", response.json())
 
-def close_short(account_name, account_number, ticker, Qty):
+def close_short(ACCESS_TOKEN, account_name, account_number, ticker, Qty):
     print("open_long_data:", account_name, account_number, ticker, Qty)
+    # form header
+    headers = {
+        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    }
     body = {
         "accountSpec": account_name,
         "accountId": account_number,
@@ -338,13 +361,13 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         close_short(account_name, account_number, ticker, 1)
     elif order_type == "RENKO_LONG":
         print("RENKO LONG")
-        liquidate_positions(account_number, ticker)
-        open_long(account_name, account_number, ticker, 1)
+        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+        open_long(ACCESS_TOKEN, account_name, account_number, ticker, 1)
         # long_limit_close_order(account_name, account_number, ticker, 1, profit_target)
     elif order_type == "RENKO_SHORT":
         print("RENKO SHORT")
-        liquidate_positions(account_number, ticker)
-        open_short(account_name, account_number, ticker, 1)
+        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+        open_short(ACCESS_TOKEN, account_name, account_number, ticker, 1)
         # short_limit_close_order(account_name, account_number, ticker, 1, profit_target)
 
 ##################################
