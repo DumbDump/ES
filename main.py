@@ -61,16 +61,18 @@ headers = {
 
 
 def liquidate_positions(account_number, ticker):
+    print("LIQUID:",account_number, ticker )
     body = {
         "name": ticker
     }
     # find contract ID
     response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
     ID = response.json()['id']
+    print("LIQUID:", ID)
 
     # extract all positions
     response = requests.post("https://" + API + '/position/list', headers=headers)
-    # print(response.json())
+    print(response.json())
     if (response.json()[0]['contractId'] == ID):
         netpos = response.json()[0]['netPos']
     elif (response.json()[1]['contractId'] == ID):
@@ -87,7 +89,7 @@ def liquidate_positions(account_number, ticker):
     }
     if (netpos):
         response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
-    print("Liqdation done")
+    print("Liqdation done", netpos)
 
 
 def open_long(account_name, account_number, ticker, Qty):

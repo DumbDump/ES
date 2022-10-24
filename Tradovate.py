@@ -174,7 +174,7 @@ response = requests.post("https://" + API + '/contract/find', headers=headers, d
 
 
 ID=response.json()['id']
-print(ID)
+print("ID:", ID)
 print(response.json())
 
 response = requests.post("https://" + API + '/position/list', headers=headers)
@@ -235,6 +235,4 @@ print("Current Time =", current_time)
 #if(current_time < 13:16:00) :
 #    print("Hello")
 
-netpos = 1
-if (netpos):
-    print("Net position")
+

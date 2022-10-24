@@ -12,6 +12,7 @@ API = 	"demo.tradovateapi.com/v1"
 
 
 def liquidate_positions(account_number, ticker):
+    print("LIQUID:", account_number, ticker);
     body = {
         "name": ticker
     }
