@@ -360,19 +360,19 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif order_type == "BUY_TO_CLOSE":
         close_short(account_name, account_number, ticker, 1)
     elif order_type == "RENKO_LONG":
-        print("RENKO LONG")
+        #print("RENKO LONG")
         body = {
             "name": ticker
         }
         # find contract ID
         response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
         ID = response.json()['id']
-        print(response.json())
-        print("LIQUID:", ID)
+        #print(response.json())
+        #rint("LIQUID:", ID)
 
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
-        print(response.json())
+        #print(response.json())
         length = len(response.json())
 
         if (length >= 1 and response.json()[0]['contractId'] == ID):
@@ -384,7 +384,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         elif (length >= 4 and response.json()[3]['contractId'] == ID):
             netpos = response.json()[3]['netPos']
         else:
-            print("POSTION not found to do liquidation")
+            #print("POSTION not found to do liquidation")
             netpos = 0
 
         body = {
@@ -395,7 +395,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         if (netpos):
             response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
 
-        print("Liqdation done", netpos)
+        #print("Liqdation done", netpos)
         # Open Long
         body = {
             "accountSpec": "DEMO485096",
@@ -407,21 +407,21 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        print("Open Long", response.json())
+        #print("Open Long", response.json())
     elif order_type == "RENKO_SHORT":
-        print("RENKO SHORT", ticker)
+        #print("RENKO SHORT", ticker)
         body = {
             "name": ticker
         }
         # find contract ID
         response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
         ID = response.json()['id']
-        print(response.json())
-        print("LIQUID:", ID)
+        #print(response.json())
+        #print("LIQUID:", ID)
 
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
-        print(response.json())
+        #print(response.json())
         length = len(response.json())
 
         if (length >= 1 and response.json()[0]['contractId'] == ID):
@@ -433,7 +433,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         elif (length >= 4 and response.json()[3]['contractId'] == ID):
             netpos = response.json()[3]['netPos']
         else:
-            print("POSTION not found to do liquidation")
+            #print("POSTION not found to do liquidation")
             netpos = 0
 
         body = {
@@ -444,7 +444,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         if (netpos):
             response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
 
-        print("Liqdation done", netpos)
+        #print("Liqdation done", netpos)
         # Open Long
         body = {
             "accountSpec": "DEMO485096",
@@ -456,7 +456,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        print("Open Short", response.json())
+        #print("Open Short", response.json())
 
 
 ##################################
