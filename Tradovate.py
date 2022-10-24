@@ -245,4 +245,19 @@ body = {
 response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
 ID = response.json()['id']
 print(response.json())
+# extract all positions
+response = requests.post("https://" + API + '/position/list', headers=headers)
+print(response.json())
+
+
+
 print("LIQUID:", ID)
+
+if (response.json()[0]['contractId'] == ID):
+    netpos = response.json()[0]['netPos']
+elif (response.json()[1]['contractId'] == ID):
+    netpos = response.json()[1]['netPos']
+elif (response.json()[2]['contractId'] == ID):
+    netpos = response.json()[2]['netPos']
+elif (response.json()[3]['contractId'] == ID):
+    netpos = response.json()[3]['netPos']

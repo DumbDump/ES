@@ -361,11 +361,6 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         close_short(account_name, account_number, ticker, 1)
     elif order_type == "RENKO_LONG":
         print("RENKO LONG")
-
-        # Liquidate position
-        # form header
-
-        print("LIQUID:", account_number, ticker)
         body = {
             "name": ticker
         }
@@ -388,7 +383,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             netpos = response.json()[3]['netPos']
 
         body = {
-            "accountId": account_number,
+            "accountId": 1083577,
             "contractId": ID,
             "admin": "false",
         }
@@ -398,8 +393,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print("Liqdation done", netpos)
         # Open Long
         body = {
-            "accountSpec": account_name,
-            "accountId": account_number,
+            "accountSpec": "DEMO485096",
+            "accountId": 1083577,
             "action": "Buy",
             "symbol": ticker,
             "orderQty": Qty,
@@ -410,11 +405,6 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print("Open Long", response.json())
     elif order_type == "RENKO_SHORT":
         print("RENKO SHORT")
-
-        # Liquidate position
-        # form header
-
-        print("LIQUID:", account_number, ticker)
         body = {
             "name": ticker
         }
@@ -437,7 +427,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             netpos = response.json()[3]['netPos']
 
         body = {
-            "accountId": account_number,
+            "accountId": 1083577,
             "contractId": ID,
             "admin": "false",
         }
@@ -447,8 +437,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print("Liqdation done", netpos)
         # Open Long
         body = {
-            "accountSpec": account_name,
-            "accountId": account_number,
+            "accountSpec": "DEMO485096",
+            "accountId": 1083577,
             "action": "Sell",
             "symbol": ticker,
             "orderQty": Qty,
