@@ -373,6 +373,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
         print(response.json())
+
         if (response.json()[0]['contractId'] == ID):
             netpos = response.json()[0]['netPos']
         elif (response.json()[1]['contractId'] == ID):
@@ -404,7 +405,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         print("Open Long", response.json())
     elif order_type == "RENKO_SHORT":
-        print("RENKO SHORT")
+        print("RENKO SHORT", ticker)
         body = {
             "name": ticker
         }
@@ -417,6 +418,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
         print(response.json())
+
         if (response.json()[0]['contractId'] == ID):
             netpos = response.json()[0]['netPos']
         elif (response.json()[1]['contractId'] == ID):
