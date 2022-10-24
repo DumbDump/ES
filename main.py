@@ -91,7 +91,7 @@ def liquidate_positions(account_number, ticker):
 
 
 def open_long(account_name, account_number, ticker, Qty):
-    print("open_long_data:"account_name, account_number, ticker, Qty)
+    print("open_long_data:", account_name, account_number, ticker, Qty)
     body = {
         "accountSpec": account_name,
         "accountId": account_number,
@@ -105,7 +105,7 @@ def open_long(account_name, account_number, ticker, Qty):
     print("Open Long",response.json())
 
 def close_long(account_name, account_number, ticker, Qty):
-    print("open_long_data:"account_name, account_number, ticker, Qty)
+    print("open_long_data:", account_name, account_number, ticker, Qty)
     body = {
         "accountSpec": account_name,
         "accountId": account_number,
@@ -119,7 +119,7 @@ def close_long(account_name, account_number, ticker, Qty):
     print("Close Long", response.json())
 
 def open_short(account_name, account_number, ticker, Qty):
-    print("open_long_data:"account_name, account_number, ticker, Qty)
+    print("open_long_data:", account_name, account_number, ticker, Qty)
     body = {
         "accountSpec": account_name,
         "accountId": account_number,
@@ -133,7 +133,7 @@ def open_short(account_name, account_number, ticker, Qty):
     print("Open Short", response.json())
 
 def close_short(account_name, account_number, ticker, Qty):
-    print("open_long_data:"account_name, account_number, ticker, Qty)
+    print("open_long_data:", account_name, account_number, ticker, Qty)
     body = {
         "accountSpec": account_name,
         "accountId": account_number,
