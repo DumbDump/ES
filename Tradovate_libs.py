@@ -38,6 +38,7 @@ def liquidate_positions(account_number, ticker):
     }
     if (netpos):
         response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+    print("Liqdation done")
 
 
 def open_long(account_name, account_number, ticker, Qty):
@@ -51,6 +52,8 @@ def open_long(account_name, account_number, ticker, Qty):
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    print("Open Long",response.json())
+
 def close_long(account_name, account_number, ticker, Qty):
     body = {
         "accountSpec": account_name,
@@ -62,6 +65,7 @@ def close_long(account_name, account_number, ticker, Qty):
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    print("Close Long", response.json())
 
 def open_short(account_name, account_number, ticker, Qty):
     body = {
@@ -74,6 +78,7 @@ def open_short(account_name, account_number, ticker, Qty):
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    print("Open Short", response.json())
 
 def close_short(account_name, account_number, ticker, Qty):
     body = {
@@ -86,6 +91,7 @@ def close_short(account_name, account_number, ticker, Qty):
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    print("Close Short", response.json())
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
     body = {
