@@ -34,7 +34,9 @@ TDSession.login()
 
 #####
 
-quote = TDSession.get_quotes(instruments=["SPXW_101322C3670"])
+quote = TDSession.get_quotes(instruments=["SPY"])
 print(quote)
+price = 10 * quote['SPY']['lastPrice']
+print(price)
 print("Ask Price:", quote['SPXW_101322C3670']['askPrice'])
 
