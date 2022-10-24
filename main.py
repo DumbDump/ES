@@ -360,7 +360,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif order_type == "BUY_TO_CLOSE":
         close_short(account_name, account_number, ticker, 1)
     elif order_type == "RENKO_LONG":
-        #print("RENKO LONG")
+        print("RENKO LONG")
         body = {
             "name": ticker
         }
@@ -409,7 +409,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         #print("Open Long", response.json())
     elif order_type == "RENKO_SHORT":
-        #print("RENKO SHORT", ticker)
+        print("RENKO SHORT", ticker)
         body = {
             "name": ticker
         }
