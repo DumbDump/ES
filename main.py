@@ -433,14 +433,17 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
         # print(response.json())
-        order_price = (response.json()[0]['price']) + 40
+        if ticker == "MESZ2":
+            order_price = (response.json()[0]['price']) + 20
+        else:
+            order_price = (response.json()[0]['price']) + 40
         print(order_price)
 
         body = {
             "accountSpec": "DEMO485096",
             "accountId": 1083577,
             "action": "Sell",
-            "symbol": "MNQZ2",
+            "symbol": ticker,
             "orderQty": 1,
             "orderType": "Limit",
             "price": order_price,
@@ -506,14 +509,17 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
         # print(response.json())
-        order_price = (response.json()[0]['price']) - 40
+        if ticker == "MESZ2":
+            order_price = (response.json()[0]['price']) - 20
+        else:
+            order_price = (response.json()[0]['price']) - 40
         print(order_price)
 
         body = {
             "accountSpec": "DEMO485096",
             "accountId": 1083577,
             "action": "Buy",
-            "symbol": "MNQZ2",
+            "symbol": ticker,
             "orderQty": 1,
             "orderType": "Limit",
             "price": order_price,

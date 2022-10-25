@@ -167,7 +167,7 @@ headers = {
 
 
 
-
+OrderID = 4907130767
 
 
 body = {
@@ -176,17 +176,17 @@ body = {
 
 response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
 #print(response.json())
-order_price = (response.json()[0]['price']) - 20
+order_price = (response.json()[0]['price']) + 20
 print(order_price)
 
 body = {
     "accountSpec": "DEMO485096",
     "accountId": 1083577,
-    "action": "Buy",
-    "symbol": "MNQZ2",
+    "action": "Sell",
+    "symbol": "MESZ2",
     "orderQty": 1,
     "orderType": "Limit",
-    "price": 11460,
+    "price": order_price,
     "isAutomated": "true"
 }
 response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
