@@ -437,9 +437,9 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         #print("Retrived Order",response.json())
 
         if ticker == "MESZ2":
-            order_price = (response.json()[0]['price']) + 20
+            order_price = (response.json()[0]['price']) + 10
         else:
-            order_price = (response.json()[0]['price']) + 40
+            order_price = (response.json()[0]['price']) + 30
         #print("LIMIT Order Price",order_price)
 
         body = {
@@ -514,9 +514,9 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
         #print("Retrived Order",response)
         if ticker == "MESZ2":
-            order_price = (response.json()[0]['price']) - 20
+            order_price = (response.json()[0]['price']) - 10
         else:
-            order_price = (response.json()[0]['price']) - 40
+            order_price = (response.json()[0]['price']) - 30
         #print("Order Price",order_price)
 
         body = {
