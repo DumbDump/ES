@@ -175,26 +175,48 @@ OrderID = 4926226068
 body = {
     "masterid": OrderID
 }
-ticker = "MESZ2"
-response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
+# ticker = "MESZ2"
+# response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
+# # print(response.json())
+# if ticker == "MESZ2":
+#     order_price = (response.json()[0]['price']) + 20
+# else:
+#     order_price = (response.json()[0]['price']) + 40
+# print(response.json()[0]['price'], order_price)
+# print(int(order_price))
+#
+# body = {
+#     "accountSpec": "DEMO485096",
+#     "accountId": 1083577,
+#     "action": "Sell",
+#     "symbol": ticker,
+#     "orderQty": 1,
+#     "orderType": "Limit",
+#     "price": order_price,
+#     "isAutomated": "true"
+# }
+# response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 # print(response.json())
-if ticker == "MESZ2":
-    order_price = (response.json()[0]['price']) + 20
-else:
-    order_price = (response.json()[0]['price']) + 40
-print(response.json()[0]['price'], order_price)
-print(int(order_price))
+ticker = "MESZ2"
 
 body = {
     "accountSpec": "DEMO485096",
     "accountId": 1083577,
-    "action": "Sell",
+    "action": "Buy",
     "symbol": ticker,
     "orderQty": 1,
-    "orderType": "Limit",
-    "price": order_price,
+    "orderType": "Market",
     "isAutomated": "true"
 }
 response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-print(response.json())
+print("Open Long ", response.json())
+OrderID = response.json()['orderId']
+print("ORDER ID", OrderID)
+# STOP LIMIT SELL
 
+body = {
+    "masterid": int(OrderID)
+}
+
+response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
+print("Retrived Order", response.json())

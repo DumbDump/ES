@@ -425,7 +425,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         print("Open Long ", response.json())
-        OrderID =  response.json()
+        OrderID =  response.json()['orderId']
         print("ORDER ID",OrderID)
         #STOP LIMIT SELL
 
@@ -435,25 +435,25 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
         print("Retrived Order",response.json())
-        #
-        # if ticker == "MESZ2":
-        #     order_price = (response.json()[0]['price']) + 20
-        # else:
-        #     order_price = (response.json()[0]['price']) + 40
-        # print("LIMIT Order Price",order_price)
-        #
-        # body = {
-        #     "accountSpec": "DEMO485096",
-        #     "accountId": 1083577,
-        #     "action": "Sell",
-        #     "symbol": ticker,
-        #     "orderQty": 1,
-        #     "orderType": "Limit",
-        #     "price": int(order_price),
-        #     "isAutomated": "true"
-        # }
-        # response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        # print("Limit Order Response", response.json())
+
+        if ticker == "MESZ2":
+            order_price = (response.json()[0]['price']) + 20
+        else:
+            order_price = (response.json()[0]['price']) + 40
+        print("LIMIT Order Price",order_price)
+
+        body = {
+            "accountSpec": "DEMO485096",
+            "accountId": 1083577,
+            "action": "Sell",
+            "symbol": ticker,
+            "orderQty": 1,
+            "orderType": "Limit",
+            "price": int(order_price),
+            "isAutomated": "true"
+        }
+        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        print("Limit Order Response", response.json())
     elif order_type == "RENKO_SHORT":
         print("RENKO SHORT", ticker)
         body = {
@@ -503,7 +503,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         print("Open Short", response.json())
-        OrderID = response.json()
+        OrderID = response.json()['orderId']
         print("OrderID",OrderID)
 
         #STOP LIMIT SELL
@@ -513,24 +513,24 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
         print("Retrived Order",response)
-        # if ticker == "MESZ2":
-        #     order_price = (response.json()[0]['price']) - 20
-        # else:
-        #     order_price = (response.json()[0]['price']) - 40
-        # print("Order Price",order_price)
-        #
-        # body = {
-        #     "accountSpec": "DEMO485096",
-        #     "accountId": 1083577,
-        #     "action": "Buy",
-        #     "symbol": ticker,
-        #     "orderQty": 1,
-        #     "orderType": "Limit",
-        #     "price": int(order_price),
-        #     "isAutomated": "true"
-        # }
-        # response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        # print("order status",response.json())
+        if ticker == "MESZ2":
+            order_price = (response.json()[0]['price']) - 20
+        else:
+            order_price = (response.json()[0]['price']) - 40
+        print("Order Price",order_price)
+
+        body = {
+            "accountSpec": "DEMO485096",
+            "accountId": 1083577,
+            "action": "Buy",
+            "symbol": ticker,
+            "orderQty": 1,
+            "orderType": "Limit",
+            "price": int(order_price),
+            "isAutomated": "true"
+        }
+        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        print("order status",response.json())
 
 ##################################
 # WebHook code
