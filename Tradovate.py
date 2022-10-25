@@ -167,100 +167,27 @@ headers = {
 
 
 
-body = {
-    "name": "ESZ2"
-}
-print("find position ID")
-response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
 
 
-ID=response.json()['id']
-print("ID:", ID)
-print(response.json())
-
-response = requests.post("https://" + API + '/position/list', headers=headers)
-
-
-#print("netpos =",netpos)
-#print("Brought Price =", executedPrice)
-
-#print(response.json()[0]['contractId'])
-#print(response.json()[1]['contractId'])
 
 body = {
-    "id": '4885903810'
+    "masterid": OrderID
 }
-body = {
-    "accountId": '1083577',
-    "contractId": '2665264',
-    "admin": "false"
-}
-#print("find position details")
-#response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+
+response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
 #print(response.json())
-
-# body = {
-#     "id": int(2665264)
-# }
-# response = requests.post("https://" + API + '/position/item', headers=headers, data=body,params=body)
-# #netpositions = response.json()[0]['netPos']
-# #print(netpositions)
-# print(response.json())
+order_price = (response.json()[0]['price']) - 20
+print(order_price)
 
 body = {
     "accountSpec": "DEMO485096",
-    "accountId": '1083577',
+    "accountId": 1083577,
     "action": "Buy",
-    "symbol": "ESZ2",
-    "orderQty": '1',
-    "orderType": "Market",
+    "symbol": "MNQZ2",
+    "orderQty": 1,
+    "orderType": "Limit",
+    "price": 11460,
     "isAutomated": "true"
 }
-#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-#ID = response.json()
-#print(ID)
-#print(response.json())
-#    "id": '4900472332'
-body = {
-    "id": ID
-}
-
-#response = requests.post("https://" + API + '/executionreport/item', headers=headers, data=body)
-#print(response.json())
-
-now = datetime.now()
-
-current_time = now.strftime("%H:%M:%S")
-print("Current Time =", current_time)
-
-#if(current_time < 13:16:00) :
-#    print("Hello")
-
-ticker = "MESZ2"
-
-
-body = {
-    "name": ticker
-}
-# find contract ID
-response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-ID = response.json()['id']
+response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 print(response.json())
-# extract all positions
-response = requests.post("https://" + API + '/position/list', headers=headers)
-print(response.json())
-
-print("LEN",len(response.json()))
-length = len(response.json())
-print("LIQUID:", ID)
-
-if (length >= 1 and response.json()[0]['contractId'] == ID):
-    netpos = response.json()[0]['netPos']
-elif (length >= 2 and response.json()[1]['contractId'] == ID):
-    netpos = response.json()[1]['netPos']
-elif (length >= 3 and response.json()[2]['contractId'] == ID):
-    netpos = response.json()[2]['netPos']
-elif (length >= 4 and response.json()[3]['contractId'] == ID):
-    netpos = response.json()[3]['netPos']
-else:
-    print("ERROR")
