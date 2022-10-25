@@ -411,6 +411,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
         if (netpos):
             response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+        time.sleep(1)
 
         #print("Liqdation done", netpos)
         # Open Long
@@ -428,7 +429,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         OrderID =  response.json()['orderId']
         #print("ORDER ID",OrderID)
         #STOP LIMIT SELL
-
+        time.sleep(1)
         body = {
             "masterid": int(OrderID)
         }
@@ -491,7 +492,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
 
         #print("Liqdation done", netpos)
-        # Open Long
+        time.sleep(1)
+        # Open Short
         body = {
             "accountSpec": "DEMO485096",
             "accountId": 1083577,
@@ -505,7 +507,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         #print("Open Short", response.json())
         OrderID = response.json()['orderId']
         #print("OrderID",OrderID)
-
+        time.sleep(1)
         #STOP LIMIT SELL
         body = {
             "masterid": int(OrderID)
