@@ -167,7 +167,7 @@ headers = {
 
 
 
-OrderID = 4923321356
+OrderID = 4926226068
 
 
 
@@ -179,22 +179,22 @@ ticker = "MESZ2"
 response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
 # print(response.json())
 if ticker == "MESZ2":
-    order_price = (response.json()[0]['price']) - 20
+    order_price = (response.json()[0]['price']) + 20
 else:
-    order_price = (response.json()[0]['price']) - 40
-print(order_price)
+    order_price = (response.json()[0]['price']) + 40
+print(response.json()[0]['price'], order_price)
 print(int(order_price))
 
 body = {
     "accountSpec": "DEMO485096",
     "accountId": 1083577,
-    "action": "Buy",
+    "action": "Sell",
     "symbol": ticker,
     "orderQty": 1,
     "orderType": "Limit",
     "price": order_price,
     "isAutomated": "true"
 }
-#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-#print(response.json())
+response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+print(response.json())
 
