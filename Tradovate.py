@@ -183,6 +183,7 @@ if ticker == "MESZ2":
 else:
     order_price = (response.json()[0]['price']) - 40
 print(order_price)
+print(int(order_price))
 
 body = {
     "accountSpec": "DEMO485096",
@@ -194,5 +195,6 @@ body = {
     "price": order_price,
     "isAutomated": "true"
 }
-response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-print(response.json())
+#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+#print(response.json())
+
