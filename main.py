@@ -425,15 +425,17 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         print("Open Long ", response.json())
-        OrderID =  response.json()
+        OrderID =  int(response.json())
         print("ORDER ID",OrderID)
         #STOP LIMIT SELL
+
         body = {
             "masterid": OrderID
         }
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-        print("Retrive Order",response.json())
+        print("Retrived Order",response.json())
+
         if ticker == "MESZ2":
             order_price = (response.json()[0]['price']) + 20
         else:
@@ -501,7 +503,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         print("Open Short", response.json())
-        OrderID = response.json()
+        OrderID = int(response.json())
         print("OrderID",OrderID)
 
         #STOP LIMIT SELL
