@@ -306,7 +306,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     #print(ticker, order_type, qty, price, position_type, exchange)
 
     quote = TDSession.get_quotes(instruments=["SPY"])
-    price = 10 * (quote['SPY']['lastPrice'])
+    price = round_up(10 * (quote['SPY']['lastPrice']),-1)
 
     if order_type == "RENKO_LONG":
         #print("SPX RENKO LONG")

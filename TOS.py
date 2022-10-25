@@ -13,6 +13,11 @@ import numpy as np
 import pandas as pd
 
 
+def round_up(n, decimals=0):
+    multiplier = 10 ** decimals
+    return math.ceil(n * multiplier) / multiplier
+
+
 config = configparser.ConfigParser()
 config.read('./config.ini')
 accountID = config['oanda']['account_id']
@@ -36,7 +41,8 @@ TDSession.login()
 
 quote = TDSession.get_quotes(instruments=["SPY"])
 print(quote)
-price = 10 * quote['SPY']['lastPrice']
+price = round_up(10 * quote['SPY']['lastPrice'],-1)
 print(price)
-print("Ask Price:", quote['SPXW_101322C3670']['askPrice'])
+#round_up(price,-1)
+#print("Ask Price:", quote['SPXW_101322C3670']['askPrice'])
 
