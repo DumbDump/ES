@@ -167,23 +167,28 @@ headers = {
 
 
 
-OrderID = 4907130767
+OrderID = 4919403020
 
 
+
+# STOP LIMIT SELL
 body = {
     "masterid": OrderID
 }
-
+ticker = "MESZ2"
 response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-#print(response.json())
-order_price = (response.json()[0]['price']) + 20
+# print(response.json())
+if ticker == "MESZ2":
+    order_price = (response.json()[0]['price']) - 20
+else:
+    order_price = (response.json()[0]['price']) - 40
 print(order_price)
 
 body = {
     "accountSpec": "DEMO485096",
     "accountId": 1083577,
-    "action": "Sell",
-    "symbol": "MESZ2",
+    "action": "Buy",
+    "symbol": ticker,
     "orderQty": 1,
     "orderType": "Limit",
     "price": order_price,

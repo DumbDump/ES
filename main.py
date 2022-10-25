@@ -501,6 +501,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
         print("Open Short", response.json())
         OrderID = response.json()
+        print("OrderID",OrderID)
 
         #STOP LIMIT SELL
         body = {
