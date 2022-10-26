@@ -362,12 +362,12 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
     today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
 
-    if now == today5am:
+    if now > today5am and now < today1pm:
         daytime = 1
-    elif now == today1pm:
-        daytime = 0
     else:
         daytime = 0
+
+
     print("DayTime:",daytime)
     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
     ACCESS_TOKEN = response.json()['accessToken']
