@@ -548,7 +548,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             else:
                 order_price = (response.json()[0]['price']) + 50
 
-        print("Price",response.json()[0]['price'],order_price)
+        print("Price",response.json()[0]['price'],int(order_price))
 
         body = {
             "accountSpec": "DEMO485096",
@@ -557,7 +557,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "symbol": ticker,
             "orderQty": 1,
             "orderType": "Limit",
-            "price": int(order_price),
+            "price": order_price,
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
