@@ -410,8 +410,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "contractId": ID,
             "admin": "false",
         }
-        if (netpos):
-            response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+#        if (netpos):
+        response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
         time.sleep(1)
 
         #print("Liqdation done", netpos)
@@ -489,8 +489,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "contractId": ID,
             "admin": "false",
         }
-        if (netpos):
-            response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+#        if (netpos):
+        response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
 
         #print("Liqdation done", netpos)
         time.sleep(1)
