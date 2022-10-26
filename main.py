@@ -561,7 +561,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        #print("order status",response.json())
+        print("order status",response.json())
 
 ##################################
 # WebHook code
