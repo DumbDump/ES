@@ -17,6 +17,7 @@ import datetime
 import threading
 
 
+global daytime
 
 now = datetime.datetime.now()
 today5am = now.replace(hour=5, minute=0, second=0, microsecond=0)

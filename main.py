@@ -1,5 +1,3 @@
-
-
 import pandas as pd
 import configparser
 import oandapyV20
@@ -22,6 +20,7 @@ from pytz import timezone
 now = datetime.datetime.now()
 today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
 today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
+global daytime
 
 if now == today5am:
     daytime = 1
