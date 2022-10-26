@@ -17,15 +17,7 @@ from pytz import timezone
 #from Tradovate_libs import *
 #from Tradovate_libs import liquidate_positions, open_long, open_short, close_long, close_short
 
-now = datetime.datetime.now()
-today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
-today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
-global daytime
 
-if now == today5am:
-    daytime = 1
-elif now == today1pm:
-    daytime = 0
 
 
 
@@ -365,6 +357,15 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         "cid": '1133',
         "sec": '66e4c947-0fe2-46b2-b76a-3ed88601ccd8'
     }
+
+    now = datetime.datetime.now()
+    today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
+    today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
+
+    if now == today5am:
+        daytime = 1
+    elif now == today1pm:
+        daytime = 0
 
     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
     ACCESS_TOKEN = response.json()['accessToken']
