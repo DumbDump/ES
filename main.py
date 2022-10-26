@@ -19,6 +19,16 @@ from pytz import timezone
 #from Tradovate_libs import *
 #from Tradovate_libs import liquidate_positions, open_long, open_short, close_long, close_short
 
+now = datetime.datetime.now()
+today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
+today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
+
+if now == today5am:
+    daytime = 1
+elif now == today1pm:
+    daytime = 0
+
+
 
 config = configparser.ConfigParser()
 config.read('./config.ini')
@@ -439,10 +449,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
         #print("Retrived Order",response.json())
-        now = datetime.datetime.now()
-        today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
-        today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
-        if (now < today5am and now > today1pm):
+
+        if daytime == 1:
             if ticker == "MESZ2":
                 order_price = (response.json()[0]['price']) + 2
             else:
@@ -526,10 +534,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-        now = datetime.datetime.now()
-        today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
-        today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
-        if (now < today5am and now > today1pm):
+
+        if daytime == 1:
             if ticker == "MESZ2":
                 order_price = (response.json()[0]['price']) + 2
             else:
