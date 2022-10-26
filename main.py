@@ -368,7 +368,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         daytime = 0
     else:
         daytime = 0
-
+    print("DayTime:",daytime)
     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
     ACCESS_TOKEN = response.json()['accessToken']
     #print(ACCESS_TOKEN)
@@ -452,7 +452,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
         #print("Retrived Order",response.json())
 
-        if daytime == 1:
+        if daytime == 0:
             if ticker == "MESZ2":
                 order_price = (response.json()[0]['price']) + 2
             else:
@@ -537,7 +537,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
 
-        if daytime == 1:
+        if daytime == 0:
             if ticker == "MESZ2":
                 order_price = (response.json()[0]['price']) + 2
             else:
