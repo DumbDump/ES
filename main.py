@@ -454,14 +454,14 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         if daytime == 0:
             if ticker == "MESZ2":
-                order_price = (response.json()[0]['price']) + 2
+                order_price = (response.json()[0]['price']) + 3
             else:
-                order_price = (response.json()[0]['price']) + 5
+                order_price = (response.json()[0]['price']) + 8
         else:
             if ticker == "MESZ2":
-                order_price = (response.json()[0]['price']) + 10
+                order_price = (response.json()[0]['price']) + 12
             else:
-                order_price = (response.json()[0]['price']) + 25
+                order_price = (response.json()[0]['price']) + 50
 
         #print("LIMIT Order Price",order_price)
 
@@ -539,14 +539,14 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         if daytime == 0:
             if ticker == "MESZ2":
-                order_price = (response.json()[0]['price']) + 2
+                order_price = (response.json()[0]['price']) + 3
             else:
-                order_price = (response.json()[0]['price']) + 5
+                order_price = (response.json()[0]['price']) + 8
         else:
             if ticker == "MESZ2":
-                order_price = (response.json()[0]['price']) + 10
+                order_price = (response.json()[0]['price']) + 12
             else:
-                order_price = (response.json()[0]['price']) + 25
+                order_price = (response.json()[0]['price']) + 50
 
         body = {
             "accountSpec": "DEMO485096",
