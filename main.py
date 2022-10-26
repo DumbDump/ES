@@ -14,6 +14,7 @@ import os, json, requests
 import numpy as np
 import pandas as pd
 import time
+import datetime
 #from Tradovate_libs import *
 #from Tradovate_libs import liquidate_positions, open_long, open_short, close_long, close_short
 
@@ -609,6 +610,8 @@ def webhook():
     #            client.request(r)
     #           create_order = pd.Series(r.response['orderCreateTransaction'])
     # print(create_order)
+    now = datetime.datetime.now()
+    print("Current Time",now)
     return webhook_message
 
 

@@ -13,11 +13,14 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 import time
-from datetime import datetime
+import datetime
 import threading
 
 
 
-print("befopre")
-time.sleep(1)
-print("befopre")
+now = datetime.datetime.now()
+today5am = now.replace(hour=5, minute=0, second=0, microsecond=0)
+
+if now > today5am:
+    print("Current Time:", now)
+
