@@ -15,6 +15,7 @@ import numpy as np
 import pandas as pd
 import time
 import datetime
+from pytz import timezone
 #from Tradovate_libs import *
 #from Tradovate_libs import liquidate_positions, open_long, open_short, close_long, close_short
 
@@ -438,11 +439,20 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
         #print("Retrived Order",response.json())
-
-        if ticker == "MESZ2":
-            order_price = (response.json()[0]['price']) + 2
+        now = datetime.datetime.now()
+        today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
+        today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
+        if (now < today5am and now > today1pm):
+            if ticker == "MESZ2":
+                order_price = (response.json()[0]['price']) + 2
+            else:
+                order_price = (response.json()[0]['price']) + 5
         else:
-            order_price = (response.json()[0]['price']) + 5
+            if ticker == "MESZ2":
+                order_price = (response.json()[0]['price']) + 10
+            else:
+                order_price = (response.json()[0]['price']) + 25
+
         #print("LIMIT Order Price",order_price)
 
         body = {
@@ -516,12 +526,19 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-        #print("Retrived Order",response)
-        if ticker == "MESZ2":
-            order_price = (response.json()[0]['price']) - 5
+        now = datetime.datetime.now()
+        today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
+        today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
+        if (now < today5am and now > today1pm):
+            if ticker == "MESZ2":
+                order_price = (response.json()[0]['price']) + 2
+            else:
+                order_price = (response.json()[0]['price']) + 5
         else:
-            order_price = (response.json()[0]['price']) - 10
-        #print("Order Price",order_price)
+            if ticker == "MESZ2":
+                order_price = (response.json()[0]['price']) + 10
+            else:
+                order_price = (response.json()[0]['price']) + 25
 
         body = {
             "accountSpec": "DEMO485096",
