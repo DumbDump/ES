@@ -363,9 +363,9 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     }
 
     if ticker == "MESZ2":
-        profit_target = 4
+        profit_target = 2
     elif ticker == "MNQZ2":
-        profit_target = 10
+        profit_target = 5
     elif ticker == "ESZ2":
         profit_target = 5
 
@@ -439,9 +439,9 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         #print("Retrived Order",response.json())
 
         if ticker == "MESZ2":
-            order_price = (response.json()[0]['price']) + 5
+            order_price = (response.json()[0]['price']) + 2
         else:
-            order_price = (response.json()[0]['price']) + 10
+            order_price = (response.json()[0]['price']) + 5
         #print("LIMIT Order Price",order_price)
 
         body = {
