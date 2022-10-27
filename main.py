@@ -240,6 +240,7 @@ def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     global format
+    global format1
     global long_flag
     global short_flag
     global call_option
@@ -257,37 +258,47 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     quote = TDSession.get_quotes(instruments=["SPY"])
     price = round_up(10 * (quote['SPY']['lastPrice']),-1)
 
-    if order_type == "RENKO_LONG":
-        #print("SPX RENKO LONG")
-        if short_flag == 1:
-            quote = TDSession.get_quotes(instruments=[put_option])
-            print("Sell put Option", format, "Bid Price:", quote[format]['bidPrice'])
-            short_flag = 0
-        else:
+    if order_type == "BUY_TO_OPEN":
             format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
                 round(price))
-            #print(format)
+            format1 = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
+                round(price+10))
+            print(format,format1)
             quote = TDSession.get_quotes(instruments=[format])
-            #print(quote)
-            print("Buy Call option", "CALL", format,"Ask Price:", quote[format]['askPrice'])
-            call_option = format
-            long_flag   = 1
-    elif order_type == "RENKO_SHORT":
-        #print("SPX RENKO SHORT")
-        if long_flag == 1:
-            quote = TDSession.get_quotes(instruments=[call_option])
-            print("Sell call Option", format, "Bid Price:", quote[format]['bidPrice'])
-            long_flag = 0
-        else:
+            quote1 = TDSession.get_quotes(instruments=[format1])
+            leg1 = quote[format]['askPrice']
+            leg2 = quote1[format1]['bidPrice']
+            spread = leg1-leg2
+            print("Buy to Open CALL Spread",format,format1, spread)
+            if DEBUG:
+                print("Buy Call option", "CALL", format,"Ask Price:", quote[format]['askPrice'])
+                print("Buy Call option", "CALL", format, "Ask Price:", quote[format1]['bidPrice'])
+
+    elif order_type == "SELL_TO_OPEN":
             format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
             round(price))
-            #print(format)
+            format1 = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
+            round(price-10))
             quote = TDSession.get_quotes(instruments=[format])
-            #print(quote)
-            print("Buy put option", "PUT", format,"Bid Price:", quote[format]['bidPrice'])
-            put_option = format
-            short_flag = 1
-
+            quote1 = TDSession.get_quotes(instruments=[format1])
+            leg1 = quote[format]['askPrice']
+            leg2 = quote1[format1]['bidPrice']
+            spread = leg1-leg2
+            print("Buy to Open PUT Spread",format,format1, spread)
+    elif order_type == "SELL_TO_CLOSE":
+            quote = TDSession.get_quotes(instruments=[format])
+            quote1 = TDSession.get_quotes(instruments=[format1])
+            leg1 = quote[format]['askPrice']
+            leg2 = quote1[format1]['bidPrice']
+            spread = leg1 - leg2
+            print("Sell to close CALL Spread", format, format1, spread)
+    elif order_type == "BUY_TO_CLOSE":
+            quote = TDSession.get_quotes(instruments=[format])
+            quote1 = TDSession.get_quotes(instruments=[format1])
+            leg1 = quote[format]['askPrice']
+            leg2 = quote1[format1]['bidPrice']
+            spread = leg1 - leg2
+            print("Sell to close PUT Spread", format, format1, spread)
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     if DEBUG:
