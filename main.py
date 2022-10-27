@@ -105,7 +105,7 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
     }
     response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
     time.sleep(1)
-    print("LIQUIDATION DONE")
+
 
 
 def open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type):
