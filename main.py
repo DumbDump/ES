@@ -17,7 +17,7 @@ from pytz import timezone
 #from Tradovate_libs import *
 #from Tradovate_libs import liquidate_positions, open_long, open_short, close_long, close_short
 
-
+DEBUG = 0
 
 
 
@@ -122,61 +122,8 @@ def open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Typ
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    print("Open Long ", response.json())
-
-def close_long(ACCESS_TOKEN, account_name, account_number, ticker, Qty):
-    print("open_long_data:", account_name, account_number, ticker, Qty)
-    # form header
-    headers = {
-        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
-    }
-    body = {
-        "accountSpec": account_name,
-        "accountId": account_number,
-        "action": "Sell",
-        "symbol": ticker,
-        "orderQty": Qty,
-        "orderType": "Market",
-        "isAutomated": "true"
-    }
-    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    print("Close Long", response.json())
-
-def open_short(ACCESS_TOKEN, account_name, account_number, ticker, Qty):
-    print("open_long_data:", account_name, account_number, ticker, Qty)
-    # form header
-    headers = {
-        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
-    }
-    body = {
-        "accountSpec": account_name,
-        "accountId": account_number,
-        "action": "Sell",
-        "symbol": ticker,
-        "orderQty": Qty,
-        "orderType": "Market",
-        "isAutomated": "true"
-    }
-    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    print("Open Short", response.json())
-
-def close_short(ACCESS_TOKEN, account_name, account_number, ticker, Qty):
-    print("open_long_data:", account_name, account_number, ticker, Qty)
-    # form header
-    headers = {
-        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
-    }
-    body = {
-        "accountSpec": account_name,
-        "accountId": account_number,
-        "action": "Buy",
-        "symbol": ticker,
-        "orderQty": Qty,
-        "orderType": "Market",
-        "isAutomated": "true"
-    }
-    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    print("Close Short", response.json())
+    if DEBUG:
+        print("Open Long ", response.json())
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
     body = {
@@ -343,9 +290,10 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
-    #print('TRADOVATE order')
-    print(ticker, order_type, qty, round(price), position_type, exchange)
-    #print(ticker, ticker)
+    if DEBUG:
+        print('TRADOVATE order')
+        print(ticker, order_type, qty, round(price), position_type, exchange)
+        print(ticker, ticker)
     account_number = "1083577"
     account_name = "DEMO485096"
     Qty = 1
@@ -368,8 +316,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     else:
         daytime = 0
 
-
-    print("DayTime:",daytime)
+    if DEBUG:
+        print("DayTime:",daytime)
     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
     ACCESS_TOKEN = response.json()['accessToken']
     #print(ACCESS_TOKEN)
@@ -397,19 +345,20 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif order_type == "BUY_TO_CLOSE":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
     elif order_type == "RENKO_LONG":
-        #print("RENKO LONG")
         body = {
             "name": ticker
         }
         # find contract ID
         response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
         ID = response.json()['id']
-        #print(response.json())
-        #rint("LIQUID:", ID)
+        if DEBUG:
+            print(response.json())
+            rint("LIQUID:", ID)
 
         # extract all positions
         response = requests.post("https://" + API + '/position/list', headers=headers)
-        #print(response.json())
+        if DEBUG:
+            print(response.json())
         length = len(response.json())
 
         if (length >= 1 and response.json()[0]['contractId'] == ID):
@@ -429,7 +378,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "contractId": ID,
             "admin": "false",
         }
-#        if (netpos):
+
         response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
         time.sleep(1)
 
@@ -445,9 +394,11 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        #print("Open Long ", response.json())
+        if DEBUG:
+            print("Open Long ", response.json())
         OrderID =  response.json()['orderId']
-        #print("ORDER ID",OrderID)
+        if DEBUG:
+            print("ORDER ID",OrderID)
         #STOP LIMIT SELL
         time.sleep(1)
         body = {
@@ -455,7 +406,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
 
         response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-        #print("Retrived Order",response.json())
+        if DEBUG:
+            print("Retrived Order",response.json())
 
         if daytime == 0:
             if ticker == "MESZ2":
@@ -481,7 +433,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        #print("Limit Order Response", response.json())
+        if DEBUG:
+            print("Limit Order Response", response.json())
     elif order_type == "RENKO_SHORT":
         #print("RENKO SHORT", ticker)
         body = {
@@ -598,9 +551,8 @@ def parse_webhook_message(webhook_message):
         data = TOS_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         #print(data,order_type)
     elif 'TRADOVATE' in str(webhook_message).upper():
-        print()
-        print()
-        print('###########  TRADOVATE ################')
+        if DEBUG:
+            print('###########  TRADOVATE ################')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 
@@ -610,40 +562,14 @@ def webhook():
         webhook_message = json.loads(request.data)
     except:
         webhook_message = request.data
-    print(webhook_message)
+    if DEBUG:
+        print(webhook_message)
     parse_webhook_message(webhook_message)
 
-    #   FOREX_ORDER(webhook_message)
 
-    #    if ('EURUSD' in str(webhook_message).upper()):
-    #        if ('SELL' in str(webhook_message).upper()):
-    #            data = {
-    #                "order": {
-    #                    "instrument": "EUR_USD",
-    #                    "units": "-1000",
-    #                    "type": "MARKET",
-    #                    "positionFill": "DEFAULT"
-    #                }
-    #            }
-    #            r = orders.OrderCreate(accountID, data=data)
-    #            client.request(r)
-    # #           create_order = pd.Series(r.response['orderCreateTransaction'])
-    #            #print(create_order)
-    #        else:
-    #            data = {
-    #                "order": {
-    #                    "instrument": "EUR_USD",
-    #                    "units": "1000",
-    #                    "type": "MARKET",
-    #                    "positionFill": "DEFAULT"
-    #                }
-    #            }
-    #            r = orders.OrderCreate(accountID, data=data)
-    #            client.request(r)
-    #           create_order = pd.Series(r.response['orderCreateTransaction'])
-    # print(create_order)
     now = datetime.datetime.now()
-    print("Current Time",now)
+    if DEBUG:
+        print("Current Time",now)
     return webhook_message
 
 
