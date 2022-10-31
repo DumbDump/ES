@@ -199,18 +199,41 @@ body = {
 # print(response.json())
 ticker = "MESZ2"
 
-body = {
+buy_body = {
     "accountSpec": "DEMO485096",
     "accountId": 1083577,
     "action": "Buy",
     "symbol": ticker,
     "orderQty": 1,
     "orderType": "Market",
+}
+
+sell_body = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "action": "Sell",
+    "symbol": ticker,
+    "orderQty": 1,
+    "orderType": "TrailingStop",
+    "isAutomated": "true",
+    "trailingStop": "true",
+    "stopPrice" : 3884
+}
+
+trailing_stop = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "action": "Buy",
+    "symbol": ticker,
+    "orderQty": 1,
+    "orderType": "TrailingStop",
     "isAutomated": "true"
 }
-response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-print("Open Long ", response.json())
-OrderID = response.json()['orderId']
+
+#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body)
+#print("Open Long ", response.json())
+#OrderID = response.json()['orderId']
+OrderID = 4968709673
 print("ORDER ID", OrderID)
 # STOP LIMIT SELL
 
@@ -220,3 +243,5 @@ body = {
 
 response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
 print("Retrived Order", response.json())
+price = response.json()[0]['price']
+print("price Order", price, price -4)
