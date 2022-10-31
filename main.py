@@ -262,14 +262,14 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
                 round(price))
             format1 = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
-                round(price+10))
+                round(price+20))
             print(format,format1)
             quote = TDSession.get_quotes(instruments=[format])
             quote1 = TDSession.get_quotes(instruments=[format1])
             leg1 = quote[format]['askPrice']
             leg2 = quote1[format1]['bidPrice']
             spread = leg1-leg2
-            print("Buy to Open CALL Spread",format,format1, spread)
+            print("Buy CALL Spread",format,format1, spread)
             if DEBUG:
                 print("Buy Call option", "CALL", format,"Ask Price:", quote[format]['askPrice'])
                 print("Buy Call option", "CALL", format, "Ask Price:", quote[format1]['bidPrice'])
@@ -355,6 +355,16 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
     elif order_type == "BUY_TO_CLOSE":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+    elif order_type == "long":
+        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+        Order_Type = "Buy"
+        Qty  = 1
+        open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type)
+    elif order_type == "short":
+        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+        Order_Type = "Sell"
+        Qty  = 1
+        open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type)
     elif order_type == "RENKO_LONG":
         body = {
             "name": ticker
