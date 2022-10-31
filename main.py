@@ -125,7 +125,7 @@ def open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Typ
     if DEBUG:
         print("Open Long ", response.json())
 
-def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type):
+def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type,TrailingStop):
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
@@ -154,7 +154,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
             "orderType": "TrailingStop",
             "isAutomated": "true",
             "trailingStop": "true",
-            "stopPrice": price - 4
+            "stopPrice": price - TrailingStop
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 
@@ -371,10 +371,15 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
     if ticker == "MESZ2":
         profit_target = 2
+        TrailingStop  = 5
     elif ticker == "MNQZ2":
         profit_target = 5
+        TrailingStop  = 20
     elif ticker == "ESZ2":
         profit_target = 5
+        TrailingStop  = 5
+
+
 
     if order_type == "BUY_TO_OPEN":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
@@ -392,12 +397,12 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Buy"
         Qty  = 1
-        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type)
+        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type,TrailingStop)
     elif order_type == "short":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Sell"
         Qty  = 1
-        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type)
+        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type,TrailingStop)
     elif order_type == "RENKO_LONG":
         body = {
             "name": ticker
