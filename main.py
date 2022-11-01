@@ -384,24 +384,24 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
     if daytime == 1:
         if ticker == "MESZ2":
-            profit_target = 10
-            TrailingStop  = 5
+            profit_target = 20
+            TrailingStop  = 10
         elif ticker == "MNQZ2":
-            profit_target = 50
-            TrailingStop  = 20
+            profit_target = 100
+            TrailingStop  = 50
         elif ticker == "ESZ2":
-            profit_target = 10
-            TrailingStop  = 5
+            profit_target = 20
+            TrailingStop  = 10
     else:
         if ticker == "MESZ2":
-            profit_target = 5
-            TrailingStop  = 3
+            profit_target = 10
+            TrailingStop  = 5
         elif ticker == "MNQZ2":
-            profit_target = 30
-            TrailingStop  = 10
+            profit_target = 60
+            TrailingStop  = 30
         elif ticker == "ESZ2":
-            profit_target = 5
-            TrailingStop  = 3
+            profit_target = 10
+            TrailingStop  = 5
 
 
 
