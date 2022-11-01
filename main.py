@@ -142,11 +142,12 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
     OrderID = response.json()
     print("1:",response.json())
     body = {
-        "masterid": OrderID
+        "masterid": int(OrderID)
     }
     response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-    price = response.json()[0]['price']
+    #price = response.json()[0]['price']
     print("2:", response.json())
+
     body = {
             "accountSpec": account_name,
             "accountId": account_number,
