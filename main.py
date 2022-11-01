@@ -149,13 +149,15 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
     price = response.json()[0]['price']
     if Order_Type == "Sell":
         limit_price = price + TrailingStop
+        new_order_type = "Buy"
     else:
         limit_price = price - TrailingStop
+        new_order_type = "Sell"
 
     body = {
             "accountSpec": account_name,
             "accountId": account_number,
-            "action": Order_Type,
+            "action": new_order_type,
             "symbol": ticker,
             "orderQty": Qty,
             "orderType": "TrailingStop",
