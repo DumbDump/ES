@@ -362,16 +362,19 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     }
 
     now = datetime.datetime.now()
-    today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
-    today1pm = now.replace(hour=21, minute=0, second=0, microsecond=0)
+    today5am = now.replace(hour=6+7, minute=0, second=0, microsecond=0)
+    today1pm = now.replace(hour=13+7, minute=0, second=0, microsecond=0)
 
     if now > today5am and now < today1pm:
         daytime = 1
+        daytime_multiplier = 4
     else:
         daytime = 0
+        daytime_multiplier = 1
 
     if DEBUG:
         print("DayTime:",daytime)
+
     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
     ACCESS_TOKEN = response.json()['accessToken']
     #print(ACCESS_TOKEN)
@@ -379,15 +382,26 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
 
-    if ticker == "MESZ2":
-        profit_target = 2
-        TrailingStop  = 5
-    elif ticker == "MNQZ2":
-        profit_target = 5
-        TrailingStop  = 20
-    elif ticker == "ESZ2":
-        profit_target = 5
-        TrailingStop  = 5
+    if daytime == 1:
+        if ticker == "MESZ2":
+            profit_target = 10
+            TrailingStop  = 5
+        elif ticker == "MNQZ2":
+            profit_target = 50
+            TrailingStop  = 20
+        elif ticker == "ESZ2":
+            profit_target = 10
+            TrailingStop  = 5
+    else:
+        if ticker == "MESZ2":
+            profit_target = 5
+            TrailingStop  = 3
+        elif ticker == "MNQZ2":
+            profit_target = 30
+            TrailingStop  = 10
+        elif ticker == "ESZ2":
+            profit_target = 5
+            TrailingStop  = 3
 
 
 
@@ -636,8 +650,7 @@ def webhook():
     parse_webhook_message(webhook_message)
 
 
-    now = datetime.datetime.now()
-    print("Current Time", now)
+
     if DEBUG:
         print("Current Time",now)
     return webhook_message
