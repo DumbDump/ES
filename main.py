@@ -125,7 +125,7 @@ def open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Typ
     if DEBUG:
         print("Open Long ", response.json())
 
-def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type,TrailingStop):
+def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type, TrailingStop):
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
@@ -400,12 +400,12 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Buy"
         Qty  = 1
-        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type,TrailingStop)
+        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
     elif order_type == "short":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Sell"
         Qty  = 1
-        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type,TrailingStop)
+        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
     elif order_type == "RENKO_LONG":
         body = {
             "name": ticker
