@@ -153,7 +153,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
             "action": Order_Type,
             "symbol": ticker,
             "orderQty": Qty,
-            "orderType": "TrailingStop",
+            "orderType": TrailingStop,
             "isAutomated": "true",
             "trailingStop": "true",
             "stopPrice": price - TrailingStop
