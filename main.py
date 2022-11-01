@@ -635,6 +635,7 @@ def webhook():
 
 
     now = datetime.datetime.now()
+    print("Current Time", now)
     if DEBUG:
         print("Current Time",now)
     return webhook_message
