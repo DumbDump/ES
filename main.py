@@ -140,11 +140,13 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     OrderID = response.json()
+    print("1:",response.json())
     body = {
         "masterid": OrderID
     }
     response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
     price = response.json()[0]['price']
+    print("2:", response.json())
     body = {
             "accountSpec": account_name,
             "accountId": account_number,
@@ -157,6 +159,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
             "stopPrice": price - TrailingStop
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    print("3:", response.json())
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
     body = {
