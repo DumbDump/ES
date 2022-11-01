@@ -233,7 +233,7 @@ trailing_stop = {
 #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body)
 #print("Open Long ", response.json())
 #OrderID = response.json()['orderId']
-OrderID = 4968709673
+OrderID = 4978240311
 print("ORDER ID", OrderID)
 # STOP LIMIT SELL
 

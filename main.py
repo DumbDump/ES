@@ -139,25 +139,28 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    OrderID = response.json()
-    print("1:",response.json())
+    OrderID = response.json()['orderId']
+    print("1:",OrderID)
+
     body = {
         "masterid": int(OrderID)
     }
-    response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-    #price = response.json()[0]['price']
-    print("2:", response.json())
 
+    response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
+    price = response.json()[0]['price']
+    limit_price = price - TrailingStop
+    print("2:", response.json())
+    print("2:", price,limit_price)
     body = {
             "accountSpec": account_name,
             "accountId": account_number,
             "action": Order_Type,
             "symbol": ticker,
             "orderQty": Qty,
-            "orderType": TrailingStop,
+            "orderType": "TrailingStop",
             "isAutomated": "true",
             "trailingStop": "true",
-            "stopPrice": price - TrailingStop
+            "stopPrice": limit_price
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     print("3:", response.json())
@@ -639,6 +642,7 @@ def webhook():
 @app.route("/logs", methods=["GET"])
 def get_logs():
     return 'ok'
+
 
 
 app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
