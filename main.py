@@ -166,7 +166,6 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
             "stopPrice": limit_price
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    print("3:", response.json())
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
     body = {
