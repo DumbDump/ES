@@ -496,11 +496,19 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         if daytime == 0:
             if ticker == "MESZ2":
                 order_price = (response.json()[0]['price']) + 3
+            elif ticker == "ESZ2":
+                order_price = (response.json()[0]['price']) + 3
+            elif ticker == "NQZ2":
+                order_price = (response.json()[0]['price']) + 8
             else:
                 order_price = (response.json()[0]['price']) + 8
         else:
             if ticker == "MESZ2":
                 order_price = (response.json()[0]['price']) + 12
+            elif ticker == "ESZ2":
+                order_price = (response.json()[0]['price']) + 12
+            elif ticker == "NQZ2":
+                order_price = (response.json()[0]['price']) + 50
             else:
                 order_price = (response.json()[0]['price']) + 50
 
