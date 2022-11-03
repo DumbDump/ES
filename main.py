@@ -430,11 +430,11 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 100
             TrailingStop  = 50
         elif ticker == "ESZ2":
-            profit_target = 2
-            TrailingStop  = 10
+            profit_target = 4
+            TrailingStop  = 8
         else:
-            profit_target = 100
-            TrailingStop  = 50
+            profit_target = 50
+            TrailingStop  = 100
     else:
         if ticker == "MESZ2":
             profit_target = 4
@@ -466,14 +466,14 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Buy"
         Qty  = 1
-        #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
+        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
+        #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
     elif order_type == "short":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Sell"
         Qty  = 1
-        #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
+        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
+        #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
     elif order_type == "flat":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
     elif order_type == "RENKO_LONG":
