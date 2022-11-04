@@ -203,10 +203,10 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
             "symbol": ticker,
             "orderQty": Qty,
             "orderType": "Limit",
-            "Price": limit_price
+            "price": limit_price
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    print(response.json())
+    print(response.json(),price, limit_price)
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
     body = {
