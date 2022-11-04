@@ -432,10 +432,10 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 100
             TrailingStop  = 50
         elif ticker == "ESZ2":
-            profit_target = 4
+            profit_target = 6
             TrailingStop  = 8
         else:
-            profit_target = 50
+            profit_target = 20
             TrailingStop  = 100
     else:
         if ticker == "MESZ2":
@@ -445,10 +445,10 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 10
             TrailingStop  = 60
         elif ticker == "ESZ2":
-            profit_target = 4
+            profit_target = 2
             TrailingStop  = 4
         else:
-            profit_target = 10
+            profit_target = 5
             TrailingStop  = 60
 
 
