@@ -182,7 +182,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     OrderID = response.json()['orderId']
-    print("0:",response.json())
+    #print("0:",response.json())
 
     body = {
         "masterid": int(OrderID)
@@ -648,7 +648,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             else:
                 order_price = (response.json()[0]['price']) - 50
 
-        print("Price",response.json()[0]['price'],int(order_price))
+        #print("Price",response.json()[0]['price'],int(order_price))
 
         body = {
             "accountSpec": "DEMO485096",
@@ -661,7 +661,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "isAutomated": "true"
         }
         response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        print("order status",response.json())
+        #print("order status",response.json())
 
 ##################################
 # WebHook code
