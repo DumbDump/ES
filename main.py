@@ -191,22 +191,22 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
     response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
     #price = response.json()[0]['price']
     #print("1:",response.json())
-    if Order_Type == "Sell":
-        limit_price = price - TrailingStop
-        new_order_type = "Buy"
-    else:
-        limit_price = price + TrailingStop
-        new_order_type = "Sell"
-
-    body = {
-            "accountSpec": account_name,
-            "accountId": account_number,
-            "action": new_order_type,
-            "symbol": ticker,
-            "orderQty": Qty,
-            "orderType": "Limit",
-            "price": limit_price
-    }
+    # if Order_Type == "Sell":
+    #     limit_price = price - TrailingStop
+    #     new_order_type = "Buy"
+    # else:
+    #     limit_price = price + TrailingStop
+    #     new_order_type = "Sell"
+    #
+    # body = {
+    #         "accountSpec": account_name,
+    #         "accountId": account_number,
+    #         "action": new_order_type,
+    #         "symbol": ticker,
+    #         "orderQty": Qty,
+    #         "orderType": "Limit",
+    #         "price": limit_price
+    # }
     #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     #print(response.json(),price, limit_price)
 
