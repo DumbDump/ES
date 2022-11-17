@@ -16,6 +16,19 @@ import datetime
 from datetime import datetime
 from pytz import timezone, utc
 
+now = datetime.now()
+today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
+today1pm = now.replace(hour=13 + 7, minute=0, second=0, microsecond=0)
+
+if now > today5am and now < today1pm:
+    daytime = 1
+    daytime_multiplier = 4
+else:
+    daytime = 0
+    daytime_multiplier = 1
+
+
+    print("DayTime:", daytime)
 
 
 DEBUG = 0
@@ -460,10 +473,10 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             TrailingStop  = 60
         elif ticker == "ESZ2":
             profit_target = 2
-            TrailingStop  = 4
+            TrailingStop  = 2
         else:
             profit_target = 5
-            TrailingStop  = 60
+            TrailingStop  = 5
 
 
     if order_type == "BUY_TO_OPEN":
