@@ -23,13 +23,13 @@ import pytz
 
 DEBUG = 0
 
-date_format='%m/%d/%Y %H:%M:%S %Z'
-date = datetime.now(tz=pytz.utc)
-print("Current date & time is:", date.strftime(date_format))
+#date_format='%m/%d/%Y %H:%M:%S %Z'
+#date = datetime.now(tz=pytz.utc)
+#print("Current date & time is:", date.strftime(date_format))
 
-date = date.astimezone(timezone('US/Pacific'))
+#date = date.astimezone(timezone('US/Pacific'))
 
-print ("Local date & time is  :", date.strftime(date_format))
+#print ("Local date & time is  :", date.strftime(date_format))
 
 
 config = configparser.ConfigParser()
