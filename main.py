@@ -415,7 +415,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     }
 
     now = datetime.now()
-    today5am = now.replace(hour=6+7, minute=0, second=0, microsecond=0)
+    today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
     today1pm = now.replace(hour=13+7, minute=0, second=0, microsecond=0)
 
 
