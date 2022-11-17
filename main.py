@@ -36,7 +36,7 @@ access_token = config['oanda']['api_key']
 app = Flask(__name__)
 client = oandapyV20.API(access_token=access_token)
 
-print(get_pst_time())
+#print(get_pst_time())
 #### TOS
 long_flag = 0
 short_flag = 0
@@ -192,6 +192,8 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     OrderID = response.json()['orderId']
     #print("0:",response.json())
+
+    time.sleep(1)
 
     body = {
         "masterid": int(OrderID)
