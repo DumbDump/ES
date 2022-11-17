@@ -16,12 +16,6 @@ import datetime
 from datetime import datetime
 from pytz import timezone, utc
 
-#from datetime import datetime
-#from pytz import timezone
-#import pytz
-
-#from Tradovate_libs import *
-#from Tradovate_libs import liquidate_positions, open_long, open_short, close_long, close_short
 
 
 DEBUG = 0
@@ -420,7 +414,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         "sec": '66e4c947-0fe2-46b2-b76a-3ed88601ccd8'
     }
 
-    now = datetime.datetime.now()
+    now = datetime.now()
     today5am = now.replace(hour=6+7, minute=0, second=0, microsecond=0)
     today1pm = now.replace(hour=13+7, minute=0, second=0, microsecond=0)
 
