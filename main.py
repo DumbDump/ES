@@ -11,9 +11,11 @@ import os, json, datetime, math
 import os, json, requests
 import numpy as np
 import pandas as pd
-import time
+import time, pytz
 import datetime
-from pytz import timezone
+from datetime import datetime
+from pytz import timezone, utc
+
 #from datetime import datetime
 #from pytz import timezone
 #import pytz
@@ -21,15 +23,16 @@ from pytz import timezone
 #from Tradovate_libs import *
 #from Tradovate_libs import liquidate_positions, open_long, open_short, close_long, close_short
 
+
 DEBUG = 0
 
-#date_format='%m/%d/%Y %H:%M:%S %Z'
-#date = datetime.now(tz=pytz.utc)
-#print("Current date & time is:", date.strftime(date_format))
 
-#date = date.astimezone(timezone('US/Pacific'))
-
-#print ("Local date & time is  :", date.strftime(date_format))
+def get_pst_time():
+    date_format='%m_%d_%Y_%H_%M_%S_%Z'
+    date = datetime.now(tz=pytz.utc)
+    date = date.astimezone(timezone('US/Pacific'))
+    pstDateTime=date.strftime(date_format)
+    return pstDateTime
 
 
 config = configparser.ConfigParser()
@@ -39,6 +42,7 @@ access_token = config['oanda']['api_key']
 app = Flask(__name__)
 client = oandapyV20.API(access_token=access_token)
 
+print(get_pst_time())
 #### TOS
 long_flag = 0
 short_flag = 0
@@ -693,7 +697,11 @@ def parse_webhook_message(webhook_message):
     exchange = exchange.replace('{', '')
     exchange = exchange.replace('}', '')
     exchange = exchange.replace('\'', '')
-    print(ticker, order_type, qty, price, position_type, exchange)
+
+
+    PST_TIME = get_pst_time()
+
+    print(PST_TIME, ticker, order_type, qty, price, position_type, exchange)
     if 'ALPACA' in str(webhook_message).upper():
         print('###########  ALAPCA ################')
         ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange)
