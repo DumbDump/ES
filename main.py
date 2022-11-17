@@ -358,6 +358,8 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     quote = TDSession.get_quotes(instruments=["SPY"])
     price = round_up(10 * (quote['SPY']['lastPrice']),-1)
 
+    PST_TIME = get_pst_time()
+
     if order_type == "BUY_TO_OPEN":
             format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
                 round(price))
@@ -369,7 +371,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             leg1 = quote[format]['askPrice']
             leg2 = quote1[format1]['bidPrice']
             spread = leg1-leg2
-            print("Buy CALL Spread",format,format1, spread)
+            print("Buy CALL Spread",PST_TIME, format,format1, spread)
             if DEBUG:
                 print("Buy Call option", "CALL", format,"Ask Price:", quote[format]['askPrice'])
                 print("Buy Call option", "CALL", format, "Ask Price:", quote[format1]['bidPrice'])
@@ -384,21 +386,21 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             leg1 = quote[format]['askPrice']
             leg2 = quote1[format1]['bidPrice']
             spread = leg1-leg2
-            print("Buy to Open PUT Spread",format,format1, spread)
+            print("Buy to Open PUT Spread",PST_TIME, format,format1, spread)
     elif order_type == "SELL_TO_CLOSE":
             quote = TDSession.get_quotes(instruments=[format])
             quote1 = TDSession.get_quotes(instruments=[format1])
             leg1 = quote[format]['askPrice']
             leg2 = quote1[format1]['bidPrice']
             spread = leg1 - leg2
-            print("Sell to close CALL Spread", format, format1, spread)
+            print("Sell to close CALL Spread", PST_TIME, format, format1, spread)
     elif order_type == "BUY_TO_CLOSE":
             quote = TDSession.get_quotes(instruments=[format])
             quote1 = TDSession.get_quotes(instruments=[format1])
             leg1 = quote[format]['askPrice']
             leg2 = quote1[format1]['bidPrice']
             spread = leg1 - leg2
-            print("Sell to close PUT Spread", format, format1, spread)
+            print("Sell to close PUT Spread", PST_TIME, format, format1, spread)
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     if DEBUG:
