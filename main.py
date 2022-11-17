@@ -189,25 +189,25 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
     }
 
     response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-    #price = response.json()[0]['price']
+    price = response.json()[0]['price']
     #print("1:",response.json())
-    # if Order_Type == "Sell":
-    #     limit_price = price - TrailingStop
-    #     new_order_type = "Buy"
-    # else:
-    #     limit_price = price + TrailingStop
-    #     new_order_type = "Sell"
-    #
-    # body = {
-    #         "accountSpec": account_name,
-    #         "accountId": account_number,
-    #         "action": new_order_type,
-    #         "symbol": ticker,
-    #         "orderQty": Qty,
-    #         "orderType": "Limit",
-    #         "price": limit_price
-    # }
-    #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    if Order_Type == "Sell":
+        limit_price = price - TrailingStop
+        new_order_type = "Buy"
+    else:
+        limit_price = price + TrailingStop
+        new_order_type = "Sell"
+
+    body = {
+            "accountSpec": account_name,
+            "accountId": account_number,
+            "action": new_order_type,
+            "symbol": ticker,
+            "orderQty": Qty,
+            "orderType": "Limit",
+            "price": limit_price
+    }
+    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     #print(response.json(),price, limit_price)
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
@@ -407,6 +407,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     today5am = now.replace(hour=6+7, minute=0, second=0, microsecond=0)
     today1pm = now.replace(hour=13+7, minute=0, second=0, microsecond=0)
 
+
     if now > today5am and now < today1pm:
         daytime = 1
         daytime_multiplier = 4
@@ -433,10 +434,10 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             TrailingStop  = 50
         elif ticker == "ESZ2":
             profit_target = 6
-            TrailingStop  = 8
+            TrailingStop  = 6
         else:
             profit_target = 20
-            TrailingStop  = 100
+            TrailingStop  = 20
     else:
         if ticker == "MESZ2":
             profit_target = 4
