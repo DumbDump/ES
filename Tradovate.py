@@ -71,56 +71,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
-    if order_type == "BUY_TO_OPEN":
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": '1083577',
-            "action": "Buy",
-            "symbol": "ESZ2",
-            "orderQty": '1',
-            "orderType": "Market",
-            "isAutomated": "true"
-        }
-        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        #print(response.json())
 
-    elif order_type == "SELL_TO_OPEN":
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": '1083577',
-            "action": "Sell",
-            "symbol": "ESZ2",
-            "orderQty": '1',
-            "orderType": "Market",
-            "isAutomated": "true"
-        }
-        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        #print(response.json())
-    elif order_type == "SELL_TO_CLOSE":
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": '1083577',
-            "action": "Sell",
-            "symbol": "ESZ2",
-            "orderQty": '1',
-            "orderType": "Market",
-            "isAutomated": "true"
-        }
-        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        #print(response.json())
-    elif order_type == "BUY_TO_CLOSE":
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": '1083577',
-            "action": "Buy",
-            "symbol": "ESZ2",
-            "orderQty": '1',
-            "orderType": "Market",
-            "isAutomated": "true"
-        }
-        response = requests.post("https://"+API+'/order/placeorder', headers=headers, data=body)
-        #print(response.json())
-        print()
 
 
 
@@ -220,28 +171,63 @@ sell_body = {
     "stopPrice" : 3884
 }
 
-trailing_stop = {
+sell_body = {
     "accountSpec": "DEMO485096",
     "accountId": 1083577,
-    "action": "Buy",
+    "action": "Sell",
     "symbol": ticker,
     "orderQty": 1,
     "orderType": "TrailingStop",
+    "stopPrice": 20,
+    "trailingStop": "true",
     "isAutomated": "true"
 }
 
-#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body)
-#print("Open Long ", response.json())
-#OrderID = response.json()['orderId']
-OrderID = 4978240311
-print("ORDER ID", OrderID)
-# STOP LIMIT SELL
 
+response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body )
+print("Open Long ", response.json())
+OrderID = response.json()['orderId']
+print("ORDER ID", OrderID)
 body = {
-    "masterid": int(OrderID)
-}
+        "masterid": int(OrderID)
+    }
 
 response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-print("Retrived Order", response.json())
 price = response.json()[0]['price']
-print("price Order", price, price -4)
+print("Price", price)
+
+Order_Type = "Buy"
+TrailingStop = 6
+Qty = 1
+
+if Order_Type == "Sell":
+    limit_price = price + TrailingStop
+    new_order_type = "Buy"
+else:
+    limit_price = price - TrailingStop
+    new_order_type = "Sell"
+
+body = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "action": new_order_type,
+    "symbol": ticker,
+    "orderQty": Qty,
+    "orderType": "TrailingStop",
+    "isAutomated": "true",
+    "trailingStop": "true",
+    "stopPrice": limit_price
+}
+response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+print("Open Long ", response.json())
+
+# STOP LIMIT SELL
+
+# body = {
+#     "masterid": int(OrderID)
+# }
+#
+# response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
+# print("Retrived Order", response.json())
+# price = response.json()[0]['price']
+# print("price Order", price, price -4)
