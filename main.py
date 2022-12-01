@@ -412,6 +412,7 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("Sell to close PUT Spread", PST_TIME, format, format1, spread)
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
+    print(ticker, order_type, qty, round(price), position_type, exchange)
     if DEBUG:
         print('TRADOVATE order')
         print(ticker, order_type, qty, round(price), position_type, exchange)
@@ -459,10 +460,10 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 100
             TrailingStop  = 20
         elif ticker == "ESZ2":
-            profit_target = 20
+            profit_target = 15
             TrailingStop  = 6
         elif ticker == "NQZ2":
-            profit_target = 40
+            profit_target = 30
             TrailingStop  = 20
         else:
             profit_target = 20
