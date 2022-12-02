@@ -212,7 +212,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
         "masterid": int(OrderID)
     }
 
-    response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
+    #response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
     price = response.json()[0]['price']
     #print("1:",response.json())
     if Order_Type == "Sell":
@@ -231,7 +231,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
             "orderType": "Limit",
             "price": limit_price
     }
-    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     #print(response.json(),price, limit_price)
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
