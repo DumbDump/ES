@@ -184,42 +184,42 @@ sell_body = {
 }
 
 
-response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body )
-print("Open Long ", response.json())
-OrderID = response.json()['orderId']
-print("ORDER ID", OrderID)
+#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body )
+#print("Open Long ", response.json())
+#OrderID = response.json()['orderId']
+#print("ORDER ID", OrderID)
 body = {
         "masterid": int(OrderID)
     }
 
-response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-price = response.json()[0]['price']
-print("Price", price)
+#response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
+#price = response.json()[0]['price']
+#print("Price", price)
 
-Order_Type = "Buy"
-TrailingStop = 6
-Qty = 1
-
-if Order_Type == "Sell":
-    limit_price = price + TrailingStop
-    new_order_type = "Buy"
-else:
-    limit_price = price - TrailingStop
-    new_order_type = "Sell"
-
-body = {
-    "accountSpec": "DEMO485096",
-    "accountId": 1083577,
-    "action": new_order_type,
-    "symbol": ticker,
-    "orderQty": Qty,
-    "orderType": "TrailingStop",
-    "isAutomated": "true",
-    "trailingStop": "true",
-    "stopPrice": limit_price
-}
-response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-print("Open Long ", response.json())
+# Order_Type = "Buy"
+# TrailingStop = 6
+# Qty = 1
+#
+# if Order_Type == "Sell":
+#     limit_price = price + TrailingStop
+#     new_order_type = "Buy"
+# else:
+#     limit_price = price - TrailingStop
+#     new_order_type = "Sell"
+#
+# body = {
+#     "accountSpec": "DEMO485096",
+#     "accountId": 1083577,
+#     "action": new_order_type,
+#     "symbol": ticker,
+#     "orderQty": Qty,
+#     "orderType": "TrailingStop",
+#     "isAutomated": "true",
+#     "trailingStop": "true",
+#     "stopPrice": limit_price
+# }
+#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+#print("Open Long ", response.json())
 
 # STOP LIMIT SELL
 
@@ -231,3 +231,111 @@ print("Open Long ", response.json())
 # print("Retrived Order", response.json())
 # price = response.json()[0]['price']
 # print("price Order", price, price -4)
+
+
+### Bracket order
+
+
+
+# body = {
+#     "accountSpec": "DEMO485096",
+#     "accountId": 1083577,
+#     "action": "sell",
+#     "symbol": "ESZ2022",
+#     "orderStrategyTypeId": 2,
+#     "isAutomated": "true",
+#     "params": "{ \"entryVersion\": { \"orderQty\"  : 1, \"orderType\" : \"Market\", \"timeInForce\": \"Day\" }, \"brackets\": [ { \"qty\": 1, \"profitTarget\": 125, \"stopLoss\": -60, \"trailingStop\": true }] }"
+# }
+
+# Buy
+
+
+buy_body = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "action": "Buy",
+    "symbol": "MESZ2",
+    "orderQty": 1,
+    "orderType": "Market",
+    "isAutomated": "true"
+}
+
+#response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body)
+#print("buy:", response.json())
+
+
+body = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "action": "sell",
+    "symbol": "ESZ2",
+    "orderStrategyTypeId": 2,
+    "isAutomated": "true",
+    "params": "{ \"entryVersion\": { \"orderQty\"  : 1, \"orderType\" : \"Market\", \"timeInForce\": \"Day\" }, \"brackets\": [ { \"qty\": 1, \"profitTarget\": 125, \"stopLoss\": -60, \"trailingStop\": true }] }"
+}
+#response = requests.post("https://" + API + '/order/startorderstrategy', headers=headers, data=body)
+#print("Open Long ", response.json())
+
+params = {
+    "entryVersion": {
+        "orderQty": 1,
+        "orderType": "Market"
+    },
+    "brackets": [{
+        "qty": 1,
+        "profitTarget": -30,
+        "stopLoss": 15,
+        "trailingStop": "false"
+    }]
+}
+
+body = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "symbol": 'MESZ2',
+    "action": 'Sell',
+    "orderStrategyTypeId": 2,
+    "params" : json.dumps(params)
+}
+
+inpiut = "https://" + API + '/orderstrategy/startorderstrategy'
+print(inpiut)
+
+response = requests.post(inpiut, headers=headers, data=body)
+
+print("Open Long ", response.text)
+
+
+
+URL = 'wss://demo.tradovateapi.com/v1/websocket'
+
+params = {
+    'entryVersion': {
+        'orderQty': 1,
+        'orderType': "Market"
+    },
+    'brackets': [{
+        'qty': 1,
+        'profitTarget': -30,
+        'stopLoss': 15,
+        'trailingStop': "False"
+    }]
+}
+
+body = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "action": "Sell",
+    "symbol": "MESZ2",
+    "orderStrategyTypeId": 2,
+    "isAutomated": "true",
+    "params": json.dumps(params)
+}
+
+
+# inpiut = "https://" + API + '/orderstrategy/startorderstrategy'
+# print(inpiut)
+#
+# response = requests.post(inpiut, headers=headers, data=body)
+#
+# print("Open Long ", response.text)
