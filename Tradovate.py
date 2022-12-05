@@ -279,13 +279,13 @@ body = {
 params = {
     "entryVersion": {
         "orderQty": 1,
-        "orderType": "Market"
+        "orderType": 'Market'
     },
     "brackets": [{
         "qty": 1,
-        "profitTarget": -30,
+        "profitTarget": 30,
         "stopLoss": 15,
-        "trailingStop": "false"
+        "trailingStop": 'false'
     }]
 }
 
