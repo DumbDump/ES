@@ -250,58 +250,79 @@ body = {
 # Buy
 
 
-buy_body = {
-    "accountSpec": "DEMO485096",
-    "accountId": 1083577,
-    "action": "Buy",
-    "symbol": "MESZ2",
-    "orderQty": 1,
-    "orderType": "Market",
-    "isAutomated": "true"
-}
+# buy_body = {
+#     "accountSpec": "DEMO485096",
+#     "accountId": 1083577,
+#     "action": "Buy",
+#     "symbol": "MESZ2",
+#     "orderQty": 1,
+#     "orderType": "Market",
+#     "isAutomated": "true"
+# }
 
 #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body)
 #print("buy:", response.json())
 
-
-body = {
-    "accountSpec": "DEMO485096",
-    "accountId": 1083577,
-    "action": "sell",
-    "symbol": "ESZ2",
-    "orderStrategyTypeId": 2,
-    "isAutomated": "true",
-    "params": "{ \"entryVersion\": { \"orderQty\"  : 1, \"orderType\" : \"Market\", \"timeInForce\": \"Day\" }, \"brackets\": [ { \"qty\": 1, \"profitTarget\": 125, \"stopLoss\": -60, \"trailingStop\": true }] }"
+#
+# body = {
+#     "accountSpec": "DEMO485096",
+#     "accountId": 1083577,
+#     "action": "sell",
+#     "symbol": "ESZ2",
+#     "orderStrategyTypeId": 2,
+#     "isAutomated": "true",
+#     "params": "{ \"entryVersion\": { \"orderQty\"  : 1, \"orderType\" : \"Market\", \"timeInForce\": \"Day\" }, \"brackets\": [ { \"qty\": 1, \"profitTarget\": 125, \"stopLoss\": -60, \"trailingStop\": true }] }"
+# }
+# #response = requests.post("https://" + API + '/order/startorderstrategy', headers=headers, data=body)
+# #print("Open Long ", response.json())
+#
+# params = {
+#     "entryVersion": {
+#         "orderQty": 1,
+#         "orderType": 'Market'
+#     },
+#     "brackets": [{
+#         "qty": 1,
+#         "profitTarget": 30,
+#         "stopLoss": 15,
+#         "trailingStop": 'false'
+#     }]
+# }
+#
+# body1 = {
+#     "accountSpec": "DEMO485096",
+#     "accountId": 1083577,
+#     "symbol": 'MESZ2',
+#     "action": 'Sell',
+#     "orderStrategyTypeId": 2,
+#     "params" : json.dumps(params)
+# }
+#
+other = {
+        "action": "Sell",
+        "orderType": "Limit",
+        "price": 3635
 }
-#response = requests.post("https://" + API + '/order/startorderstrategy', headers=headers, data=body)
-#print("Open Long ", response.json())
 
-params = {
-    "entryVersion": {
-        "orderQty": 1,
-        "orderType": 'Market'
-    },
-    "brackets": [{
-        "qty": 1,
-        "profitTarget": 30,
-        "stopLoss": 15,
-        "trailingStop": 'false'
-    }]
+oco = {
+            "accountSpec": "DEMO485096",
+            "accountId": 1083577,
+            "action": "Sell",
+            "symbol": "MESZ2",
+            "orderQty": 1,
+            "orderType": "TrailingStop",
+            "price": 3590,
+            "stopPrice": 3595,
+            "isAutomated": "true",
+            "other": json.loads(other)
 }
 
-body = {
-    "accountSpec": "DEMO485096",
-    "accountId": 1083577,
-    "symbol": 'MESZ2',
-    "action": 'Sell',
-    "orderStrategyTypeId": 2,
-    "params" : json.dumps(params)
-}
+# OCO order
 
-inpiut = "https://" + API + '/orderstrategy/startorderstrategy'
+inpiut = "https://" + API + '/order/placeoco'
 print(inpiut)
 
-response = requests.post(inpiut, headers=headers, data=body)
+response = requests.post(inpiut, headers=headers, data=oco)
 
 print("Open Long ", response.text)
 
@@ -310,15 +331,15 @@ print("Open Long ", response.text)
 URL = 'wss://demo.tradovateapi.com/v1/websocket'
 
 params = {
-    'entryVersion': {
-        'orderQty': 1,
-        'orderType': "Market"
+    "entryVersion": {
+        "orderQty": 1,
+        "orderType": "Market"
     },
-    'brackets': [{
-        'qty': 1,
-        'profitTarget': -30,
-        'stopLoss': 15,
-        'trailingStop': "False"
+    "brackets": [{
+        "qty": 1,
+        "profitTarget": -30,
+        "stopLoss": 15,
+        "trailingStop": "False"
     }]
 }
 
@@ -329,13 +350,13 @@ body = {
     "symbol": "MESZ2",
     "orderStrategyTypeId": 2,
     "isAutomated": "true",
-    "params": json.dumps(params)
+    "params": params
 }
 
 
-# inpiut = "https://" + API + '/orderstrategy/startorderstrategy'
-# print(inpiut)
-#
-# response = requests.post(inpiut, headers=headers, data=body)
-#
-# print("Open Long ", response.text)
+inpiut = "https://" + API + '/orderstrategy/startorderstrategy'
+print(inpiut)
+
+#response = requests.post(inpiut, headers=headers, data=body)
+
+#print("Open Long ", response.text)

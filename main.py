@@ -231,7 +231,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
             "orderType": "Limit",
             "price": limit_price
     }
-    #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
     #print(response.json(),price, limit_price)
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
@@ -581,20 +581,20 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             if ticker == "MESZ2":
                 order_price = (response.json()[0]['price']) + 3
             elif ticker == "ESZ2":
-                order_price = (response.json()[0]['price']) + 3
+                order_price = (response.json()[0]['price']) + 6
             elif ticker == "NQZ2":
-                order_price = (response.json()[0]['price']) + 8
+                order_price = (response.json()[0]['price']) + 12
             else:
                 order_price = (response.json()[0]['price']) + 8
         else:
             if ticker == "MESZ2":
                 order_price = (response.json()[0]['price']) + 12
             elif ticker == "ESZ2":
-                order_price = (response.json()[0]['price']) + 12
+                order_price = (response.json()[0]['price']) + 6
             elif ticker == "NQZ2":
-                order_price = (response.json()[0]['price']) + 50
+                order_price = (response.json()[0]['price']) + 12
             else:
-                order_price = (response.json()[0]['price']) + 50
+                order_price = (response.json()[0]['price']) + 12
 
         #print("LIMIT Order Price",order_price)
 
