@@ -187,7 +187,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
             "trailingStop": "true",
             "stopPrice": limit_price
     }
-    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 
 def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type, TrailingStop):
     headers = {
