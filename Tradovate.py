@@ -345,7 +345,7 @@ params = {
 
 body = {
     "accountSpec": "DEMO485096",
-    "accountId": 1083577,
+    "accountId": ACCESS_TOKEN,
     "action": "Sell",
     "symbol": "MESZ2",
     "orderStrategyTypeId": 2,
@@ -354,9 +354,50 @@ body = {
 }
 
 
-inpiut = "https://" + API + '/orderstrategy/startorderstrategy'
-print(inpiut)
 
-response = requests.post(inpiut, headers=headers, data=body)
 
-print("Open Long ", response.text)
+def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
+    print("LIQUIDATE EXISTING POSITION")
+    headers = {
+        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
+    }
+
+
+    body = {
+        "name": ''
+    }
+
+    print(ticker)
+    # find contract ID
+    response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
+    ID = response.json()['id']
+    #print(response.json())
+   # print("LIQUID:", ID)
+
+    # extract all positions
+    response = requests.post("https://" + API + '/position/list', headers=headers)
+    print("All Positins", response.json())
+    length = len(response.json())
+
+    if (length >= 1 and response.json()[0]['contractId'] == ID):
+        netpos = response.json()[0]['netPos']
+    elif (length >= 2 and response.json()[1]['contractId'] == ID):
+        netpos = response.json()[1]['netPos']
+    elif (length >= 3 and response.json()[2]['contractId'] == ID):
+        netpos = response.json()[2]['netPos']
+    elif (length >= 4 and response.json()[3]['contractId'] == ID):
+        netpos = response.json()[3]['netPos']
+    else:
+        print("POSTION not found to do liquidation")
+        netpos = 0
+
+    body = {
+        "accountId": 1083577,
+        "contractId": ID,
+        "admin": "false",
+    }
+    response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+    #time.sleep(1)
+
+
+liquidate_positions('tZOYDlp9v5PZ2DBWqJERvBGr4Z1AHGgrom10GHh3tMOwW8F09eOBXDz604fOhKE0lKfqLvU0lYbDKp45Jg1sR2w4ogMbsCLvjhzAMyiex8PIAGAlGOIvAHbakL1E6NCzcEbZckoblDD52XMKJ5nYGFQxGCYByKC5LMoMZEPefkzrugkS6nrqLjffyI1BgBw1MExDN3mZWoks',1083577,"ESH2023")
