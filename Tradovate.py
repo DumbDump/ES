@@ -298,33 +298,33 @@ body = {
 #     "params" : json.dumps(params)
 # }
 #
-other = {
-        "action": "Sell",
-        "orderType": "Limit",
-        "price": 3635
-}
-
-oco = {
-            "accountSpec": "DEMO485096",
-            "accountId": 1083577,
-            "action": "Sell",
-            "symbol": "MESZ2",
-            "orderQty": 1,
-            "orderType": "TrailingStop",
-            "price": 3590,
-            "stopPrice": 3595,
-            "isAutomated": "true",
-            "other": json.loads(other)
-}
+# other = {
+#         "action": "Sell",
+#         "orderType": "Limit",
+#         "price": 3635
+# }
+#
+# oco = {
+#             "accountSpec": "DEMO485096",
+#             "accountId": 1083577,
+#             "action": "Sell",
+#             "symbol": "MESZ2",
+#             "orderQty": 1,
+#             "orderType": "TrailingStop",
+#             "price": 3590,
+#             "stopPrice": 3595,
+#             "isAutomated": "true",
+#             "other": json.loads(other)
+# }
 
 # OCO order
 
 inpiut = "https://" + API + '/order/placeoco'
-print(inpiut)
+#print(inpiut)
 
-response = requests.post(inpiut, headers=headers, data=oco)
+#response = requests.post(inpiut, headers=headers, data=oco)
 
-print("Open Long ", response.text)
+#print("Open Long ", response.text)
 
 
 
@@ -332,14 +332,14 @@ URL = 'wss://demo.tradovateapi.com/v1/websocket'
 
 params = {
     "entryVersion": {
-        "orderQty": 1,
-        "orderType": "Market"
+    "orderQty": 1,
+    "orderType": "Market"
     },
     "brackets": [{
-        "qty": 1,
-        "profitTarget": -30,
-        "stopLoss": 15,
-        "trailingStop": "False"
+    "qty": 1,
+    "profitTarget": -30,
+    "stopLoss": 15,
+    "trailingStop": "False"
     }]
 }
 
@@ -357,6 +357,6 @@ body = {
 inpiut = "https://" + API + '/orderstrategy/startorderstrategy'
 print(inpiut)
 
-#response = requests.post(inpiut, headers=headers, data=body)
+response = requests.post(inpiut, headers=headers, data=body)
 
-#print("Open Long ", response.text)
+print("Open Long ", response.text)

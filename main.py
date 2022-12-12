@@ -411,8 +411,11 @@ def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             spread = leg1 - leg2
             print("Sell to close PUT Spread", PST_TIME, format, format1, spread)
 
+
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(ticker, order_type, qty, round(price), position_type, exchange)
+    print(ticker, order_type, qty, round(price), position_type, exchange)
+
     if DEBUG:
         print('TRADOVATE order')
         print(ticker, order_type, qty, round(price), position_type, exchange)
