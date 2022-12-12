@@ -456,32 +456,32 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     }
 
     if daytime == 1:
-        if ticker == "MESZ2":
+        if ticker == "MESH3":
             profit_target = 20
             TrailingStop  = 6
-        elif ticker == "MNQZ2":
+        elif ticker == "MNQH3":
             profit_target = 100
             TrailingStop  = 20
-        elif ticker == "ESZ2":
+        elif ticker == "ESH3":
             profit_target = 6
             TrailingStop  = 6
-        elif ticker == "NQZ2":
+        elif ticker == "NQH3":
             profit_target = 30
             TrailingStop  = 28
         else:
             profit_target = 20
             TrailingStop  = 20
     else:
-        if ticker == "MESZ2":
+        if ticker == "MESH3":
             profit_target = 4
             TrailingStop  = 6
-        elif ticker == "MNQZ2":
+        elif ticker == "MNQH3":
             profit_target = 10
             TrailingStop  = 20
-        elif ticker == "ESZ2":
+        elif ticker == "ESH3":
             profit_target = 9
             TrailingStop  = 3
-        elif ticker == "NQZ2":
+        elif ticker == "NQH3":
             profit_target = 8
             TrailingStop  = 6
         else:
@@ -489,20 +489,20 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             TrailingStop  = 7.5
 
 
-    if order_type == "long":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        Order_Type = "Buy"
-        Qty  = 1
-        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
-        #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
-    elif order_type == "short":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        Order_Type = "Sell"
-        Qty  = 1
-        open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
-        #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
-    elif order_type == "flat":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+    # if order_type == "long":
+    #     liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+    #     Order_Type = "Buy"
+    #     Qty  = 1
+    #     open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
+    #     #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
+    # elif order_type == "short":
+    #     liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+    #     Order_Type = "Sell"
+    #     Qty  = 1
+    #     open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
+    #     #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
+    # elif order_type == "flat":
+    #     liquidate_positions(ACCESS_TOKEN, account_number, ticker)
 
 ##################################
 # WebHook code
