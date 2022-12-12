@@ -736,7 +736,7 @@ def parse_webhook_message(webhook_message):
     elif 'TRADOVATE' in str(webhook_message).upper():
         if DEBUG:
             print('###########  TRADOVATE ################')
-        TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
+ #       TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 
 @app.route("/webhook", methods=["POST", "GET"])
