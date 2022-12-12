@@ -489,19 +489,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             TrailingStop  = 7.5
 
 
-    if order_type == "BUY_TO_OPEN":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        Order_Type = "Buy"
-        open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type)
-    elif order_type == "SELL_TO_OPEN":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        Order_Type = "Sell"
-        open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type)
-    elif order_type == "SELL_TO_CLOSE":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-    elif order_type == "BUY_TO_CLOSE":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-    elif order_type == "long":
+    if order_type == "long":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Buy"
         Qty  = 1
@@ -515,190 +503,6 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
     elif order_type == "flat":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-    elif order_type == "RENKO_LONG":
-        body = {
-            "name": ticker
-        }
-        # find contract ID
-        response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-        ID = response.json()['id']
-        if DEBUG:
-            print(response.json())
-            rint("LIQUID:", ID)
-
-        # extract all positions
-        response = requests.post("https://" + API + '/position/list', headers=headers)
-        if DEBUG:
-            print(response.json())
-        length = len(response.json())
-
-        if (length >= 1 and response.json()[0]['contractId'] == ID):
-            netpos = response.json()[0]['netPos']
-        elif (length >= 2 and response.json()[1]['contractId'] == ID):
-            netpos = response.json()[1]['netPos']
-        elif (length >= 3 and response.json()[2]['contractId'] == ID):
-            netpos = response.json()[2]['netPos']
-        elif (length >= 4 and response.json()[3]['contractId'] == ID):
-            netpos = response.json()[3]['netPos']
-        else:
-            #print("POSTION not found to do liquidation")
-            netpos = 0
-
-        body = {
-            "accountId": 1083577,
-            "contractId": ID,
-            "admin": "false",
-        }
-
-        response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
-        time.sleep(1)
-
-        #print("Liqdation done", netpos)
-        # Open Long
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": 1083577,
-            "action": "Buy",
-            "symbol": ticker,
-            "orderQty": 1,
-            "orderType": "Market",
-            "isAutomated": "true"
-        }
-        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        if DEBUG:
-            print("Open Long ", response.json())
-        OrderID =  response.json()['orderId']
-        if DEBUG:
-            print("ORDER ID",OrderID)
-        #STOP LIMIT SELL
-        time.sleep(1)
-        body = {
-            "masterid": int(OrderID)
-        }
-
-        response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-        if DEBUG:
-            print("Retrived Order",response.json())
-
-        if daytime == 0:
-            if ticker == "MESZ2":
-                order_price = (response.json()[0]['price']) + 3
-            elif ticker == "ESZ2":
-                order_price = (response.json()[0]['price']) + 6
-            elif ticker == "NQZ2":
-                order_price = (response.json()[0]['price']) + 12
-            else:
-                order_price = (response.json()[0]['price']) + 8
-        else:
-            if ticker == "MESZ2":
-                order_price = (response.json()[0]['price']) + 12
-            elif ticker == "ESZ2":
-                order_price = (response.json()[0]['price']) + 6
-            elif ticker == "NQZ2":
-                order_price = (response.json()[0]['price']) + 12
-            else:
-                order_price = (response.json()[0]['price']) + 12
-
-        #print("LIMIT Order Price",order_price)
-
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": 1083577,
-            "action": "Sell",
-            "symbol": ticker,
-            "orderQty": 1,
-            "orderType": "Limit",
-            "price": int(order_price),
-            "isAutomated": "true"
-        }
-        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        if DEBUG:
-            print("Limit Order Response", response.json())
-    elif order_type == "RENKO_SHORT":
-        #print("RENKO SHORT", ticker)
-        body = {
-            "name": ticker
-        }
-        # find contract ID
-        response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-        ID = response.json()['id']
-        #print(response.json())
-        #print("LIQUID:", ID)
-
-        # extract all positions
-        response = requests.post("https://" + API + '/position/list', headers=headers)
-        #print(response.json())
-        length = len(response.json())
-
-        if (length >= 1 and response.json()[0]['contractId'] == ID):
-            netpos = response.json()[0]['netPos']
-        elif (length >= 2 and response.json()[1]['contractId'] == ID):
-            netpos = response.json()[1]['netPos']
-        elif (length >= 3 and response.json()[2]['contractId'] == ID):
-            netpos = response.json()[2]['netPos']
-        elif (length >= 4 and response.json()[3]['contractId'] == ID):
-            netpos = response.json()[3]['netPos']
-        else:
-            #print("POSTION not found to do liquidation")
-            netpos = 0
-
-        body = {
-            "accountId": 1083577,
-            "contractId": ID,
-            "admin": "false",
-        }
-#        if (netpos):
-        response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
-
-        #print("Liqdation done", netpos)
-        time.sleep(1)
-        # Open Short
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": 1083577,
-            "action": "Sell",
-            "symbol": ticker,
-            "orderQty": 1,
-            "orderType": "Market",
-            "isAutomated": "true"
-        }
-        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        #print("Open Short", response.json())
-        OrderID = response.json()['orderId']
-        #print("OrderID",OrderID)
-        time.sleep(1)
-        #STOP LIMIT SELL
-        body = {
-            "masterid": int(OrderID)
-        }
-
-        response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-
-        if daytime == 0:
-            if ticker == "MESZ2":
-                order_price = (response.json()[0]['price']) - 3
-            else:
-                order_price = (response.json()[0]['price']) - 8
-        else:
-            if ticker == "MESZ2":
-                order_price = (response.json()[0]['price']) - 12
-            else:
-                order_price = (response.json()[0]['price']) - 50
-
-        #print("Price",response.json()[0]['price'],int(order_price))
-
-        body = {
-            "accountSpec": "DEMO485096",
-            "accountId": 1083577,
-            "action": "Buy",
-            "symbol": ticker,
-            "orderQty": 1,
-            "orderType": "Limit",
-            "price": order_price,
-            "isAutomated": "true"
-        }
-        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-        #print("order status",response.json())
 
 ##################################
 # WebHook code
@@ -736,7 +540,7 @@ def parse_webhook_message(webhook_message):
     elif 'TRADOVATE' in str(webhook_message).upper():
         if DEBUG:
             print('###########  TRADOVATE ################')
- #       TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
+        TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 
 @app.route("/webhook", methods=["POST", "GET"])
