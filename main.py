@@ -489,20 +489,20 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             TrailingStop  = 7.5
 
 
-    # if order_type == "long":
-    #     liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-    #     Order_Type = "Buy"
-    #     Qty  = 1
-    #     open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
-    #     #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
-    # elif order_type == "short":
-    #     liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-    #     Order_Type = "Sell"
-    #     Qty  = 1
-    #     open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
-    #     #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
-    # elif order_type == "flat":
-    #     liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+    if order_type == "long":
+        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+        Order_Type = "Buy"
+        Qty  = 1
+        ##open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
+        #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
+    elif order_type == "short":
+        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
+        Order_Type = "Sell"
+        Qty  = 1
+        ##open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
+        #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
+    elif order_type == "flat":
+        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
 
 ##################################
 # WebHook code
