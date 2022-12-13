@@ -385,8 +385,8 @@ def liquidate_positions( ticker):
     buy_body = {
         "accountSpec": "DEMO485096",
         "accountId": 1083577,
-        "action": "Buy",
-        "symbol": "ESH2023",
+        "action": "Sell",
+        "symbol": "ESH3",
         "orderQty": 1,
         "orderType": "Market",
         "isAutomated": "true"
