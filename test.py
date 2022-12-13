@@ -32,3 +32,8 @@ else:
 if now > today5am:
     print("Current Time:", now)
 
+X = "XX"
+
+command = "PLACE;"+X+";"
+
+print(command)

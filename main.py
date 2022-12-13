@@ -550,9 +550,7 @@ def webhook():
         webhook_message = json.loads(request.data)
     except:
         webhook_message = request.data
-#    if DEBUG:
-        print(webhook_message)
-    parse_webhook_message(webhook_message)
+        parse_webhook_message(webhook_message)
 
 
 
