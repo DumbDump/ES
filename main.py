@@ -487,10 +487,6 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             round(price))
             format1 = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
             round(price-5))
-            quote = TDSession.get_quotes(instruments=[format])
-            quote1 = TDSession.get_quotes(instruments=[format1])
-            leg1 = quote[format]['askPrice']
-            leg2 = quote1[format1]['bidPrice']
             spread = leg1-leg2
             print("Buy to Open PUT Spread",PST_TIME, format,format1, spread)
             # Send Order
@@ -686,12 +682,7 @@ def webhook():
     except:
         webhook_message = request.data
         parse_webhook_message(webhook_message)
-
-
-
-    if DEBUG:
-        print("Current Time",now)
-    return webhook_message
+        return webhook_message
 
 
 @app.route("/logs", methods=["GET"])
