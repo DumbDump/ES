@@ -524,20 +524,6 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             json_response = response.json()
             print(response.status_code)
             print(json_response)
-    elif order_type == "SELL_TO_CLOSE":
-            quote = TDSession.get_quotes(instruments=[format])
-            quote1 = TDSession.get_quotes(instruments=[format1])
-            leg1 = quote[format]['askPrice']
-            leg2 = quote1[format1]['bidPrice']
-            spread = leg1 - leg2
-            print("Sell to close CALL Spread", PST_TIME, format, format1, spread)
-    elif order_type == "BUY_TO_CLOSE":
-            quote = TDSession.get_quotes(instruments=[format])
-            quote1 = TDSession.get_quotes(instruments=[format1])
-            leg1 = quote[format]['askPrice']
-            leg2 = quote1[format1]['bidPrice']
-            spread = leg1 - leg2
-            print("Sell to close PUT Spread", PST_TIME, format, format1, spread)
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(ticker, order_type, qty, round(price), position_type, exchange)
@@ -679,6 +665,7 @@ def parse_webhook_message(webhook_message):
 def webhook():
     try:
         webhook_message = json.loads(request.data)
+        return 'xyz'
     except:
         webhook_message = request.data
         parse_webhook_message(webhook_message)
