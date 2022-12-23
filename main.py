@@ -422,10 +422,10 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     PST_TIME = get_pst_time()
 
     if order_type == "BUY_TO_OPEN":
-            format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
-                round(price))
-            format1 = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C' + str(
-                round(price+5))
+            format = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(
+                round(price))+'000'
+            format1 = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(
+                round(price+5))+'000'
             print(format,format1)
             # Get last price
             response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
@@ -483,10 +483,10 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print(json_response)
 
     elif order_type == "SELL_TO_OPEN":
-            format = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
-            round(price))
-            format1 = 'SPXW_' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P' + str(
-            round(price-5))
+            format = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P0' + str(
+            round(price))+'000'
+            format1 = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P0' + str(
+            round(price-5))+'000'
             spread = leg1-leg2
             print("Buy to Open PUT Spread",PST_TIME, format,format1, spread)
             # Send Order
