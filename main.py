@@ -479,7 +479,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                    'side': 'sell_to_open',
                                    'quantity': '1',
                                    'type': 'limit',
-                                   'price': (leg1+5),
+                                   'price': (leg1),
                                    'duration': 'day',
                                    'tag': 'my-tag-example-1'},
                              headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
@@ -492,47 +492,70 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
 
     elif order_type == "SELL_TO_OPEN":
-            format = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P0' + str(
-            round(price))+'000'
-            format1 = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P0' + str(
-            round(price-5))+'000'
+            format = 'SPXW' + str(date.today().strftime("%y")) + re(str(date.today().month)) + re(str(date.today().day)) + 'P0' + str(round(price))+'000'
+            format1= 'SPXW' + str(date.today().strftime("%y")) + re(str(date.today().month)) + re(str(date.today().day)) + 'P0' + str(round(price-5))+'000'
+
+            print("Buy to Open PUT Spread",PST_TIME, format,format1)
+
+            response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
+                                    params={'symbols': format, 'greeks': 'false'},
+                                    headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                             'Accept': 'application/json'}
+                                    )
+            json_response = response.json()
+            #print(response.status_code)
+            #print(json_response)
+            #print(json_response['quotes']['quote']['last'])
+            leg1 = json_response['quotes']['quote']['last']
+
+            response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
+                                    params={'symbols': format1, 'greeks': 'false'},
+                                    headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                             'Accept': 'application/json'}
+                                    )
+            json_response = response.json()
+            leg2 = json_response['quotes']['quote']['last']
             spread = leg1-leg2
-            print("Buy to Open PUT Spread",PST_TIME, format,format1, spread)
-            # Send Order
-            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
-                                     data={'class': 'option',
-                                           'symbol': 'SPX',
-                                           'option_symbol': format,
-                                           'side': 'buy_to_open',
-                                           'quantity': '1',
-                                           'type': 'market',
-                                           'duration': 'day',
-                                           'tag': 'my-tag-example-1'},
-                                     headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                              'Accept': 'application/json'}
-                                     )
+            print("Buy Put option", "PUT", format, "Ask Price:", leg1)
+            print("Sell Put option", "PUT", format1, "Ask Price:", leg1)
 
-            json_response = response.json()
-            print(response.status_code)
-            print(json_response)
 
-            # Sell 5 wide
-            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
-                                     data={'class': 'option',
-                                           'symbol': 'SPX',
-                                           'option_symbol': format2,
-                                           'side': 'sell_to_open',
-                                           'quantity': '1',
-                                           'type': 'market',
-                                           'duration': 'day',
-                                           'tag': 'my-tag-example-1'},
-                                     headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                              'Accept': 'application/json'}
-                                     )
+    # Send Order
+    response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                             data={'class': 'option',
+                                   'symbol': 'SPX',
+                                   'option_symbol': format,
+                                   'side': 'buy_to_open',
+                                   'quantity': '1',
+                                   'type': 'market',
+                                   'duration': 'day',
+                                   'tag': 'my-tag-example-1'},
+                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                      'Accept': 'application/json'}
+                             )
 
-            json_response = response.json()
-            print(response.status_code)
-            print(json_response)
+    json_response = response.json()
+    print(response.status_code)
+    print(json_response)
+
+    # Sell 5 wide
+    response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                             data={'class': 'option',
+                                   'symbol': 'SPX',
+                                   'option_symbol': format1,
+                                   'side': 'sell_to_open',
+                                   'quantity': '1',
+                                   'type': 'limit',
+                                   'price': (leg1),
+                                   'duration': 'day',
+                                   'tag': 'my-tag-example-1'},
+                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                      'Accept': 'application/json'}
+                             )
+
+    json_response = response.json()
+    print(response.status_code)
+    print(json_response)
     return 'xyz'
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
@@ -692,4 +715,4 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
-#TRADIER_SPX_ORDER("SPX", "BUY_TO_OPEN", 1, round_up(3833.57,-1), "long", "TRADIER")
+#TRADIER_SPX_ORDER("SPX", "SELL_TO_OPEN", 1, round_up(3836.57,-1), "long", "TRADIER")
