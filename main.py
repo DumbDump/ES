@@ -422,8 +422,11 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     PST_TIME = get_pst_time()
 
     if order_type == "BUY_TO_OPEN":
-            format = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(round(price))+'000'
-            format1 = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(round(price+5))+'000'
+            #format = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(round(price))+'000'
+            #format1 = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(round(price+5))+'000'
+            format = 'SPXW' + str(date.today().strftime("%y")) + re(str(date.today().month)) + re(str(date.today().day)) + 'C0' + str(round(price))+'000'
+            format1= 'SPXW' + str(date.today().strftime("%y")) + re(str(date.today().month)) + re(str(date.today().day)) + 'C0' + str(round(price+5))+'000'
+
             print(format,format1)
             # Get last price
             response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
@@ -432,16 +435,22 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                              'Accept': 'application/json'}
                                     )
             json_response = response.json()
-            print(response.status_code)
-            print(json_response)
-            print(json_response['quotes']['quote']['last'])
-            leg1 = quote[format]['askPrice']
-            leg2 = quote1[format1]['bidPrice']
+            #print(response.status_code)
+            #print(json_response)
+            #print(json_response['quotes']['quote']['last'])
+            leg1 = json_response['quotes']['quote']['last']
+            response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
+                                    params={'symbols': format1, 'greeks': 'false'},
+                                    headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                             'Accept': 'application/json'}
+                                    )
+            json_response = response.json()
+            leg2 = json_response['quotes']['quote']['last']
             spread = leg1-leg2
-            print("Buy Single Leg",PST_TIME, format)
-            if DEBUG:
-                print("Buy Call option", "CALL", format,"Ask Price:", quote[format]['askPrice'])
-                print("Buy Call option", "CALL", format, "Ask Price:", quote[format1]['bidPrice'])
+            print("Buy Single Leg",PST_TIME, format,leg1,leg2)
+
+            print("Buy Call option",  "CALL", format,"Ask Price:", leg1)
+            print("Sell Call option", "CALL", format, "Ask Price:", leg2)
 
 
              # Send Order
@@ -466,10 +475,11 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                              data={'class': 'option',
                                    'symbol': 'SPX',
-                                   'option_symbol': format2,
+                                   'option_symbol': format1,
                                    'side': 'sell_to_open',
                                    'quantity': '1',
-                                   'type': 'market',
+                                   'type': 'limit',
+                                   'price': (leg1+5),
                                    'duration': 'day',
                                    'tag': 'my-tag-example-1'},
                              headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
@@ -682,3 +692,4 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
+#TRADIER_SPX_ORDER("SPX", "BUY_TO_OPEN", 1, round_up(3833.57,-1), "long", "TRADIER")
