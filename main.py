@@ -422,10 +422,8 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     PST_TIME = get_pst_time()
 
     if order_type == "BUY_TO_OPEN":
-            format = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(
-                round(price))+'000'
-            format1 = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(
-                round(price+5))+'000'
+            format = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(round(price))+'000'
+            format1 = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'C0' + str(round(price+5))+'000'
             print(format,format1)
             # Get last price
             response = requests.get('https://sandbox.tradier.com/v1/markets/quotes',
@@ -434,8 +432,8 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                              'Accept': 'application/json'}
                                     )
             json_response = response.json()
-            #print(response.status_code)
-            #print(json_response)
+            print(response.status_code)
+            print(json_response)
             print(json_response['quotes']['quote']['last'])
             leg1 = quote[format]['askPrice']
             leg2 = quote1[format1]['bidPrice']
@@ -482,6 +480,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print(response.status_code)
             print(json_response)
 
+
     elif order_type == "SELL_TO_OPEN":
             format = 'SPXW' + re(str(date.today().month)) + re(str(date.today().day)) + str(date.today().strftime("%y")) + 'P0' + str(
             round(price))+'000'
@@ -524,6 +523,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             json_response = response.json()
             print(response.status_code)
             print(json_response)
+    return 'xyz'
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(ticker, order_type, qty, round(price), position_type, exchange)
