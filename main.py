@@ -537,7 +537,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     json_response = response.json()
     print(response.status_code)
     print(json_response)
-
+    sell_price = round(leg1,0)
     # Sell 5 wide
     response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                              data={'class': 'option',
@@ -546,7 +546,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                    'side': 'sell_to_open',
                                    'quantity': '1',
                                    'type': 'limit',
-                                   'price': (leg1),
+                                   'price': sell_price,
                                    'duration': 'day',
                                    'tag': 'my-tag-example-1'},
                              headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
