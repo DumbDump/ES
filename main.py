@@ -55,6 +55,7 @@ long_flag = 0
 short_flag = 0
 call_option = ""
 put_option = ""
+leg1 = ""
 # Create a new session, credentials path is required.
 TDSession = TDClient(
     client_id='FQOUAWD87DXUILUXYQI1XIVY3J8OGUPX',
@@ -349,7 +350,7 @@ def ALPACA_CRYPTO_ORDER(ticker, order_type, qty, price, position_type, exchange)
 
 def TOS_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     global format
-    global format1
+    global format1, leg1
     global long_flag
     global short_flag
     global call_option
@@ -468,8 +469,8 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                              )
 
             json_response = response.json()
-            print(response.status_code)
-            print(json_response)
+            print("buy to open", response.status_code)
+            print("buy to open", json_response)
 
             # Sell 5 wide
             response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
@@ -487,8 +488,9 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                              )
 
             json_response = response.json()
-            print(response.status_code)
-            print(json_response)
+            print("sell to open", response.status_code)
+            print("sell to open:", json_response)
+            return 'xyz'
 
 
     elif order_type == "SELL_TO_OPEN":
@@ -520,8 +522,8 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("Sell Put option", "PUT", format1, "Ask Price:", leg1)
 
 
-    # Send Order
-    response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+            # Send Order
+            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                              data={'class': 'option',
                                    'symbol': 'SPX',
                                    'option_symbol': format,
@@ -534,29 +536,29 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                       'Accept': 'application/json'}
                              )
 
-    json_response = response.json()
-    print(response.status_code)
-    print(json_response)
-    sell_price = round(leg1,0)
-    # Sell 5 wide
-    response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
-                             data={'class': 'option',
-                                   'symbol': 'SPX',
-                                   'option_symbol': format1,
-                                   'side': 'sell_to_open',
-                                   'quantity': '1',
-                                   'type': 'limit',
-                                   'price': sell_price,
-                                   'duration': 'day',
-                                   'tag': 'my-tag-example-1'},
-                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                      'Accept': 'application/json'}
-                             )
+            json_response = response.json()
+            print(response.status_code)
+            print(json_response)
+            sell_price = round(leg1,0)
+            # Sell 5 wide
+            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                                     data={'class': 'option',
+                                           'symbol': 'SPX',
+                                           'option_symbol': format1,
+                                           'side': 'sell_to_open',
+                                           'quantity': '1',
+                                           'type': 'limit',
+                                           'price': sell_price,
+                                           'duration': 'day',
+                                           'tag': 'my-tag-example-1'},
+                                     headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                              'Accept': 'application/json'}
+                                     )
 
-    json_response = response.json()
-    print(response.status_code)
-    print(json_response)
-    return 'xyz'
+            json_response = response.json()
+            print(response.status_code)
+            print(json_response)
+            return 'xyz'
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(ticker, order_type, qty, round(price), position_type, exchange)
@@ -715,4 +717,4 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
-#TRADIER_SPX_ORDER("SPX", "SELL_TO_OPEN", 1, round_up(3836.57,-1), "long", "TRADIER")
+#TRADIER_SPX_ORDER("SPX", "BUY_TO_OPEN", 1, round_up(3820.57,-1), "long", "TRADIER")
