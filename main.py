@@ -31,7 +31,7 @@ else:
     print("DayTime:", daytime)
 
 
-DEBUG = 1
+DEBUG = 0
 
 
 def get_pst_time():
