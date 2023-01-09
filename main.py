@@ -91,7 +91,8 @@ headers = {
 
 
 def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
-    #print("LIQUIDATE EXISTING POSITION")
+    if DEBUG:
+        print("LIQUIDATE EXISTING POSITION")
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
@@ -101,8 +102,9 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
     # find contract ID
     response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
     ID = response.json()['id']
-    #print(response.json())
-    #print("LIQUID:", ID)
+    if DEBUG:
+        print(response.json())
+        print("LIQUID:", ID)
 
     # extract all positions
     response = requests.post("https://" + API + '/position/list', headers=headers)
@@ -118,7 +120,7 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
     elif (length >= 4 and response.json()[3]['contractId'] == ID):
         netpos = response.json()[3]['netPos']
     else:
-        #print("POSTION not found to do liquidation")
+        print("POSTION not found to do liquidation")
         netpos = 0
 
     body = {
@@ -640,9 +642,13 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
 
     if order_type == "long":
+        if DEBUG:
+            print("Liquidating positions")
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Buy"
         Qty  = 1
+        if DEBUG:
+            print("open_order_trailing_stop ")
         open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop)
         #open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
     elif order_type == "short":
