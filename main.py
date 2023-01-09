@@ -100,13 +100,15 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
         "name": ticker
     }
     if DEBUG:
-        print(response,ticker)
-        print(response.json())
-        print("LIQUID:", ID)
+        print(ticker)
+
     # find contract ID
     response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
     ID = response.json()['id']
-
+    if DEBUG:
+        print(response,ticker)
+        print(response.json())
+        print("LIQUID:", ID)
 
     # extract all positions
     response = requests.post("https://" + API + '/position/list', headers=headers)
