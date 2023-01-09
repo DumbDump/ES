@@ -99,13 +99,14 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
     body = {
         "name": ticker
     }
-    # find contract ID
-    response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-    ID = response.json()['id']
     if DEBUG:
         print(response,ticker)
         print(response.json())
         print("LIQUID:", ID)
+    # find contract ID
+    response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
+    ID = response.json()['id']
+
 
     # extract all positions
     response = requests.post("https://" + API + '/position/list', headers=headers)
