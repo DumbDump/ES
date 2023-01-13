@@ -165,7 +165,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
         "symbol": ticker,
         "orderQty": Qty,
         "orderType": limit_market,
-        "price" : price,
+        "price" : price-2,
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
@@ -195,7 +195,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
             "trailingStop": "true",
             "stopPrice": limit_price
     }
-    #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 
 def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type, TrailingStop):
     headers = {
@@ -789,14 +789,14 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 10
             TrailingStop  = 20
         elif ticker == "ESH3":
-            profit_target = 9
-            TrailingStop  = 3
+            profit_target = 2
+            TrailingStop  = 1
         elif ticker == "NQH3":
-            profit_target = 8
-            TrailingStop  = 6
+            profit_target = 2
+            TrailingStop  = 1
         else:
-            profit_target = 7.5
-            TrailingStop  = 7.5
+            profit_target = 4
+            TrailingStop  = 1
 
 
     if order_type == "long":
