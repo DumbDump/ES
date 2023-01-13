@@ -169,33 +169,34 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    OrderID = response.json()['orderId']
+    if limit_market == "Limit" :
+        OrderID = response.json()['orderId']
 
-    body = {
-        "masterid": int(OrderID)
-    }
+        body = {
+            "masterid": int(OrderID)
+        }
 
-    response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-    price = response.json()[0]['price']
-    if Order_Type == "Sell":
-        limit_price = price + TrailingStop
-        new_order_type = "Buy"
-    else:
-        limit_price = price - TrailingStop
-        new_order_type = "Sell"
+        response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
+        price = response.json()[0]['price']
+        if Order_Type == "Sell":
+            limit_price = price + TrailingStop
+            new_order_type = "Buy"
+        else:
+            limit_price = price - TrailingStop
+            new_order_type = "Sell"
 
-    body = {
-            "accountSpec": account_name,
-            "accountId": account_number,
-            "action": new_order_type,
-            "symbol": ticker,
-            "orderQty": Qty,
-            "orderType": "TrailingStop",
-            "isAutomated": "true",
-            "trailingStop": "true",
-            "stopPrice": limit_price
-    }
-    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
+        body = {
+                "accountSpec": account_name,
+                "accountId": account_number,
+                "action": new_order_type,
+                "symbol": ticker,
+                "orderQty": Qty,
+                "orderType": "TrailingStop",
+                "isAutomated": "true",
+                "trailingStop": "true",
+                "stopPrice": limit_price
+        }
+        response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 
 def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type, TrailingStop):
     headers = {
