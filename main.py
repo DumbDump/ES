@@ -164,7 +164,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
         "action": Order_Type,
         "symbol": ticker,
         "orderQty": Qty,
-        "orderType": Market,
+        "orderType": "Market",
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
