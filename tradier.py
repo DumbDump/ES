@@ -19,7 +19,7 @@ from pytz import timezone, utc
 
 
 response = requests.get('https://api.tradier.com/v1/markets/quotes',
-                                    params={'symbols': "SPXW230110C03910000", 'greeks': 'false'},
+                                    params={'symbols': "SPXW230117P04000000", 'greeks': 'false'},
                                     headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
                                              'Accept': 'application/json'}
                                     )
@@ -27,3 +27,23 @@ json_response = response.json()
 print(response.status_code)
 print(json_response)
 print(json_response['quotes']['quote']['last'])
+sell_price = 1
+format = 'SPXW230117P04000000'
+
+response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
+                         data={'class': 'option',
+                               'symbol': 'SPX',
+                               'option_symbol': format,
+                               'side': 'buy_to_open',
+                               'quantity': '1',
+                               'type': 'limit',
+                               'price': 1,
+                               'duration': 'day',
+                               'tag': 'my-tag-example-1'},
+                         headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
+                                  'Accept': 'application/json'}
+                         )
+
+#json_response = response.json()
+print(response.status_code)
+print(response.text)
