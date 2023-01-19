@@ -863,7 +863,7 @@ def parse_webhook_message(webhook_message):
         print(ticker, order_type, qty, round(price), position_type, exchange)
         print('###########  TRADOVATE ################')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
-    elif 'PAPER_SPX' in str(webhook_message).upper():
+    elif 'PAPERSPX' in str(webhook_message).upper():
         print('###########  PAPER ACCOUNT TRADIER ################')
         print('###########  TRADIER ################')
         data = TRADIER_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
