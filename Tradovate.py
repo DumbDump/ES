@@ -263,184 +263,68 @@ body = {
 #response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body)
 #print("buy:", response.json())
 
-#
-# body = {
-#     "accountSpec": "DEMO485096",
-#     "accountId": 1083577,
-#     "action": "sell",
-#     "symbol": "ESZ2",
-#     "orderStrategyTypeId": 2,
-#     "isAutomated": "true",
-#     "params": "{ \"entryVersion\": { \"orderQty\"  : 1, \"orderType\" : \"Market\", \"timeInForce\": \"Day\" }, \"brackets\": [ { \"qty\": 1, \"profitTarget\": 125, \"stopLoss\": -60, \"trailingStop\": true }] }"
-# }
-# #response = requests.post("https://" + API + '/order/startorderstrategy', headers=headers, data=body)
-# #print("Open Long ", response.json())
-#
-# params = {
-#     "entryVersion": {
-#         "orderQty": 1,
-#         "orderType": 'Market'
-#     },
-#     "brackets": [{
-#         "qty": 1,
-#         "profitTarget": 30,
-#         "stopLoss": 15,
-#         "trailingStop": 'false'
-#     }]
-# }
-#
-# body1 = {
-#     "accountSpec": "DEMO485096",
-#     "accountId": 1083577,
-#     "symbol": 'MESZ2',
-#     "action": 'Sell',
-#     "orderStrategyTypeId": 2,
-#     "params" : json.dumps(params)
-# }
-#
-# other = {
-#         "action": "Sell",
-#         "orderType": "Limit",
-#         "price": 3635
-# }
-#
-# oco = {
-#             "accountSpec": "DEMO485096",
-#             "accountId": 1083577,
-#             "action": "Sell",
-#             "symbol": "MESZ2",
-#             "orderQty": 1,
-#             "orderType": "TrailingStop",
-#             "price": 3590,
-#             "stopPrice": 3595,
-#             "isAutomated": "true",
-#             "other": json.loads(other)
-# }
+
+body = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "action": "sell",
+    "symbol": "MESH3",
+    "orderStrategyTypeId": 2,
+    "isAutomated": "true",
+    "params": "{ \"entryVersion\": { \"orderQty\"  : 1, \"orderType\" : \"Market\", \"timeInForce\": \"Day\" }, \"brackets\": [ { \"qty\": 1, \"profitTarget\": 125, \"stopLoss\": -60, \"trailingStop\": true }] }"
+}
+#response = requests.post("https://" + API + '/order/startorderstrategy', headers=headers, data=body)
+#print("Open Long ", response.json())
+
+params = {
+    "entryVersion": {
+        "orderQty": 1,
+        "orderType": 'Market'
+    },
+    "brackets": [{
+        "qty": 1,
+        "profitTarget": 30,
+        "stopLoss": 15,
+        "trailingStop": 'false'
+    }]
+}
+
+body1 = {
+    "accountSpec": "DEMO485096",
+    "accountId": 1083577,
+    "symbol": 'MESZ2',
+    "action": 'Sell',
+    "orderStrategyTypeId": 2,
+    "params" : json.dumps(params)
+}
+
+other = {
+        "action": "Sell",
+        "orderType": "Limit",
+        "price": 3635
+}
+
+oco = {
+            "accountSpec": "DEMO485096",
+            "accountId": 1083577,
+            "action": "Sell",
+            "symbol": "MESH3",
+            "orderQty": 1,
+            "orderType": "TrailingStop",
+            "price": 3590,
+            "stopPrice": 3595,
+            "isAutomated": "true",
+            "other": json.dumps(str(other))
+}
 
 # OCO order
 
 inpiut = "https://" + API + '/order/placeoco'
 #print(inpiut)
 
-#response = requests.post(inpiut, headers=headers, data=oco)
+response = requests.post(inpiut, headers=headers, data=oco)
 
-#print("Open Long ", response.text)
-
-
-
-URL = 'wss://demo.tradovateapi.com/v1/websocket'
-
-params = {
-    "entryVersion": {
-    "orderQty": 1,
-    "orderType": "Market"
-    },
-    "brackets": [{
-    "qty": 1,
-    "profitTarget": -30,
-    "stopLoss": 15,
-    "trailingStop": "False"
-    }]
-}
-
-body = {
-    "accountSpec": "DEMO485096",
-    "accountId": ACCESS_TOKEN,
-    "action": "Sell",
-    "symbol": "MESZ2",
-    "orderStrategyTypeId": 2,
-    "isAutomated": "true",
-    "params": params
-}
+print("Open Long ", response.text)
 
 
 
-
-def liquidate_positions( ticker):
-    API = "demo.tradovateapi.com/v1"
-    ACCOUNT_ID = "vvnsreddy@gmail.com"
-    ACCOUNTS_PATH = f"/auth/accessTokenRequest"
-
-#    cid: 1327, secret: 15d5eaef - 583e-4303 - beae - 2c3fa8629c84
-    headers = {
-        "name": "vvnsreddy",
-        "password": "Intel123$",
-        "appId": "Sample App",
-        "appVersion": "1.0",
-        "cid": '1327',
-        "sec": '15d5eaef-583e-4303-beae-2c3fa8629c84'
-    }
-
-    response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
-    print(response.json())
-    ACCESS_TOKEN = response.json()['accessToken']
-    EXP_TIMEOF_TOKEN = response.json()['expirationTime']
-    print(ACCESS_TOKEN)
-
-    headers = {
-        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
-    }
-
-
-    buy_body = {
-        "accountSpec": "DEMO485096",
-        "accountId": 1083577,
-        "action": "Sell",
-        "symbol": "ESH3",
-        "orderQty": 1,
-        "orderType": "Market",
-        "isAutomated": "true"
-    }
-
-    response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=buy_body)
-    print("buy:", response.json())
-    print(response)
-
-
-
-
-
-    headers = {
-        "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
-    }
-
-
-
-    body = {
-        "name": ticker
-    }
-
-    print(ticker)
-    # find contract ID
-    #response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
-    #ID = response.json()['id']
-    #print(response.json())
-   # print("LIQUID:", ID)
-
-    # # extract all positions
-    # response = requests.post("https://" + API + '/position/list', headers=headers)
-    # print("All Positins", response.json())
-    # length = len(response.json())
-    #
-    # if (length >= 1 and response.json()[0]['contractId'] == ID):
-    #     netpos = response.json()[0]['netPos']
-    # elif (length >= 2 and response.json()[1]['contractId'] == ID):
-    #     netpos = response.json()[1]['netPos']
-    # elif (length >= 3 and response.json()[2]['contractId'] == ID):
-    #     netpos = response.json()[2]['netPos']
-    # elif (length >= 4 and response.json()[3]['contractId'] == ID):
-    #     netpos = response.json()[3]['netPos']
-    # else:
-    #     print("POSTION not found to do liquidation")
-    #     netpos = 0
-    #
-    # body = {
-    #     "accountId": 1083577,
-    #     "contractId": ID,
-    #     "admin": "false",
-    # }
-    # response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
-    # #time.sleep(1)
-
-
-liquidate_positions("ESH23")
