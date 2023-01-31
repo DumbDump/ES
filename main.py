@@ -792,7 +792,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 2
             TrailingStop  = 1
         elif ticker == "NQH3":
-            profit_target = 2
+            profit_target = 4
             TrailingStop  = 1
         else:
             profit_target = 4
