@@ -856,13 +856,13 @@ def parse_webhook_message(webhook_message):
         #print(data,order_type)
     elif 'TRADIER' in str(webhook_message).upper():
         print('###########  TRADIER ################')
-        data = TRADIER_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
+        data = TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         #print(data,order_type)
     elif 'TRADOVATE' in str(webhook_message).upper():
         print('###########  TRADOVATE ################')
         print(ticker, order_type, qty, round(price), position_type, exchange)
         print('###########  TRADOVATE ################')
-        TV_FUTURE_ORDER_REAL(ticker, order_type, qty, price, position_type, exchange)
+        TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
     elif 'PAPERSPX' in str(webhook_message).upper():
         print('###########  PAPER ACCOUNT TRADIER ################')
         print('###########  TRADIER ################')
