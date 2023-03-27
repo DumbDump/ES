@@ -197,7 +197,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
     }
     # response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 
-def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type, TrailingStop):
+def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type, TrailingStop,price):
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
@@ -207,7 +207,8 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
         "action": Order_Type,
         "symbol": ticker,
         "orderQty": Qty,
-        "orderType": "Market",
+        "orderType": "Limit",
+        "price" : price,
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
@@ -765,16 +766,16 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
     if daytime == 1:
         limit_market = "Market"
-        if ticker == "MESH3":
+        if ticker == "MESM3":
             profit_target = 20
             TrailingStop  = 6
-        elif ticker == "MNQH3":
+        elif ticker == "MNQM3":
             profit_target = 100
             TrailingStop  = 20
-        elif ticker == "ESH3":
+        elif ticker == "ESM3":
             profit_target = 2
             TrailingStop  = 6
-        elif ticker == "NQH3":
+        elif ticker == "NQM3":
             profit_target = 5
             TrailingStop  = 28
         else:
@@ -782,16 +783,16 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             TrailingStop  = 20
     else:
         limit_market = "Limit"
-        if ticker == "MESH3":
+        if ticker == "MESM3":
             profit_target = 4
             TrailingStop  = 6
-        elif ticker == "MNQH3":
+        elif ticker == "MNQM3":
             profit_target = 10
             TrailingStop  = 20
-        elif ticker == "ESH3":
+        elif ticker == "ESM3":
             profit_target = 2
             TrailingStop  = 1
-        elif ticker == "NQH3":
+        elif ticker == "NQM3":
             profit_target = 4
             TrailingStop  = 1
         else:
@@ -811,13 +812,13 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         if DEBUG:
             print("open_order_trailing_stop ")
         #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop,limit_market,price)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
+        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,price)
     elif order_type == "short":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Sell"
         Qty  = 1
         #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop,limit_market,price)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target)
+        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,price)
     elif order_type == "flat":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
 
