@@ -821,9 +821,9 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif order_type == "flat":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
 
-##################################
+#####################################
 # WebHook code
-##################################
+#####################################
 #   ETHUSD, SELL_TO_OPEN, 1312.8700000000001, 1. - 1.{{ALPACA}}
 
 
@@ -857,7 +857,8 @@ def parse_webhook_message(webhook_message):
     elif 'TRADIER' in str(webhook_message).upper():
         print('###########  TRADIER ################')
         data = TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
-        #print(data,order_type)
+        data = TRADIER_SPX_ORDER(ticker, order_type, qty, round_up(price, -1), position_type, exchange)
+        # print(data,order_type)
     elif 'TRADOVATE' in str(webhook_message).upper():
         print('###########  TRADOVATE ################')
         print(ticker, order_type, qty, round(price), position_type, exchange)
@@ -867,6 +868,8 @@ def parse_webhook_message(webhook_message):
         print('###########  PAPER ACCOUNT TRADIER ################')
         print('###########  TRADIER ################')
         TRADIER_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
+
+
 
 @app.route("/webhook", methods=["POST", "GET"])
 def webhook():
