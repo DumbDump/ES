@@ -236,7 +236,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
             "action": new_order_type,
             "symbol": ticker,
             "orderQty": Qty,
-            "orderType": "Limit",
+            "orderType": "Market",
             "price": limit_price
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
