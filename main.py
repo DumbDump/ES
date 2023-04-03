@@ -762,76 +762,10 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
                                                   'Accept': 'application/json'}
                                          )
                 json_response = response.json()
-                print("STOCK close", response.status_code)
-                print("STOCK close", json_response)
+                print("buy to open", response.status_code)
+                print("buy to open", json_response)
                 return 'xyz'
 
-
-    elif order_type == "SELL_TO_OPEN":
-            format = 'SPXW' + str(date.today().strftime("%y")) + re(str(date.today().month)) + re(str(date.today().day)) + 'P0' + str(round(price))+'000'
-            format1= 'SPXW' + str(date.today().strftime("%y")) + re(str(date.today().month)) + re(str(date.today().day)) + 'P0' + str(round(price-5))+'000'
-
-            print("Buy to Open PUT Spread",PST_TIME, format,format1)
-
-            response = requests.get('https://api.tradier.com/v1/markets/quotes',
-                                    params={'symbols': format, 'greeks': 'false'},
-                                    headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
-                                             'Accept': 'application/json'}
-                                    )
-            json_response = response.json()
-            #print(response.status_code)
-            #print(json_response)
-            #print(json_response['quotes']['quote']['last'])
-            leg1 = json_response['quotes']['quote']['last']
-
-            response = requests.get('https://api.tradier.com/v1/markets/quotes',
-                                    params={'symbols': format1, 'greeks': 'false'},
-                                    headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
-                                             'Accept': 'application/json'}
-                                    )
-            json_response = response.json()
-            leg2 = json_response['quotes']['quote']['last']
-            spread = leg1-leg2
-            print("Buy Put option", "PUT", format, "Ask Price:", leg1)
-            print("Sell Put option", "PUT", format1, "Ask Price:", round(leg1,0))
-
-
-            # Send Order
-            response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
-                             data={'class': 'option',
-                                   'symbol': 'SPX',
-                                   'option_symbol': format,
-                                   'side': 'buy_to_open',
-                                   'quantity': '1',
-                                   'type': 'market',
-                                   'duration': 'day',
-                                   'tag': 'my-tag-example-1'},
-                             headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
-                                      'Accept': 'application/json'}
-                             )
-
-            json_response = response.json()
-            print(response.status_code)
-            print(json_response)
-            sell_price = round(leg1,0)
-            # Sell 5 wide
-            response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
-                                     data={'class': 'option',
-                                           'symbol': 'SPX',
-                                           'option_symbol': format1,
-                                           'side': 'sell_to_open',
-                                           'quantity': '1',
-                                           'type': 'limit',
-                                           'price': sell_price,
-                                           'duration': 'day',
-                                           'tag': 'my-tag-example-1'},
-                                     headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
-                                              'Accept': 'application/json'}
-                                     )
-            json_response = response.json()
-            print(response.status_code)
-            print(json_response)
-            return 'xyz'
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(ticker, order_type, qty, round(price), position_type, exchange)
