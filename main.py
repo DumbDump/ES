@@ -744,8 +744,8 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
                              )
 
             json_response = response.json()
-            print("buy to open", response.status_code)
-            print("buy to open", json_response)
+            print("STOCK buy to open", response.status_code)
+            print("STOCK buy to open", json_response)
 
 
     if order_type == "flat":
@@ -762,8 +762,8 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
                                                   'Accept': 'application/json'}
                                          )
                 json_response = response.json()
-                print("buy to open", response.status_code)
-                print("buy to open", json_response)
+                print("STOCK close", response.status_code)
+                print("STOCK close", json_response)
                 return 'xyz'
 
 
