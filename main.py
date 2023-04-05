@@ -731,7 +731,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
     print("Stocks Paper Account")
 
     if order_type == "long":
-            response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
+            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                              data={'class': 'equity',
                                    'symbol': ticker,
                                    'side': 'buy',
@@ -739,7 +739,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
                                    'type': 'market',
                                    'duration': 'day',
                                    'tag': 'my-tag-example-1'},
-                             headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
+                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
                                       'Accept': 'application/json'}
                              )
 
@@ -750,7 +750,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
 
     if order_type == "flat":
                 # Send Order
-                response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
+                response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                                          data={'class': 'equity',
                                                'symbol': ticker,
                                                'side': 'sell',
@@ -758,7 +758,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
                                                'type': 'market',
                                                'duration': 'day',
                                                'tag': 'my-tag-example-1'},
-                                         headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
+                                         headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
                                                   'Accept': 'application/json'}
                                          )
                 json_response = response.json()
