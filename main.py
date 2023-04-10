@@ -730,7 +730,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
     PST_TIME = get_pst_time()
     print("Stocks Paper Account")
 
-    if order_type == "long":
+    if order_type == "BUY_TO_OPEN":
             response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                              data={'class': 'equity',
                                    'symbol': ticker,
@@ -746,7 +746,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
             json_response = response.json()
             print("STOCK buy to open", response.status_code)
             print("STOCK buy to open", json_response)
-    elif order_type == "short":
+    elif order_type == "SELL_TO_OPEN":
             response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                              data={'class': 'equity',
                                    'symbol': ticker,
