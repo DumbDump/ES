@@ -19,7 +19,7 @@ from pytz import timezone, utc
 
 
 response = requests.get('https://api.tradier.com/v1/markets/quotes',
-                                    params={'symbols': "SPXW230117P04000000", 'greeks': 'false'},
+                                    params={'symbols': "META", 'greeks': 'false'},
                                     headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
                                              'Accept': 'application/json'}
                                     )
@@ -31,13 +31,11 @@ sell_price = 1
 format = 'SPXW230117P04000000'
 
 response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
-                         data={'class': 'option',
-                               'symbol': 'SPX',
-                               'option_symbol': format,
-                               'side': 'buy_to_open',
-                               'quantity': '1',
-                               'type': 'limit',
-                               'price': 1,
+                         data={'class': 'equity',
+                               'symbol': 'META',
+                               'side': 'buy',
+                               'quantity': '100',
+                               'type': 'market',
                                'duration': 'day',
                                'tag': 'my-tag-example-1'},
                          headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',

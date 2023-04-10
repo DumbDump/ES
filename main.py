@@ -746,7 +746,22 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
             json_response = response.json()
             print("STOCK buy to open", response.status_code)
             print("STOCK buy to open", json_response)
+    elif order_type == "short":
+            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                             data={'class': 'equity',
+                                   'symbol': ticker,
+                                   'side': 'sell_short',
+                                   'quantity': '100',
+                                   'type': 'market',
+                                   'duration': 'day',
+                                   'tag': 'my-tag-example-1'},
+                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                      'Accept': 'application/json'}
+                             )
 
+            json_response = response.json()
+            print("STOCK sell to open", response.status_code)
+            print("STOCK sell to open", json_response)
 
     if order_type == "flat":
                 # Send Order
@@ -762,8 +777,23 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
                                                   'Accept': 'application/json'}
                                          )
                 json_response = response.json()
-                print("buy to open", response.status_code)
-                print("buy to open", json_response)
+                print("sell to close", response.status_code)
+                print("sell to close", json_response)
+
+                response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                                         data={'class': 'equity',
+                                               'symbol': ticker,
+                                               'side': 'buy_to_cover',
+                                               'quantity': '100',
+                                               'type': 'market',
+                                               'duration': 'day',
+                                               'tag': 'my-tag-example-1'},
+                                         headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                                  'Accept': 'application/json'}
+                                         )
+                json_response = response.json()
+                print("buy to cover", response.status_code)
+                print("buy to cover", json_response)
                 return 'xyz'
 
 
