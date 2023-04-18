@@ -940,7 +940,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         Order_Type = "Sell"
         Qty  = 1
         #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop,limit_market,price)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,round(price)
+        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,round(price))
     elif order_type == "flat":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
 
