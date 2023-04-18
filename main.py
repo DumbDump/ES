@@ -221,8 +221,10 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
     }
 
     response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-    price = response.json()[0]['price']
-    print("1:",response.json())
+    data = response.json()
+    price = data[0]['price']
+
+    print("1:",response.json(), price)
     if Order_Type == "Sell":
         limit_price = price - TrailingStop
         new_order_type = "Buy"
