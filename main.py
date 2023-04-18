@@ -31,7 +31,7 @@ else:
     print("DayTime:", daytime)
 
 
-DEBUG = 1
+DEBUG = 0
 
 
 def get_pst_time():
@@ -236,7 +236,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
             "action": new_order_type,
             "symbol": ticker,
             "orderQty": Qty,
-            "orderType": "Market",
+            "orderType": "limit",
             "price": limit_price
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
@@ -838,8 +838,8 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
 
 
 def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
-    print(ticker, order_type, qty, round(price), position_type, exchange)
-    print(ticker, order_type, qty, round(price), position_type, exchange)
+    #print(ticker, order_type, qty, round(price), position_type, exchange)
+    #print(ticker, order_type, qty, round(price), position_type, exchange)
 
     if DEBUG:
         print('TRADOVATE order')
@@ -989,7 +989,6 @@ def parse_webhook_message(webhook_message):
     elif 'TRADOVATE' in str(webhook_message).upper():
         print('###########  TRADOVATE ################')
         print(ticker, order_type, qty, round(price), position_type, exchange)
-        print('###########  TRADOVATE ################')
         TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
     elif 'PAPERSPX' in str(webhook_message).upper():
         print('###########  PAPER ACCOUNT TRADIER ################')
