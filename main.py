@@ -207,8 +207,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
         "action": Order_Type,
         "symbol": ticker,
         "orderQty": Qty,
-        "orderType": "Limit",
-        "price": price,
+        "orderType": "Market",
         "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
@@ -222,7 +221,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
     }
 
     response = requests.post("https://" + API + '/fill/deps', headers=headers, data=body)
-    price = response.json()[0]['price']
+    #price = response.json()[0]['price']
     print("1:",response.json())
     if Order_Type == "Sell":
         limit_price = price - TrailingStop
@@ -935,13 +934,13 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         if DEBUG:
             print("open_order_trailing_stop ")
         #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop,limit_market,price)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,price)
+        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,round(price))
     elif order_type == "short":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
         Order_Type = "Sell"
         Qty  = 1
         #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop,limit_market,price)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,price)
+        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,round(price)
     elif order_type == "flat":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
 
@@ -990,7 +989,7 @@ def parse_webhook_message(webhook_message):
     elif 'TRADOVATE' in str(webhook_message).upper():
         print('###########  TRADOVATE ################')
         print(ticker, order_type, qty, round(price), position_type, exchange)
-        TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange)
+        TV_FUTURE_ORDER(ticker, order_type, qty, round(price), position_type, exchange)
     elif 'PAPERSPX' in str(webhook_message).upper():
         print('###########  PAPER ACCOUNT TRADIER ################')
         print('###########  TRADIER ################')
