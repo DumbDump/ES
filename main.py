@@ -483,6 +483,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("buy to open", json_response)
             sell_price = round(leg1, 0)
             # Sell 5 wide
+            time.sleep(5)
             response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                              data={'class': 'option',
                                    'symbol': 'SPX',
@@ -551,6 +552,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print(json_response)
             sell_price = round(leg1,0)
             # Sell 5 wide
+            time.sleep(5)
             response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                                      data={'class': 'option',
                                            'symbol': 'SPX',
@@ -634,6 +636,7 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
             print("buy to open", json_response)
             sell_price = round(leg1, 0)
             # Sell 5 wide
+            time.sleep(5)
             response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
                              data={'class': 'option',
                                    'symbol': 'SPX',
@@ -702,6 +705,7 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
             print(json_response)
             sell_price = round(leg1,0)
             # Sell 5 wide
+            time.sleep(5)
             response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
                                      data={'class': 'option',
                                            'symbol': 'SPX',
