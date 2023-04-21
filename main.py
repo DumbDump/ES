@@ -243,7 +243,7 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
             "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    return xyz
+    return 'xyz'
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
     body = {
@@ -951,7 +951,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif order_type == "flat":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
 
-    return xyz
+    return 'xyz'
 
 #####################################
 # WebHook code
