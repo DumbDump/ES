@@ -951,6 +951,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
     elif order_type == "flat":
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
 
+    return xyz
+
 #####################################
 # WebHook code
 #####################################
