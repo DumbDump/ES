@@ -801,6 +801,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
                 json_response = response.json()
                 print("buy to cover", response.status_code)
                 print("buy to cover", json_response)
+                time.sleep(1)
                 time_str = "19:50"
                 # check if time is 12:50 than close all positions
                 if time_str == "19:50":
@@ -839,6 +840,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
                             json_response = response.json()
                             print(response.status_code)
                             print(response.text)
+                            time.sleep(1)
                     else:
                         print("not stock")
                 return 'xyz'
