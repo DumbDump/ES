@@ -31,7 +31,7 @@ else:
     print("DayTime:", daytime)
 
 
-DEBUG = 1
+DEBUG = 0
 
 
 def get_pst_time():
@@ -224,14 +224,14 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
     data = response.json()
     price = data[0]['price']
 
-    print("1:",response.json(), price)
+    print("Order Executed at the price: ", price)
     if Order_Type == "Sell":
         limit_price = price - TrailingStop
         new_order_type = "Buy"
     else:
         limit_price = price + TrailingStop
         new_order_type = "Sell"
-
+    print("New Order submitted at the price: ", limit_price)
     body = {
             "accountSpec": account_name,
             "accountId": account_number,
@@ -242,7 +242,8 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
             "price": limit_price
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    print(response.json())
+    print("Limit Sell Order response",response.json())
+    return xyz
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
     body = {
