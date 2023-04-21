@@ -896,11 +896,11 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 100
             TrailingStop  = 20
         elif ticker == "ESM3":
-            profit_target = 2
-            TrailingStop  = 6
+            profit_target = 12
+            TrailingStop  = 12
         elif ticker == "NQM3":
-            profit_target = 40
-            TrailingStop  = 28
+            profit_target = 150
+            TrailingStop  = 150
         elif ticker == "SIK3":
             profit_target = 5
             TrailingStop  = 28
@@ -916,11 +916,11 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 10
             TrailingStop  = 20
         elif ticker == "ESM3":
-            profit_target = 6
-            TrailingStop  = 1
-        elif ticker == "NQM3":
-            profit_target = 10
-            TrailingStop  = 1
+            profit_target = 4
+            TrailingStop  = 4
+        elif ticker == "NQM3:
+            profit_target = 8
+            TrailingStop  = 8
         elif ticker == "SIK3":
             profit_target = 4
             TrailingStop  = 1
