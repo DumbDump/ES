@@ -243,7 +243,6 @@ def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, 
             "isAutomated": "true"
     }
     response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
-    print("Limit Sell Order response",response.json())
     return xyz
 
 def long_limit_sell_order(account_name, account_number, ticker, Qty, profit_target):
