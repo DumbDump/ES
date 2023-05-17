@@ -11,29 +11,106 @@ import os, json, datetime, math
 import os, json, requests
 import numpy as np
 import pandas as pd
-import datetime as dt
-import time
+import time, pytz
 import datetime
-import threading
+from datetime import datetime
+from pytz import timezone, utc
 
-
-global daytime
-
-now = datetime.datetime.now()
-today5am = now.replace(hour=5, minute=0, second=0, microsecond=0)
-today6am = now.replace(hour=6 + 7, minute=0, second=0, microsecond=0)
+now = datetime.now()
+today5am = now.replace(hour=13, minute=0, second=0, microsecond=0)
 today1pm = now.replace(hour=13 + 7, minute=0, second=0, microsecond=0)
 
-if (now > today6am and now < today1pm):
-    print("Current Time", now)
+if now > today5am and now < today1pm:
+    daytime = 1
+    daytime_multiplier = 4
 else:
-    print("Current Time-----", now)
+    daytime = 0
+    daytime_multiplier = 1
 
-if now > today5am:
-    print("Current Time:", now)
 
-X = "XX"
+    print("DayTime:", daytime)
 
-command = "PLACE;"+X+";"
 
-print(command)
+DEBUG = 0
+
+
+def get_pst_time():
+    date_format='%m_%d_%Y_%H_%M_%S_%Z'
+    date = datetime.now(tz=pytz.utc)
+    date = date.astimezone(timezone('US/Pacific'))
+    pstDateTime=date.strftime(date_format)
+    return pstDateTime
+
+
+config = configparser.ConfigParser()
+config.read('./config.ini')
+accountID = config['oanda']['account_id']
+access_token = config['oanda']['api_key']
+app = Flask(__name__)
+client = oandapyV20.API(access_token=access_token)
+
+
+def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
+    print(str(ticker))
+    if 'BUY_TO_OPEN' in str(order_type):
+        data = {
+            "order": {
+                "instrument": "EUR_USD",
+                "units": 1000,
+                "type": "MARKET",
+                "price": round(float(price),4),
+                "positionFill": "DEFAULT"
+            }
+        }
+        r = orders.OrderCreate(accountID, data=data)
+        client.request(r)
+    elif 'SELL_TO_OPEN' in str(order_type):
+        data = {
+            "order": {
+                "instrument": "EUR_USD",
+                "units": -1000,
+                "type": "LIMIT",
+                "price": round(float(price),4),
+                "positionFill": "DEFAULT"
+            }
+        }
+        r = orders.OrderCreate(accountID, data=data)
+        client.request(r)
+    elif 'SELL_TO_CLOSE' in str(order_type):
+        print("SELL_TO_CLOSE")
+        ONADA_FOREX_CLOSE_POSITIONS()
+    elif 'BUY_TO_CLOSE' in str(order_type):
+        print("BUY_TO_CLOSE")
+        ONADA_FOREX_CLOSE_POSITIONS()
+
+
+def ONADA_FOREX_CLOSE_POSITIONS():
+    r = positions.OpenPositions(accountID=accountID)
+    client.request(r)
+    print(client.request(r))
+    if client.request(r)['positions']:
+        print(client.request(r)['positions'][0]['long']['units'])
+    data_long = {
+        "longUnits": "ALL"
+    }
+
+    data_short = {
+        "shortUnits": "ALL"
+    }
+    # r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_long)
+    # r = positions.PositionClose(accountID=accountID,instrument='EUR_USD',data=data_short)
+
+    if client.request(r)['positions']:
+        if int(client.request(r)['positions'][0]['long']['units']) != 0:
+            rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_long)
+        elif int(client.request(r)['positions'][0]['short']['units']) != 0:
+            rv = positions.PositionClose(accountID=accountID, instrument='EUR_USD', data=data_short)
+        else:
+            rv = 'no orders executed'
+        client.request(rv)
+        print(rv.data)
+
+#ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
+
+
+ONADA_FOREX_ORDER("EURUSD", "BUY_TO_OPEN", 1000, 1.9, 459977, "ONADA")

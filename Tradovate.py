@@ -322,7 +322,7 @@ oco = {
 inpiut = "https://" + API + '/order/placeoco'
 #print(inpiut)
 
-response = requests.post(inpiut, headers=headers, data=oco)
+#response = requests.post(inpiut, headers=headers, data=oco)
 
 print("Open Long ", response.text)
 
