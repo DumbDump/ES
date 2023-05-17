@@ -329,7 +329,7 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "order": {
                 "instrument": "EUR_USD",
                 "units": 10000,
-                "type": "Market",
+                "type": "LIMIT",
                 "price": round(float(price),4),
                 "positionFill": "DEFAULT"
             }
@@ -342,7 +342,7 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "order": {
                 "instrument": "EUR_USD",
                 "units": -10000,
-                "type": "Market",
+                "type": "LIMIT",
                 "price": round(float(price),4),
                 "positionFill": "DEFAULT"
             }
