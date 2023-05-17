@@ -905,14 +905,14 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             profit_target = 12
             TrailingStop  = 12
         elif ticker == "NQM3":
-            profit_target = 150
-            TrailingStop  = 150
+            profit_target = 30
+            TrailingStop  = 30
         elif ticker == "SIK3":
             profit_target = 5
             TrailingStop  = 28
         else:
-            profit_target = 20
-            TrailingStop  = 20
+            profit_target = 12
+            TrailingStop  = 12
     else:
         limit_market = "Limit"
         if ticker == "MESM3":
