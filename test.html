@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+        <h3>
+        Test
+        </h3>
+        <p>
+            <div id="log"></div>
+        </p>
+        <script>
+const URL = 'wss://demo.tradovateapi.com/v1/websocket'
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function demo() {
+    for (let i = 0; i < 5; i++) {
+        console.log(`Waiting ${i} seconds...`);
+        await sleep(i * 1000);
+    }
+    console.log('Done');
+}
+
+const params = {
+    entryVersion: {
+        orderQty: 1,
+        orderType: "Market"
+    },
+    brackets: [{
+        qty: 1,
+        profitTarget: -30,
+        stopLoss: 15,
+        trailingStop: false
+    }]
+}
+
+const body = {
+    accountId: 1083577,
+    accountSpec: 'DEMO485096',
+    symbol: 'MESM1',
+    action: 'Sell',
+    orderStrategyTypeId: 2, //2 is 'multibracket', we currently only offer this strategy but more may exist in the future.
+    params: JSON.stringify(params)
+}
+
+var accessToken = '58pJKeAanX0HtuesjhWK22MXpaXEA42kmBuQoej_SABaTpnLzxoIlUV9T7tR2VSoRdzhur1e-iJyPQt-F9EoJO23PmF2hyopB4xZiIscvXOEYHRSUMmlJXAsZ1-T_E2u6cIJ3JAAOfDa3B7GCmBTIM0nVmUI18etSFTNgLf6UJHNizFvjRm4Y6mkj-0nJZELR6BqdKZxCyg';
+
+const mySocket = new WebSocket(URL)
+
+var insn = `authorize\n0\n\n${accessToken}`;
+
+console.log(insn);
+
+//authorize socket using your access token
+mySocket.onopen = () => mySocket.send(insn)
+
+mySocket.onopen = () => mySocket.send(`orderstrategy/startorderstrategy\n4\n\n${JSON.stringify(body)}`)
+        </script>
+    </body>
+</html>

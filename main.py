@@ -321,7 +321,8 @@ def ONADA_FOREX_CLOSE_POSITIONS():
 
 def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(str(ticker))
-    if 'BUY_TO_OPEN' in str(order_type):
+    if 'long' in str(order_type):
+        ONADA_FOREX_CLOSE_POSITIONS()
         data = {
             "order": {
                 "instrument": "EUR_USD",
@@ -333,7 +334,8 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
         r = orders.OrderCreate(accountID, data=data)
         client.request(r)
-    elif 'SELL_TO_OPEN' in str(order_type):
+    elif 'short' in str(order_type):
+        ONADA_FOREX_CLOSE_POSITIONS()
         data = {
             "order": {
                 "instrument": "EUR_USD",
