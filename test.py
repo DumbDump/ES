@@ -64,6 +64,7 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
         }
         r = orders.OrderCreate(accountID, data=data)
         client.request(r)
+        print(r)
     elif 'SELL_TO_OPEN' in str(order_type):
         data = {
             "order": {
