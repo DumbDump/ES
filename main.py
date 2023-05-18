@@ -323,14 +323,14 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
     print(str(ticker))
     print(str(ticker))
     print(str(ticker))
+    #                 "price": round(float(price),4),
     if 'long' in str(order_type):
         ONADA_FOREX_CLOSE_POSITIONS()
         data = {
             "order": {
                 "instrument": "EUR_USD",
                 "units": 10000,
-                "type": "LIMIT",
-                "price": round(float(price),4),
+                "type": "Market",
                 "positionFill": "DEFAULT"
             }
         }
@@ -342,8 +342,8 @@ def ONADA_FOREX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             "order": {
                 "instrument": "EUR_USD",
                 "units": -10000,
-                "type": "LIMIT",
-                "price": round(float(price),4),
+                "type": "Market",
+#                "price": round(float(price),4),
                 "positionFill": "DEFAULT"
             }
         }
