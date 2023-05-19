@@ -139,16 +139,7 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
     response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
     time.sleep(1)
 
-    # LIVE
-    response = requests.post("https://" + API_LIVE + '/contract/find', headers=headers, data=body)
-    ID = response.json()['id']
-    body = {
-        "accountId": 1083577,
-        "contractId": ID,
-        "admin": "false",
-    }
-    response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
-    time.sleep(1)
+
 
 def open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type):
     headers = {
@@ -902,6 +893,10 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
     ACCESS_TOKEN = response.json()['accessToken']
+
+    response = requests.post("https://" + API_LIVE + ACCOUNTS_PATH, params=headers)
+    ACCESS_TOKEN_REAL = response.json()['accessToken']
+
     #print(ACCESS_TOKEN)
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
@@ -955,7 +950,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
         # cancel and close all existing positions
         liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-
+        liquidate_positions(ACCESS_TOKEN_REAL, account_number, ticker)
         Order_Type = "Buy"
         Qty  = 1
         if DEBUG:
