@@ -72,6 +72,7 @@ TDSession.login()
 #Tradovate API
 
 API = 	"demo.tradovateapi.com/v1"
+API_LIVE = 	"live.tradovateapi.com/v1"
 ACCOUNT_ID = "vvnsreddy@gmail.com"
 ACCOUNTS_PATH = f"/auth/accessTokenRequest"
 # Tradovate
@@ -105,6 +106,8 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
     # find contract ID
     response = requests.post("https://" + API + '/contract/find', headers=headers, data=body)
     ID = response.json()['id']
+
+
     if DEBUG:
         print(response,ticker)
         print(response.json())
@@ -127,6 +130,7 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
         print("POSTION not found to do liquidation")
         netpos = 0
 
+
     body = {
         "accountId": 1083577,
         "contractId": ID,
@@ -135,7 +139,16 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
     response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
     time.sleep(1)
 
-
+    # LIVE
+    response = requests.post("https://" + API_LIVE + '/contract/find', headers=headers, data=body)
+    ID = response.json()['id']
+    body = {
+        "accountId": 1083577,
+        "contractId": ID,
+        "admin": "false",
+    }
+    response = requests.post("https://" + API + '/order/liquidateposition', headers=headers, data=body)
+    time.sleep(1)
 
 def open_order(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type):
     headers = {
@@ -860,6 +873,7 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print(ticker, ticker)
     account_number = "1083577"
     account_name = "DEMO485096"
+    account_name_live = "1030658"
     Qty = 1
     # get token
     headers = {
