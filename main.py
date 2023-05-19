@@ -91,7 +91,7 @@ headers = {
 ##### TRADOVATE SUB ROUTINES
 
 
-def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
+def liquidate_positions(API, ACCESS_TOKEN, account_number, ticker):
     if DEBUG:
         print("LIQUIDATE EXISTING POSITION")
     headers = {
@@ -132,7 +132,7 @@ def liquidate_positions(ACCESS_TOKEN, account_number, ticker):
 
 
     body = {
-        "accountId": 1083577,
+        "accountId": account_number,
         "contractId": ID,
         "admin": "false",
     }
@@ -201,7 +201,7 @@ def open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker,
     }
     # response = requests.post("https://" + API + '/order/placeorder', headers=headers, data=body)
 
-def open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type, TrailingStop,price):
+def open_order_limit_profit(API,ACCESS_TOKEN, account_name, account_number, ticker, Qty,Order_Type, TrailingStop,price):
     headers = {
         "Authorization": 'Bearer ' + str(ACCESS_TOKEN)
     }
@@ -862,9 +862,10 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
         print('TRADOVATE order')
         print(ticker, order_type, qty, round(price), position_type, exchange)
         print(ticker, ticker)
-    account_number = "1083577"
+    account_number = 1083577
     account_name = "DEMO485096"
-    account_name_live = "1030658"
+    account_number_live = 45646
+    account_name_live = 1030658
     Qty = 1
     # get token
     headers = {
@@ -893,9 +894,8 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
     response = requests.post("https://" + API + ACCOUNTS_PATH, params=headers)
     ACCESS_TOKEN = response.json()['accessToken']
-
     response = requests.post("https://" + API_LIVE + ACCOUNTS_PATH, params=headers)
-    ACCESS_TOKEN_REAL = response.json()['accessToken']
+    ACCESS_TOKEN_LIVE = response.json()['accessToken']
 
     #print(ACCESS_TOKEN)
     headers = {
@@ -949,24 +949,32 @@ def TV_FUTURE_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("Liquidating positions")
 
         # cancel and close all existing positions
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        liquidate_positions(ACCESS_TOKEN_REAL, account_number, ticker)
+        liquidate_positions(API,ACCESS_TOKEN, account_number, ticker)
+        liquidate_positions(API_LIVE, ACCESS_TOKEN_LIVE, account_number_live, ticker)
         Order_Type = "Buy"
         Qty  = 1
         if DEBUG:
             print("open_order_trailing_stop ")
         #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop,limit_market,price)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,round(price))
+        open_order_limit_profit(API,ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,round(price))
+
+        if ticker == "MNQM3":
+            open_order_limit_profit(API_LIVE,ACCESS_TOKEN_LIVE, account_name_live, account_number_live, ticker, Qty, Order_Type, profit_target,round(price))
+
     elif order_type == "short":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        liquidate_positions(ACCESS_TOKEN_REAL, account_number, ticker)
+        liquidate_positions(API, ACCESS_TOKEN, account_number, ticker)
+        liquidate_positions(API_LIVE, ACCESS_TOKEN_LIVE, account_number_live, ticker)
         Order_Type = "Sell"
         Qty  = 1
         #open_order_trailing_stop(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, TrailingStop,limit_market,price)
-        open_order_limit_profit(ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,round(price))
+        open_order_limit_profit(API,ACCESS_TOKEN, account_name, account_number, ticker, Qty, Order_Type, profit_target,round(price))
+
+        if ticker == "MNQM3":
+            open_order_limit_profit(API_LIVE,ACCESS_TOKEN_LIVE, account_name_live, account_number_live, ticker, Qty, Order_Type,profit_target, round(price))
+
     elif order_type == "flat":
-        liquidate_positions(ACCESS_TOKEN, account_number, ticker)
-        liquidate_positions(ACCESS_TOKEN_REAL, account_number, ticker)
+        liquidate_positions(API, ACCESS_TOKEN, account_number, ticker)
+        liquidate_positions(API_LIVE, ACCESS_TOKEN_LIVE, account_number_live, ticker)
 
     return 'xyz'
 
@@ -1045,3 +1053,4 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 # WebHook code
 ##################################
 #TRADIER_SPX_ORDER("SPX", "BUY_TO_OPEN", 1, round_up(3820.57,-1), "long", "TRADIER")
+#TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
