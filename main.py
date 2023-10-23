@@ -1204,6 +1204,7 @@ def parse_webhook_message(webhook_message):
     elif 'PAPERSPX' in str(webhook_message).upper():
         print('###########  PAPER ACCOUNT TRADIER ################')
         print('###########  TRADIER ################')
+        #TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         TRADIER_SPX_ORDER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
 
 
