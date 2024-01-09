@@ -771,7 +771,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                      data={'class': 'option',
                                            'symbol': 'SPX',
                                            'option_symbol': format,
-                                           'side': 'buy_to_close',
+                                           'side': 'sell_to_close',
                                            'quantity': '1',
                                            'type': 'limit',
                                            'price': sell_price,
