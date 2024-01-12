@@ -681,7 +681,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("DATA:",data)
             cost_basis = data['positions']['position']['cost_basis']
             symbol = data['positions']['position']['symbol']
-            sell_price = cost_basis + 2
+            sell_price = (cost_basis + 2)/10
             print("cost_basis:",cost_basis)
             print("symbol:",symbol)
             print("Sell Price:",sell_price)
@@ -783,7 +783,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("DATA:",data)
             cost_basis = data['positions']['position']['cost_basis']
             symbol = data['positions']['position']['symbol']
-            sell_price = cost_basis + 2
+            sell_price = (cost_basis + 2)/10
             print("cost_basis:",cost_basis)
             print("symbol:",symbol)
             print("Sell Price:",sell_price)
