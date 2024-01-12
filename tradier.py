@@ -47,6 +47,13 @@ print(data)
 
 positions = data['positions']
 
+cost_basis_list = [position['cost_basis'] for position in data['positions']['position']]
+
+for position in data['positions']['position']:
+    print(f"Cost Basis: {position['cost_basis']}")
+    print(f"Symbol: {position['symbol']}")
+    print()  # Add an empty line between entries if needed
+
 #print(positions['cost_basis'])
 for k, interal_dict in data['positions'].items():
     print(interal_dict['cost_basis'], interal_dict['symbol'])

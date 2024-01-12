@@ -644,8 +644,9 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("Buy Single Leg",PST_TIME, format,leg1,leg2)
 
             print("Buy Call option",  "CALL", format,"Ask Price:", leg1)
-            print("Sell Call option", "CALL", format, "Ask Price:", round(leg1))
+            #print("Sell Call option", "CALL", format, "Ask Price:", round(leg1))
 
+             # read any existing orders
 
              # Send Order
             response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
@@ -674,17 +675,16 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                       'Accept': 'application/json'}
                                     )
             json_response = response.json()
-            print(response.status_code)
-            print(response.json)
+            #print(response.status_code)
+            #print(response.json)
             data = json_response
             print("DATA:",data)
-            #positions = data['positions']
-            for k, interal_dict in data['positions'].items():
-                print(interal_dict['cost_basis'], interal_dict['symbol'])
-                brought_price = interal_dict['cost_basis']
-            print("purchase price",brought_price)
-            sell_price = brought_price + 2
-            print("Sell price",sell_price)
+            cost_basis = data['positions']['position']['cost_basis']
+            symbol = data['positions']['position']['symbol']
+            sell_price = cost_basis + 2
+            print("cost_basis:",cost_basis)
+            print("symbol:",symbol)
+            print("Sell Price:",sell_price)
             # # Sell 5 wide
             # time.sleep(5)
             # response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
@@ -779,17 +779,13 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                       'Accept': 'application/json'}
                                     )
             json_response = response.json()
-            print(response.status_code)
-            print(response.json)
-            data = json_response
             print("DATA:",data)
-            #positions = data['positions']
-            for k, interal_dict in data['positions'].items():
-                print(interal_dict['cost_basis'], interal_dict['symbol'])
-                brought_price = interal_dict['cost_basis']
-            print("sold price",brought_price)
-            sell_price = brought_price + 2
-            print("buy price",sell_price)
+            cost_basis = data['positions']['position']['cost_basis']
+            symbol = data['positions']['position']['symbol']
+            sell_price = cost_basis + 2
+            print("cost_basis:",cost_basis)
+            print("symbol:",symbol)
+            print("Sell Price:",sell_price)
             # Sell 5 wide
             time.sleep(5)
             # response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
@@ -1298,6 +1294,6 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
-#TRADIER_SPX_ORDER("SPX", "BUY_TO_OPEN", 1, round_up(4680.00,-1), "long", "TRADIER")
+#TRADIER_SPX_ORDER("SPX", "BUY_TO_OPEN", 1, round_up(4790.00,-1), "long", "TRADIER")
 #TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
 #OPTIONS("ON", "SELL_TO_OPEN", 1, 70, "long", OPTIONS)
