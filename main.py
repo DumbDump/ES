@@ -779,6 +779,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                       'Accept': 'application/json'}
                                     )
             json_response = response.json()
+            data = json_response
             print("DATA:",data)
             cost_basis = data['positions']['position']['cost_basis']
             symbol = data['positions']['position']['symbol']
