@@ -19,70 +19,65 @@ import datetime
 
 
 
-response = requests.get('https://api.tradier.com/v1/markets/quotes',
-                                    params={'symbols': "META", 'greeks': 'false'},
-                                    headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
-                                             'Accept': 'application/json'}
-                                    )
+# response = requests.get('https://api.tradier.com/v1/markets/quotes',
+#                                     params={'symbols': "META", 'greeks': 'false'},
+#                                     headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
+#                                              'Accept': 'application/json'}
+#                                     )
+# json_response = response.json()
+# print(response.status_code)
+# print(json_response)
+# print(json_response['quotes']['quote']['last'])
+# sell_price = 1
+# format = 'SPXW230117P04000000'
+
+
+
+response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
+                        params={},
+                        headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
+                        )
 json_response = response.json()
-print(response.status_code)
-print(json_response)
-print(json_response['quotes']['quote']['last'])
-sell_price = 1
-format = 'SPXW230117P04000000'
+#print(response.status_code)
+#print(json_response)
+data = json_response
 
-response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
-                         data={'class': 'equity',
-                               'symbol': 'META',
-                               'side': 'buy',
-                               'quantity': '100',
-                               'type': 'market',
-                               'duration': 'day',
-                               'tag': 'my-tag-example-1'},
-                         headers={'Authorization': 'Bearer Rt4q8G8ZDWnLafqj2D5r1wT3p5E2',
-                                  'Accept': 'application/json'}
-                         )
+print(data)
 
-#json_response = response.json()
-print(response.status_code)
-print(response.text)
 
-time_str = "19:50"
+positions = data['positions']
 
-if time_str == "19:50":
-    response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
-        params={},
-        headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
-    )
-    json_response = response.json()
-    print(response.status_code)
-    print(json_response)
-    data = json_response
+#print(positions['cost_basis'])
+for k, interal_dict in data['positions'].items():
+    print(interal_dict['cost_basis'], interal_dict['symbol'])
+    brought_price = interal_dict['cost_basis']
+    print("purchase price",brought_price)
+    sell_price = brought_price + 2
+    print("sell price",sell_price)
 
-    positions = data['positions']['position']
 
-    for position in positions:
-        symbol = position['symbol']
-        quantity = position['quantity']
-        print("Symbol: {}, Quantity: {}".format(symbol, quantity))
-        if quantity < 0:
-            order_type = 'buy_to_cover'
-        else:
-            order_type = 'sell'
-        if not symbol.startswith("SPX"):
-            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
-                                 data={'class': 'equity',
-                                       'symbol': symbol,
-                                       'side': order_type,
-                                       'quantity': quantity,
-                                       'type': 'market',
-                                       'duration': 'day',
-                                       'tag': 'my-tag-example-1'},
-                                 headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                          'Accept': 'application/json'}
-                                 )
-            json_response = response.json()
-            print(response.status_code)
-            print(response.text)
-    else:
-            print("not stock")
+# for position in positions:
+#     symbol = position['symbol']
+#     quantity = position['quantity']
+#     print("Symbol: {}, Quantity: {}".format(symbol, quantity))
+#     if quantity < 0:
+#         order_type = 'buy_to_cover'
+#     else:
+#         order_type = 'sell'
+#     if not symbol.startswith("SPX"):
+#         response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+#                                  data={'class': 'equity',
+#                                        'symbol': symbol,
+#                                        'side': order_type,
+#                                        'quantity': quantity,
+#                                        'type': 'market',
+#                                        'duration': 'day',
+#                                        'tag': 'my-tag-example-1'},
+#                                  headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+#                                           'Accept': 'application/json'}
+#                                  )
+#         json_response = response.json()
+#         print(response.status_code)
+#         print(response.text)
+# else:
+#     print("not stock")

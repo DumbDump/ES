@@ -665,6 +665,26 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("buy to open", response.status_code)
             print("buy to open", json_response)
             sell_price = round(leg1+3, 0)
+
+
+            ### Read existing position
+            response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
+                             params={},
+                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                      'Accept': 'application/json'}
+                                    )
+            json_response = response.json()
+            print(response.status_code)
+            print(response.json)
+            data = json_response
+            print("DATA:",data)
+            #positions = data['positions']
+            for k, interal_dict in data['positions'].items():
+                print(interal_dict['cost_basis'], interal_dict['symbol'])
+                brought_price = interal_dict['cost_basis']
+            print("purchase price",brought_price)
+            sell_price = brought_price + 2
+            print("Sell price",sell_price)
             # # Sell 5 wide
             # time.sleep(5)
             # response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
@@ -752,6 +772,24 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print(response.status_code)
             print(json_response)
             sell_price = round(leg1+2,0)
+            ### Read existing position
+            response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
+                             params={},
+                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                      'Accept': 'application/json'}
+                                    )
+            json_response = response.json()
+            print(response.status_code)
+            print(response.json)
+            data = json_response
+            print("DATA:",data)
+            #positions = data['positions']
+            for k, interal_dict in data['positions'].items():
+                print(interal_dict['cost_basis'], interal_dict['symbol'])
+                brought_price = interal_dict['cost_basis']
+            print("sold price",brought_price)
+            sell_price = brought_price + 2
+            print("buy price",sell_price)
             # Sell 5 wide
             time.sleep(5)
             # response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
