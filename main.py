@@ -691,11 +691,10 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             #print(response.status_code)
             #print(response.json)
             data = json_response
-            cost_basis = (get_cost_basis_for_symbol(data, format))/100
-            sell_price = (cost_basis + 2)
-            print("cost_basis:",cost_basis)
-            print("symbol:",symbol)
-            print("Sell Price:",sell_price)
+            cost_basis = data['positions']['position']['cost_basis']
+            target_symbol = data['positions']['position']['symbol']
+            sell_price = cost_basis/100
+            print(target_symbol,cost_basis,sell_price)
             # # Sell 5 wide
             # time.sleep(5)
             # response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
@@ -791,12 +790,10 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                                     )
             json_response = response.json()
             data = json_response
-            print("DATA:",data)
-            cost_basis = (get_cost_basis_for_symbol(data, format))/100
-            sell_price = (cost_basis - 2)
-            print("cost_basis:",cost_basis)
-            print("symbol:",symbol)
-            print("Sell Price:",sell_price)
+            cost_basis = data['positions']['position']['cost_basis']
+            target_symbol = data['positions']['position']['symbol']
+            sell_price = cost_basis/100
+            print(target_symbol,cost_basis,sell_price)
             # Sell 5 wide
             time.sleep(5)
             # response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',

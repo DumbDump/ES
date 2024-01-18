@@ -66,9 +66,12 @@ positions = data['positions']
 # Print symbol and cost_basis from the given dictionary
 
 
-target_symbol = 'SPXW240117P04730000'
+target_symbol = 'SPXW240118P04760000'
 cost_basis = get_cost_basis_for_symbol(data, target_symbol)
-print(target_symbol,cost_basis)
+cost_basis = data['positions']['position']['cost_basis']
+target_symbol = data['positions']['position']['symbol']
+sell_price = cost_basis/100
+print(target_symbol,cost_basis,sell_price)
 
 # cost_basis_list = [position['cost_basis'] for position in data['positions']['position']]
 #
