@@ -70,7 +70,8 @@ target_symbol = 'SPXW240118P04760000'
 cost_basis = get_cost_basis_for_symbol(data, target_symbol)
 cost_basis = data['positions']['position']['cost_basis']
 target_symbol = data['positions']['position']['symbol']
-sell_price = cost_basis/100
+sell_price1 = (cost_basis/100) + 2
+sell_price = round(sell_price1-2,0)
 print(target_symbol,cost_basis,sell_price)
 
 # cost_basis_list = [position['cost_basis'] for position in data['positions']['position']]
