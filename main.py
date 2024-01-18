@@ -796,6 +796,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print(target_symbol,cost_basis,sell_price)
             # Sell 5 wide
             time.sleep(5)
+
             # response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
             #                          data={'class': 'option',
             #                                'symbol': 'SPX',
