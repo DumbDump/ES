@@ -693,7 +693,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             data = json_response
             cost_basis = data['positions']['position']['cost_basis']
             target_symbol = data['positions']['position']['symbol']
-            sell_price = cost_basis/100
+            sell_price = (cost_basis/100) + 2
             print(target_symbol,cost_basis,sell_price)
             # # Sell 5 wide
             # time.sleep(5)
@@ -792,7 +792,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             data = json_response
             cost_basis = data['positions']['position']['cost_basis']
             target_symbol = data['positions']['position']['symbol']
-            sell_price = cost_basis/100
+            sell_price = (cost_basis/100) - 2
             print(target_symbol,cost_basis,sell_price)
             # Sell 5 wide
             time.sleep(5)
