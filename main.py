@@ -47,6 +47,19 @@ else:
 
 DEBUG = 0
 
+def get_cost_basis_for_symbol(data, target_symbol):
+    # Check if the dictionary structure is as expected
+    if 'positions' in data and 'position' in data['positions']:
+        positions = data['positions']['position']
+
+        # Search for the given symbol in the positions
+        for position in positions:
+            if 'symbol' in position and 'cost_basis' in position:
+                if position['symbol'] == target_symbol:
+                    return position['cost_basis']
+
+    # Return None if the symbol is not found
+    return None
 
 def get_pst_time():
     date_format='%m_%d_%Y_%H_%M_%S_%Z'
@@ -678,10 +691,8 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             #print(response.status_code)
             #print(response.json)
             data = json_response
-            print("DATA:",data)
-            cost_basis = data['positions']['position']['cost_basis']
-            symbol = data['positions']['position']['symbol']
-            sell_price = (cost_basis + 2)/10
+            cost_basis = (get_cost_basis_for_symbol(data, format))/100
+            sell_price = (cost_basis + 2)
             print("cost_basis:",cost_basis)
             print("symbol:",symbol)
             print("Sell Price:",sell_price)
@@ -781,9 +792,8 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             json_response = response.json()
             data = json_response
             print("DATA:",data)
-            cost_basis = data['positions']['position']['cost_basis']
-            symbol = data['positions']['position']['symbol']
-            sell_price = (cost_basis + 2)/10
+            cost_basis = (get_cost_basis_for_symbol(data, format))/100
+            sell_price = (cost_basis - 2)
             print("cost_basis:",cost_basis)
             print("symbol:",symbol)
             print("Sell Price:",sell_price)

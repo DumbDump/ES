@@ -31,6 +31,21 @@ import datetime
 # sell_price = 1
 # format = 'SPXW230117P04000000'
 
+# Function to print symbol and cost_basis
+def get_cost_basis_for_symbol(data, target_symbol):
+    # Check if the dictionary structure is as expected
+    if 'positions' in data and 'position' in data['positions']:
+        positions = data['positions']['position']
+
+        # Search for the given symbol in the positions
+        for position in positions:
+            if 'symbol' in position and 'cost_basis' in position:
+                if position['symbol'] == target_symbol:
+                    return position['cost_basis']
+
+    # Return None if the symbol is not found
+    return None
+
 
 
 response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
@@ -47,20 +62,28 @@ print(data)
 
 positions = data['positions']
 
-cost_basis_list = [position['cost_basis'] for position in data['positions']['position']]
 
-for position in data['positions']['position']:
-    print(f"Cost Basis: {position['cost_basis']}")
-    print(f"Symbol: {position['symbol']}")
-    print()  # Add an empty line between entries if needed
+# Print symbol and cost_basis from the given dictionary
 
-#print(positions['cost_basis'])
-for k, interal_dict in data['positions'].items():
-    print(interal_dict['cost_basis'], interal_dict['symbol'])
-    brought_price = interal_dict['cost_basis']
-    print("purchase price",brought_price)
-    sell_price = brought_price + 2
-    print("sell price",sell_price)
+
+target_symbol = 'SPXW240117P04730000'
+cost_basis = get_cost_basis_for_symbol(data, target_symbol)
+print(target_symbol,cost_basis)
+
+# cost_basis_list = [position['cost_basis'] for position in data['positions']['position']]
+#
+# for position in data['positions']['position']:
+#     print(f"Cost Basis: {position['cost_basis']}")
+#     print(f"Symbol: {position['symbol']}")
+#     print()  # Add an empty line between entries if needed
+#
+# #print(positions['cost_basis'])
+# for k, interal_dict in data['positions'].items():
+#     print(interal_dict['cost_basis'], interal_dict['symbol'])
+#     brought_price = interal_dict['cost_basis']
+#     print("purchase price",brought_price)
+#     sell_price = brought_price + 2
+#     print("sell price",sell_price)
 
 
 # for position in positions:
