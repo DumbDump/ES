@@ -60,19 +60,60 @@ data = json_response
 print(data)
 
 
-positions = data['positions']
+#positions = data['positions']
 
 
-# Print symbol and cost_basis from the given dictionary
+# Check if 'positions' key exists in the data
+if 'positions' in data:
+    positions = data['positions'].get('position')
+
+    # Check if 'position' key exists and is a list
+    if positions and isinstance(positions, list):
+        number_of_positions = len(positions)
+
+        # Check if the number of positions is equal to 1
+        if number_of_positions == 1:
+            # Assign symbol and cost_basis/100 for the first position
+            first_position = positions[0]
+            symbol = first_position.get('symbol', None)
+            cost_basis = first_position.get('cost_basis', None)
+
+            if symbol and cost_basis is not None:
+                adjusted_cost_basis = cost_basis / 100
+
+                # Perform tasks with the assigned symbol and adjusted cost_basis
+                print(f"Symbol assigned: {symbol}")
+                print(f"Adjusted Cost Basis: {adjusted_cost_basis}")
+                # Add more tasks if needed
+                command = 'do_sell'
+
+            else:
+                print("Symbol or Cost Basis not found in the position data.")
+                command = no_positions
+        else:
+            print(f"Number of positions is not equal to 1. It is {number_of_positions}.")
+            command = 'flushall'
+    else:
+        print("Position data is not in the expected format.")
+else:
+    print("No positions data found.")
+
+print("command:",command)
+
+if command == 'flushall':
+        print("flush all command")
+
+if command == 'do_sell':
+    print ("do sell")
 
 
-target_symbol = 'SPXW240118P04760000'
-cost_basis = get_cost_basis_for_symbol(data, target_symbol)
-cost_basis = data['positions']['position']['cost_basis']
-target_symbol = data['positions']['position']['symbol']
-sell_price1 = (cost_basis/100) + 2
-sell_price = round(sell_price1-2,0)
-print(target_symbol,cost_basis,sell_price)
+# target_symbol = 'SPXW240118P04760000'
+# cost_basis = get_cost_basis_for_symbol(data, target_symbol)
+# cost_basis = data['positions']['position']['cost_basis']
+# target_symbol = data['positions']['position']['symbol']
+# sell_price1 = (cost_basis/100) + 2
+# sell_price = round(sell_price1-2,0)
+# print(target_symbol,cost_basis,sell_price)
 
 # cost_basis_list = [position['cost_basis'] for position in data['positions']['position']]
 #

@@ -961,7 +961,7 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
             json_response = response.json()
             print(response.status_code)
             print(json_response)
-            sell_price = round(leg1,0)
+            sell_price = round(leg1, 0)
             # Sell 5 wide
             time.sleep(5)
             response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
@@ -1027,7 +1027,7 @@ def STOCKS_PAPER (ticker, order_type, qty, price, position_type, exchange):
             print("STOCK sell to open", response.status_code)
             print("STOCK sell to open", json_response)
 
-    if order_type == "flat":
+    if order_type == "flatxx":
                 # Send Order
                 response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
                                          data={'class': 'equity',
