@@ -828,8 +828,10 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             #print(json_response)
             print("\tSTEP3: Sell Order Status:", json_response)
             return 'xyz'
-
-
+    elif order_type == "flat":
+            read_and_close_positions()
+            print("\tFLAT command: Closed all Positions:")
+            return 'xyz'
 
 def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchange):
     global format
@@ -1181,6 +1183,6 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 # WebHook code
 ##################################
 #read_and_close_positions()
-#TRADIER_SPX_ORDER("SPX", "SELL_TO_OPEN", 1, round_up(5000.00,-1), "long", "TRADIER")
+#TRADIER_SPX_ORDER("SPX", "flat", 1, round_up(5000.00,-1), "long", "TRADIER")
 #TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
 #OPTIONS("ON", "SELL_TO_OPEN", 1, 70, "long", OPTIONS)
