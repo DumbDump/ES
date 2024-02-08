@@ -719,7 +719,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             json_response = response.json()
         #    print("buy to open", response.status_code)
             print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
-            sell_price = round(leg1+3, 0)
+            sell_price = round(leg1+1, 0)
 
 
             ### Read existing position
@@ -734,7 +734,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             data = json_response
             cost_basis = data['positions']['position']['cost_basis']
             target_symbol = data['positions']['position']['symbol']
-            sell_price = ((cost_basis+200)/100)
+            sell_price = ((cost_basis+100)/100)
             print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
 
             response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
@@ -806,7 +806,7 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             data = json_response
             cost_basis = data['positions']['position']['cost_basis']
             target_symbol = data['positions']['position']['symbol']
-            sell_price = ((cost_basis+200)/100)
+            sell_price = ((cost_basis+100)/100)
             print("\tSTEP2 :Read Position and check executed price :",response.json())
 
             print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
