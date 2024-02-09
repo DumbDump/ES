@@ -721,7 +721,8 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
             sell_price = round(leg1+1, 0)
 
-
+            # 15 sec delay
+            time.sleep(15)
             ### Read existing position
             response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
                              params={},
@@ -795,6 +796,9 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
             json_response = response.json()
             #print(response.status_code)
             print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
+
+            # 15 sec delay
+            time.sleep(15)
 
             ### Read existing position
             response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
