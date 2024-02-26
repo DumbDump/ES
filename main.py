@@ -71,20 +71,38 @@ def read_and_close_positions():
 
     print("\n\n")
     print("\t**Close Positions: Read Positions")
+
+    # Read all open orders and cancel first
+    response_positions = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+            params={},
+            headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
+                    )
+    # json_response = response.json()
+    order_id_data = response_positions.json()
+    print("\t Read orders data:", order_id_data)
+    order_ids = [order['id'] for order in order_id_data['orders']['order'] if order['status'] =='pending']
+    print("\torder ids=",order_ids)
+    # Cancel orders
+    for order_id in order_ids:
+        print("\tCanceling Order ID:",order_id)
+        response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
+                data={},
+                headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
+                                 )
+        print("\t Order delete status :", response_delete.json())
+
     response_positions = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
                              params={},
                              headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
                                       'Accept': 'application/json'}
             )
-           # json_response = response.json()
-    print("\t Read data:", response_positions.json())
-    print("\t Read data:", response_positions)
+    # json_response = response.json()
+    #print("\t Read data:", response_positions.json())
+    #print("\t Read data:", response_positions)
     # Retrieve all existing positions
     if response_positions.status_code == 200:
         positions_data = response_positions.json().get('positions', [])
         print("\t Read data:", positions_data)
-        # Close each position
-
         for position in positions_data:
             if positions_data == 'null':
                 print("\t No Positions found")
@@ -93,9 +111,26 @@ def read_and_close_positions():
                 quantity = positions_data['position']['quantity']
                 side = "sell_to_close" if quantity > 0 else "buy_to_close"  # Close position by selling if long, buying if short
 
+                ### check any existing order for that positions
+                response_positions = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                             params={},
+                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                      'Accept': 'application/json'}
+                )
+                # json_response = response.json()
+                order_id_data = response_positions.json()
+                print("\t Read orders data:", order_id_data)
+                print("\t Read orders data2:", response_positions)
+                # extract order ID for this symbol
+                found_id = None
+                for position in order_id_data.get('position', []):
+                    if position['option_symbol'] == symbol:
+                        found_id = position['id']
+                        break
+                print("\t Found Order ID for Symbol",symbol,found_id)
                  # Place order to close position
                 print("\t Send order to close at Market price : ", symbol,quantity)
-                response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                response = requests.put('https://sandbox.tradier.com/v1/accounts/VA88823939/orders/found_id',
                                  data={'class': 'option',
                                        'symbol': 'SPX',
                                        'option_symbol': symbol,
