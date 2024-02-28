@@ -79,13 +79,13 @@ def read_and_close_positions():
                     )
     # json_response = response.json()
     order_id_data = response_positions.json()
-    print("\t Read orders data:", order_id_data)
+    #print("\t Read orders data:", order_id_data)
 
     if order_id_data['orders'] == 'null':
-        print("\t No Positions found")
+        print("\t No open orders found")
     else:
         order_ids = [order['id'] for order in order_id_data['orders']['order'] if order['status'] =='pending']
-        print("\torder ids=",order_ids)
+        print("\topen order ids=",order_ids)
         # Cancel orders
         for order_id in order_ids:
             print("\tCanceling Order ID:",order_id)
@@ -102,8 +102,8 @@ def read_and_close_positions():
                                           'Accept': 'application/json'}
             )
     #json_response = response.json()
-    print("\t Read data:", response_positions.json())
-    print("\t Read data:", response_positions)
+    #print("\t Read data:", response_positions.json())
+    #print("\t Read data:", response_positions)
     # Retrieve all existing positions
     order_id_data = response_positions.json()
     if response_positions.status_code == 200:
@@ -113,32 +113,53 @@ def read_and_close_positions():
                 print("\t No Positions found")
             else:
                 print("\t Read dataxxxxx:", order_id_data)
-                for position in order_id_data['positions']['position']:
-                    symbol = position['symbol']
-                    quantity = position['quantity']
-                    side = "sell_to_close" if quantity > 0 else "buy_to_close"  # Close position by selling if long, buying if short
-                    print("\t Send order to close at Market price : ", symbol,quantity)
-                    response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
-                                     data={'class': 'option',
-                                           'symbol': 'SPX',
-                                           'option_symbol': symbol,
-                                           'side': side,
-                                           'quantity': quantity,
-                                           'type': 'market',
-                                           'duration': 'day',
-                                           'tag': 'my-tag-example-1'},
-                                     headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                              'Accept': 'application/json'}
-                                     )
+                if isinstance(order_id_data['positions']['position'], list):
+                    for position in order_id_data['positions']['position']:
+                        symbol = position['symbol']
+                        quantity = position['quantity']
+                        side = "sell_to_close" if quantity > 0 else "buy_to_close"  # Close position by selling if long, buying if short
+                        print("\t Send order to close at Market price : ", symbol,quantity)
+                        response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                                         data={'class': 'option',
+                                               'symbol': 'SPX',
+                                               'option_symbol': symbol,
+                                               'side': side,
+                                               'quantity': quantity,
+                                               'type': 'market',
+                                               'duration': 'day',
+                                               'tag': 'my-tag-example-1'},
+                                         headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                                  'Accept': 'application/json'}
+                                         )
 
-                json_response = response.json()
-                #print("CLose positions",response.json())
-
-
-                if response.status_code == 201:
-                    print(f"Closed position for {symbol} successfully.")
+                        json_response = response.json()
+                        if response.status_code == 201:
+                            print(f"Closed position for {symbol} successfully.")
+                        else:
+                            print(f"Failed to close position for {symbol}.")
                 else:
-                    print(f"Failed to close position for {symbol}.")
+                        symbol = order_id_data['positions']['position']['symbol']
+                        quantity = order_id_data['positions']['position']['quantity']
+                        side = "sell_to_close" if quantity > 0 else "buy_to_close"  # Close position by selling if long, buying if short
+                        print("\t Send order to close at Market price : ", symbol,quantity)
+                        response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                                         data={'class': 'option',
+                                               'symbol': 'SPX',
+                                               'option_symbol': symbol,
+                                               'side': side,
+                                               'quantity': quantity,
+                                               'type': 'market',
+                                               'duration': 'day',
+                                               'tag': 'my-tag-example-1'},
+                                         headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                                  'Accept': 'application/json'}
+                                         )
+
+
+                        if response.status_code == 201:
+                            print(f"Closed position for {symbol} successfully.")
+                        else:
+                            print(f"Failed to close position for {symbol}.")
 
     else:
         print("\tFailed to retrieve positions.")
@@ -1206,11 +1227,11 @@ def get_logs():
 
 
 
-app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
+#app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
-#read_and_close_positions()
+read_and_close_positions()
 #TRADIER_SPX_ORDER("SPX", "flat", 1, round_up(5000.00,-1), "long", "TRADIER")
 #TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
 #OPTIONS("ON", "SELL_TO_OPEN", 1, 70, "long", OPTIONS)
