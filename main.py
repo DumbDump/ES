@@ -79,21 +79,21 @@ def read_and_close_positions():
                     )
     # json_response = response.json()
     order_id_data = response_positions.json()
-    #print("\t Read orders data:", order_id_data)
+    print("\t Read orders data:", order_id_data)
 
     if order_id_data['orders'] == 'null':
         print("\t No open orders found")
     else:
-        order_ids = [order['id'] for order in order_id_data['orders']['order'] if order['status'] =='pending']
-        print("\topen order ids=",order_ids)
-        # Cancel orders
-        for order_id in order_ids:
-            print("\tCanceling Order ID:",order_id)
-            response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
-                    data={},
-                    headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
-                                     )
-            print("\t Order delete status :", response_delete.json())
+        if 'orders' in order_id_data and 'order' in order_id_data['orders']:
+            for order in order_id_data['orders']:
+                if order_id_data['orders']['order']['status'] == "pending":
+                        order_id = order_id_data['orders']['order']['id']
+                        print("\tCanceling Order ID:",order_id)
+                        response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
+                              data={},
+                              headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
+                                        )
+                        print("\t Order delete status :", response_delete.json())
 
     # read positions
     response_positions = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
@@ -1227,11 +1227,11 @@ def get_logs():
 
 
 
-#app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
+app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
-read_and_close_positions()
+#read_and_close_positions()
 #TRADIER_SPX_ORDER("SPX", "flat", 1, round_up(5000.00,-1), "long", "TRADIER")
 #TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
 #OPTIONS("ON", "SELL_TO_OPEN", 1, 70, "long", OPTIONS)
