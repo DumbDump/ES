@@ -84,16 +84,17 @@ def read_and_close_positions():
     if order_id_data['orders'] == 'null':
         print("\t No open orders found")
     else:
-        if 'orders' in order_id_data and 'order' in order_id_data['orders']:
-            for order in order_id_data['orders']:
-                if order_id_data['orders']['order']['status'] == "pending":
-                        order_id = order_id_data['orders']['order']['id']
-                        print("\tCanceling Order ID:",order_id)
-                        response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
-                              data={},
-                              headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
-                                        )
-                        print("\t Order delete status :", response_delete.json())
+        for order_dict in order_id_data['orders']['order']:
+            status = order_dict['status']
+            order_id = order_dict['id']
+            print(status, order_id)
+            if status == 'pending':
+                print("\tCanceling Order ID:", order_id)
+                response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
+                     data={},
+                     headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
+                            )
+                print("\t Order delete status :", response_delete.json())
 
     # read positions
     response_positions = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
