@@ -88,7 +88,7 @@ def read_and_close_positions():
             status = order_dict['status']
             order_id = order_dict['id']
             print(status, order_id)
-            if status == 'pending':
+            if status == 'open':
                 print("\tCanceling Order ID:", order_id)
                 response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
                      data={},
