@@ -85,8 +85,8 @@ def read_and_close_positions():
         print("\t No open orders found")
     else:
         for order_dict in order_id_data['orders']['order']:
-            status = order_dict['status']
-            order_id = order_dict['id']
+            status = order_id_data['orders']['order']['status']
+            order_id = order_id_data['orders']['order']['id']
             print(status, order_id)
             if status == 'open':
                 print("\tCanceling Order ID:", order_id)
