@@ -168,7 +168,7 @@ def read_and_close_positions():
 def read_and_close_positions_real():
 
     print("\n\n")
-    print("\t**Close Positions: Read Positions")
+    print("\t**Close Positions Real: Read Positions")
 
     # Read all open orders and cancel first
     response_positions = requests.get('https://api.tradier.com/v1/accounts/6YA28014/orders',
@@ -188,7 +188,7 @@ def read_and_close_positions_real():
             print(status, order_id)
             if status == 'open':
                 print("\tCanceling Order ID:", order_id)
-                response_delete = requests.delete(f'https://api.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
+                response_delete = requests.delete(f'https://api.tradier.com/v1/accounts/6YA28014/orders/{order_id}',
                      data={},
                      headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI', 'Accept': 'application/json'}
                             )
