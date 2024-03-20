@@ -1107,6 +1107,7 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
                                       'Accept': 'application/json'}
                              )
 
+            time.sleep(15)
             json_response = response.json()
             #print(response.status_code)
             print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
@@ -1307,7 +1308,7 @@ def parse_webhook_message(webhook_message):
     elif 'TRADIER' in str(webhook_message).upper():
         print('###########  TRADIER ################')
         print(ticker,order_type,qty, round_up(price,-1), position_type, exchange)
-        data = TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
+        #data = TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         data = TRADIER_SPX_ORDER(ticker, order_type, qty, round_up(price, -1), position_type, exchange)
     elif 'STOCKS' in str(webhook_message).upper():
         print('###########  TRADIER ################')
@@ -1349,6 +1350,6 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 # WebHook code
 ##################################
 #read_and_close_positions()
-#TRADIER_SPX_ORDER("SPX", "SELL_TO_OPEN", 1, round_up(5182.30,-1), "xxx", "TRADIER")
+#TRADIER_SPX_ORDER("SPX", "SELL_TO_OPEN", 1, round_up(5230.30,-1), "-1", "TRADIER")
 #TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
 #OPTIONS("ON", "SELL_TO_OPEN", 1, 70, "long", OPTIONS)
