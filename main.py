@@ -1306,9 +1306,9 @@ def parse_webhook_message(webhook_message):
         #print(data,order_type)
     elif 'TRADIER' in str(webhook_message).upper():
         print('###########  TRADIER ################')
+        print(ticker,order_type,qty, round_up(price,-1), position_type, exchange)
         data = TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         data = TRADIER_SPX_ORDER(ticker, order_type, qty, round_up(price, -1), position_type, exchange)
-        # print(data,order_type)
     elif 'STOCKS' in str(webhook_message).upper():
         print('###########  TRADIER ################')
         data = STOCKS_PAPER(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
@@ -1348,7 +1348,7 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 # WebHook code
 ##################################
-#read_and_close_positions_real()
-#TRADIER_SPX_ORDER("SPX", "flat", 1, round_up(5000.00,-1), "long", "TRADIER")
+#read_and_close_positions()
+#TRADIER_SPX_ORDER("SPX", "SELL_TO_OPEN", 1, round_up(5182.30,-1), "xxx", "TRADIER")
 #TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
 #OPTIONS("ON", "SELL_TO_OPEN", 1, 70, "long", OPTIONS)
