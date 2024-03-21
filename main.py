@@ -1308,7 +1308,7 @@ def parse_webhook_message(webhook_message):
     elif 'TRADIER' in str(webhook_message).upper():
         print('###########  TRADIER ################')
         print(ticker,order_type,qty, round_up(price,-1), position_type, exchange)
-        #data = TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
+        data = TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, round_up(price,-1), position_type, exchange)
         data = TRADIER_SPX_ORDER(ticker, order_type, qty, round_up(price, -1), position_type, exchange)
     elif 'STOCKS' in str(webhook_message).upper():
         print('###########  TRADIER ################')
