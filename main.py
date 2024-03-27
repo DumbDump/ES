@@ -1085,9 +1085,9 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
                                              'Accept': 'application/json'}
                                     )
             json_response = response.json()
-            #print(response.status_code)
-            #print(json_response)
-            #print(json_response['quotes']['quote']['last'])
+            print(response.status_code)
+            print(json_response)
+            print(json_response['quotes']['quote']['last'])
             leg1 = json_response['quotes']['quote']['last']
             print("\tSTEP1: Buy  Put option",  "PUT", format,"Ask Price:", leg1)
 
@@ -1136,7 +1136,7 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
                                            'side': 'sell_to_close',
                                            'quantity': '1',
                                            'type': 'limit',
-                                           'price': sell_price,
+                                           'price': (sell_price),
                                            'duration': 'day',
                                            'tag': 'my-tag-example-1'},
                                      headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
