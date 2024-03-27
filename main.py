@@ -95,6 +95,8 @@ def read_and_close_positions():
                      headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
                             )
                 print("\t Order delete status :", response_delete.json())
+            else:
+                print("not a open order")
 
     # read positions
     response_positions = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
