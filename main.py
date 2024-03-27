@@ -184,7 +184,7 @@ def read_and_close_positions_real():
     if order_id_data['orders'] == 'null':
         print("\t No open orders found")
     else:
-        for order_dict in order_id_data['orders']['order']:
+        for order_dict in order_id_data["orders"]["order"]:
             status = order_dict['status']
             order_id = order_dict['id']
             print(status, order_id)
