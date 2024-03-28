@@ -80,21 +80,28 @@ def read_and_close_positions():
     # json_response = response.json()
     order_id_data = response_positions.json()
     print("\t Read orders data:", order_id_data)
-
     if order_id_data['orders'] == 'null':
-        print("\t No open orders found")
+        print("No orders found")
     else:
-        for order_dict in order_id_data['orders']['order']:
-            status = order_dict['status']
-            order_id = order_dict['id']
+        order_data = order_id_data['orders']['order']  # Get the list of orders
+        if isinstance(order_data, list):
+            for order_dict in order_data:
+                status = order_dict['status']
+                order_id = order_dict['id']
+                print(status, order_id)
+        else:
+            # Handle case where only one order is present
+            status = order_data['status']
+            order_id = order_data['id']
             print(status, order_id)
-            if status == 'open':
-                print("\tCanceling Order ID:", order_id)
-                response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
-                     data={},
-                     headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
-                            )
-                print("\t Order delete status :", response_delete.json())
+
+        if status == 'open':
+           print("\tCanceling Order ID:", order_id)
+           response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
+                    data={},
+                    headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
+                    )
+           print("\t Order delete status :", response_delete.json())
 
     # read positions
     response_positions = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
@@ -177,22 +184,29 @@ def read_and_close_positions_real():
                     )
     # json_response = response.json()
     order_id_data = response_positions.json()
-    print("\t Read orders data:", order_id_data)
-
     if order_id_data['orders'] == 'null':
-        print("\t No open orders found")
+        print("No orders found")
     else:
-        for order_dict in order_id_data['orders']['order']:
-            status = order_dict['status']
-            order_id = order_dict['id']
+        order_data = order_id_data['orders']['order']  # Get the list of orders
+        if isinstance(order_data, list):
+            for order_dict in order_data:
+                status = order_dict['status']
+                order_id = order_dict['id']
+                print(status, order_id)
+        else:
+            # Handle case where only one order is present
+            status = order_data['status']
+            order_id = order_data['id']
             print(status, order_id)
-            if status == 'open':
-                print("\tCanceling Order ID:", order_id)
-                response_delete = requests.delete(f'https://api.tradier.com/v1/accounts/6YA28014/orders/{order_id}',
-                     data={},
-                     headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI', 'Accept': 'application/json'}
-                            )
-                print("\t Order delete status :", response_delete.json())
+
+        if status == 'open':
+           print("\tCanceling Order ID:", order_id)
+           response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
+                    data={},
+                    headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
+                    )
+           print("\t Order delete status :", response_delete.json())
+
 
     # read positions
     response_positions = requests.get('https://api.tradier.com/v1/accounts/6YA28014/positions',
@@ -862,47 +876,48 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
                              )
 
             json_response = response.json()
-        #    print("buy to open", response.status_code)
-            print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
-            sell_price = round(leg1+1, 0)
+            if 'errors' in json_response:
+                error_message = json_response['errors']['error']
+                print("Order Status:", error_message)
+            else:
+                print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
+                sell_price = round(leg1+1, 0)
 
-            # 15 sec delay
-            time.sleep(15)
-            ### Read existing position
-            response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
-                             params={},
-                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                      'Accept': 'application/json'}
-                                    )
-            json_response = response.json()
-            #print(response.status_code)
-            print("\tSTEP2 :Read Position and check executed price :",response.json())
-            data = json_response
-            cost_basis = data['positions']['position']['cost_basis']
-            target_symbol = data['positions']['position']['symbol']
-            sell_price = ((cost_basis+100)/100)
-            print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
+                # 15 sec delay
+                time.sleep(15)
+                ### Read existing position
+                response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
+                                 params={},
+                                 headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                          'Accept': 'application/json'}
+                                        )
+                json_response = response.json()
+                #print(response.status_code)
+                print("\tSTEP2 :Read Position and check executed price :",response.json())
+                data = json_response
+                cost_basis = data['positions']['position']['cost_basis']
+                target_symbol = data['positions']['position']['symbol']
+                sell_price = ((cost_basis+100)/100)
+                print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
 
-            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
-                             data={'class': 'option',
-                                   'symbol': 'SPX',
-                                   'option_symbol': format,
-                                   'side': 'sell_to_close',
-                                   'quantity': '1',
-                                   'type': 'limit',
-                                   'price': (sell_price),
-                                   'duration': 'day',
-                                   'tag': 'my-tag-example-1'},
-                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                      'Accept': 'application/json'}
-                             )
+                response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                                 data={'class': 'option',
+                                       'symbol': 'SPX',
+                                       'option_symbol': format,
+                                       'side': 'sell_to_close',
+                                       'quantity': '1',
+                                       'type': 'limit',
+                                       'price': (sell_price),
+                                       'duration': 'day',
+                                       'tag': 'my-tag-example-1'},
+                                 headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                          'Accept': 'application/json'}
+                                 )
 
-            json_response = response.json()
-           # print("sell to open", response.status_code)
-            print("\tSTEP3: Sell Order Status:", json_response)
-            return 'xyz'
-
-
+                json_response = response.json()
+               # print("sell to open", response.status_code)
+                print("\tSTEP3: Sell Order Status:", json_response)
+                return 'xyz'
     elif order_type == "SELL_TO_OPEN":
             read_and_close_positions()
             format = 'SPXW' + str(date.today().strftime("%y")) + re(str(date.today().month)) + re(str(date.today().day)) + 'P0' + str(round(price))+'000'
@@ -940,43 +955,47 @@ def TRADIER_SPX_ORDER(ticker, order_type, qty, price, position_type, exchange):
 
             json_response = response.json()
             #print(response.status_code)
-            print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
+            if 'errors' in json_response:
+                error_message = json_response['errors']['error']
+                print("Order Status:", error_message)
+            else:
+                print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
 
-            # 15 sec delay
-            time.sleep(15)
+                # 15 sec delay
+                time.sleep(15)
 
-            ### Read existing position
-            response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
-                             params={},
-                             headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                      'Accept': 'application/json'}
-                                    )
-            json_response = response.json()
-            data = json_response
-            cost_basis = data['positions']['position']['cost_basis']
-            target_symbol = data['positions']['position']['symbol']
-            sell_price = ((cost_basis+100)/100)
-            print("\tSTEP2 :Read Position and check executed price :",response.json())
+                ### Read existing position
+                response = requests.get('https://sandbox.tradier.com/v1/accounts/VA88823939/positions',
+                                 params={},
+                                 headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                          'Accept': 'application/json'}
+                                        )
+                json_response = response.json()
+                data = json_response
+                cost_basis = data['positions']['position']['cost_basis']
+                target_symbol = data['positions']['position']['symbol']
+                sell_price = ((cost_basis+100)/100)
+                print("\tSTEP2 :Read Position and check executed price :",response.json())
 
-            print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
-            response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
-                                     data={'class': 'option',
-                                           'symbol': 'SPX',
-                                           'option_symbol': format,
-                                           'side': 'sell_to_close',
-                                           'quantity': '1',
-                                           'type': 'limit',
-                                           'price': sell_price,
-                                           'duration': 'day',
-                                           'tag': 'my-tag-example-1'},
-                                     headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
-                                              'Accept': 'application/json'}
-                                     )
-            json_response = response.json()
-            #print(response.status_code)
-            #print(json_response)
-            print("\tSTEP3: Sell Order Status:", json_response)
-            return 'xyz'
+                print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
+                response = requests.post('https://sandbox.tradier.com/v1/accounts/VA88823939/orders',
+                                         data={'class': 'option',
+                                               'symbol': 'SPX',
+                                               'option_symbol': format,
+                                               'side': 'sell_to_close',
+                                               'quantity': '1',
+                                               'type': 'limit',
+                                               'price': sell_price,
+                                               'duration': 'day',
+                                               'tag': 'my-tag-example-1'},
+                                         headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP',
+                                                  'Accept': 'application/json'}
+                                         )
+                json_response = response.json()
+                #print(response.status_code)
+                #print(json_response)
+                print("\tSTEP3: Sell Order Status:", json_response)
+                return 'xyz'
     elif order_type == "flat":
             read_and_close_positions()
             print("\tFLAT command: Closed all Positions:")
@@ -1031,47 +1050,48 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
                              )
 
             json_response = response.json()
-        #    print("buy to open", response.status_code)
-            print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
-            sell_price = round(leg1+1, 0)
+            if 'errors' in json_response:
+                error_message = json_response['errors']['error']
+                print("Order Status:", error_message)
+            else:
+                print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
+                sell_price = round(leg1+1, 0)
 
-            # 15 sec delay
-            time.sleep(15)
-            ### Read existing position
-            response = requests.get('https://api.tradier.com/v1/accounts/6YA28014/positions',
-                             params={},
-                             headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
-                                      'Accept': 'application/json'}
-                                    )
-            json_response = response.json()
-            #print(response.status_code)
-            print("\tSTEP2 :Read Position and check executed price :",response.json())
-            data = json_response
-            cost_basis = data['positions']['position']['cost_basis']
-            target_symbol = data['positions']['position']['symbol']
-            sell_price = ((cost_basis+100)/100)
-            print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
+                # 15 sec delay
+                time.sleep(15)
+                ### Read existing position
+                response = requests.get('https://api.tradier.com/v1/accounts/6YA28014/positions',
+                                 params={},
+                                 headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
+                                          'Accept': 'application/json'}
+                                        )
+                json_response = response.json()
+                #print(response.status_code)
+                print("\tSTEP2 :Read Position and check executed price :",response.json())
+                data = json_response
+                cost_basis = data['positions']['position']['cost_basis']
+                target_symbol = data['positions']['position']['symbol']
+                sell_price = ((cost_basis+100)/100)
+                print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
 
-            response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
-                             data={'class': 'option',
-                                   'symbol': 'SPX',
-                                   'option_symbol': format,
-                                   'side': 'sell_to_close',
-                                   'quantity': '1',
-                                   'type': 'limit',
-                                   'price': (sell_price),
-                                   'duration': 'day',
-                                   'tag': 'my-tag-example-1'},
-                             headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
-                                      'Accept': 'application/json'}
-                             )
+                response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
+                                 data={'class': 'option',
+                                       'symbol': 'SPX',
+                                       'option_symbol': format,
+                                       'side': 'sell_to_close',
+                                       'quantity': '1',
+                                       'type': 'limit',
+                                       'price': (sell_price),
+                                       'duration': 'day',
+                                       'tag': 'my-tag-example-1'},
+                                 headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
+                                          'Accept': 'application/json'}
+                                 )
 
-            json_response = response.json()
-           # print("sell to open", response.status_code)
-            print("\tSTEP3: Sell Order Status:", json_response)
-            return 'xyz'
-
-
+                json_response = response.json()
+               # print("sell to open", response.status_code)
+                print("\tSTEP3: Sell Order Status:", json_response)
+                return 'xyz'
     elif order_type == "SELL_TO_OPEN":
             read_and_close_positions_real()
             format = 'SPXW' + str(date.today().strftime("%y")) + re(str(date.today().month)) + re(str(date.today().day)) + 'P0' + str(round(price))+'000'
@@ -1089,7 +1109,7 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
             print(json_response)
             print(json_response['quotes']['quote']['last'])
             leg1 = json_response['quotes']['quote']['last']
-            print("\tSTEP1: Buy  Put option",  "PUT", format,"Ask Price:", leg1)
+            print("\tSTEP2 REAL: Buy  Put option",  "PUT", format,"Ask Price:", leg1)
 
 
 
@@ -1106,47 +1126,55 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
                              headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
                                       'Accept': 'application/json'}
                              )
-
+            print(response.status_code)
             time.sleep(15)
-            json_response = response.json()
-            #print(response.status_code)
-            print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
+            if response.status_code == 200:
+                json_response = response.json()
+            print(response.status_code)
+            if 'errors' in json_response or response.status_code != 200:
+                if response.status_code != 200:
+                    print("Error Status  Code:", response.status_code)
+                else:
+                    error_message = json_response['errors']['error']
+                    print("Order Status Error Code:", error_message)
+            else:
+                print("\tSTEP1: OPEN ORDER : Order Status:", json_response)
 
-            # 15 sec delay
-            time.sleep(15)
+                # 15 sec delay
+                time.sleep(15)
 
-            ### Read existing position
-            response = requests.get('https://api.tradier.com/v1/accounts/6YA28014/positions',
-                             params={},
-                             headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
-                                      'Accept': 'application/json'}
-                                    )
-            json_response = response.json()
-            data = json_response
-            cost_basis = data['positions']['position']['cost_basis']
-            target_symbol = data['positions']['position']['symbol']
-            sell_price = ((cost_basis+100)/100)
-            print("\tSTEP2 :Read Position and check executed price :",response.json())
+                ### Read existing position
+                response = requests.get('https://api.tradier.com/v1/accounts/6YA28014/positions',
+                                 params={},
+                                 headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
+                                          'Accept': 'application/json'}
+                                        )
+                json_response = response.json()
+                data = json_response
+                cost_basis = data['positions']['position']['cost_basis']
+                target_symbol = data['positions']['position']['symbol']
+                sell_price = ((cost_basis+100)/100)
+                print("\tSTEP2 :Read Position and check executed price :",response.json())
 
-            print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
-            response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
-                                     data={'class': 'option',
-                                           'symbol': 'SPX',
-                                           'option_symbol': format,
-                                           'side': 'sell_to_close',
-                                           'quantity': '1',
-                                           'type': 'limit',
-                                           'price': sell_price,
-                                           'duration': 'day',
-                                           'tag': 'my-tag-example-1'},
-                                     headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
-                                              'Accept': 'application/json'}
-                                     )
-            json_response = response.json()
-            #print(response.status_code)
-            #print(json_response)
-            print("\tSTEP3: Sell Order Status:", json_response)
-            return 'xyz'
+                print("\tSTEP3: Send Sell order with Profit Target ", target_symbol,(cost_basis/100),sell_price)
+                response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
+                                         data={'class': 'option',
+                                               'symbol': 'SPX',
+                                               'option_symbol': format,
+                                               'side': 'sell_to_close',
+                                               'quantity': '1',
+                                               'type': 'limit',
+                                               'price': sell_price,
+                                               'duration': 'day',
+                                               'tag': 'my-tag-example-1'},
+                                         headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI',
+                                                  'Accept': 'application/json'}
+                                         )
+                json_response = response.json()
+                #print(response.status_code)
+                #print(json_response)
+                print("\tSTEP3: Sell Order Status:", json_response)
+                return 'xyz'
     elif order_type == "flat":
             read_and_close_positions()
             print("\tFLAT command: Closed all Positions:")
@@ -1350,6 +1378,7 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 # WebHook code
 ##################################
 #read_and_close_positions()
-#TRADIER_SPX_ORDER("SPX", "SELL_TO_OPEN", 1, round_up(5230.30,-1), "-1", "TRADIER")
+#SPX SELL_TO_OPEN 1 5230.34 -1 TRADIER
+#TRADIER_SPX_ORDER_REAL("SPX", "BUY_TO_OPEN", 1, round(5270.34), -1, "TRADIER")
 #TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
 #OPTIONS("ON", "SELL_TO_OPEN", 1, 70, "long", OPTIONS)
