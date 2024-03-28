@@ -1114,7 +1114,7 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
 
 
             # Send Order
-            response = requests.post('https://api.tradier.com/v1/accounts/6YA280149/orders',
+            response = requests.post('https://api.tradier.com/v1/accounts/6YA28014/orders',
                              data={'class': 'option',
                                    'symbol': 'SPX',
                                    'option_symbol': format,
@@ -1381,6 +1381,6 @@ app.run(host='0.0.0.0', port=(int(os.environ['PORT'])))
 ##################################
 #read_and_close_positions()
 #SPX SELL_TO_OPEN 1 5230.34 -1 TRADIER
-#TRADIER_SPX_ORDER_REAL("SPX", "BUY_TO_OPEN", 1, round(5270.34), -1, "TRADIER")
+#TRADIER_SPX_ORDER_REAL("SPX", "BUY_TO_OPEN", 1, round(5260), -1, "TRADIER")
 #TV_FUTURE_ORDER("MNQM3", "flat", 1, 12000, 1, "xxx")
 #OPTIONS("ON", "SELL_TO_OPEN", 1, 70, "long", OPTIONS)
