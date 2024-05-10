@@ -201,9 +201,9 @@ def read_and_close_positions_real():
 
         if status == 'open':
            print("\tCanceling Order ID:", order_id)
-           response_delete = requests.delete(f'https://sandbox.tradier.com/v1/accounts/VA88823939/orders/{order_id}',
+           response_delete = requests.delete(f'https://api.tradier.com/v1/accounts/6YA28014/orders/{order_id}',
                     data={},
-                    headers={'Authorization': 'Bearer pOPACO7fKI7Alz4hHIQB66jFDACP', 'Accept': 'application/json'}
+                    headers={'Authorization': 'Bearer CfVNTf7407GjJizEg7H52QpBsAJI', 'Accept': 'application/json'}
                     )
            print("\t Order delete status :", response_delete.json())
 
