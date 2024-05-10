@@ -1176,7 +1176,7 @@ def TRADIER_SPX_ORDER_REAL(ticker, order_type, qty, price, position_type, exchan
                 print("\tSTEP3: Sell Order Status:", json_response)
                 return 'xyz'
     elif order_type == "flat":
-            read_and_close_positions()
+            read_and_close_positions_real()
             print("\tFLAT command: Closed all Positions:")
             return 'xyz'
 
